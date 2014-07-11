@@ -15,6 +15,7 @@
 
             <TabWidget
                 android:id="@android:id/tabs"
+                android:background="#ffffff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true" >

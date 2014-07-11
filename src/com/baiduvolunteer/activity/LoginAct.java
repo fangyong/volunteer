@@ -25,39 +25,34 @@ public class LoginAct extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
-		findViewById(R.id.button1).setOnClickListener(new OnClickListener() {
+//		setContentView(R.layout.activity_login);
+		baidu = new Baidu(clientId, LoginAct.this);
+		baidu.authorize(LoginAct.this, isForceLogin, isConfirmLogin,
+				new BaiduDialogListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				baidu = new Baidu(clientId, LoginAct.this);
-				baidu.authorize(LoginAct.this, isForceLogin, isConfirmLogin,
-						new BaiduDialogListener() {
+					@Override
+					public void onComplete(Bundle values) {
+						Intent intent = new Intent(LoginAct.this, HomeAct.class);
+						intent.putExtra("baidu", baidu);
+						startActivity(intent);
+						finish();
+					}
 
-							@Override
-							public void onComplete(Bundle values) {
-								Intent intent = new Intent(LoginAct.this,
-										HomeAct.class);
-								startActivity(intent);
-							}
+					@Override
+					public void onBaiduException(BaiduException e) {
 
-							@Override
-							public void onBaiduException(BaiduException e) {
+					}
 
-							}
+					@Override
+					public void onError(BaiduDialogError e) {
 
-							@Override
-							public void onError(BaiduDialogError e) {
+					}
 
-							}
+					@Override
+					public void onCancel() {
 
-							@Override
-							public void onCancel() {
+					}
+				});
 
-							}
-						});
-			}
-		});
-		;
 	}
 }
