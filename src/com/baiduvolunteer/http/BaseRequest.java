@@ -75,12 +75,9 @@ public abstract class BaseRequest {
 		for (String key : params.keySet()) {
 			requestParams.addQueryStringParameter(key, params.get(key));
 		}
+		requestParams.addQueryStringParameter("sig", sig);
 		String url = String.format("%s%s", Config.baseURL, url());
 		if (getMethod() == HttpMethod.GET && cachable) {
-			URIBuilder builder = new URIBuilder();
-			for (String key : params.keySet()) {
-				builder.addParameter(key, params.get(key));
-			}
 
 			String uri = cacheURL();
 			String result = HttpUtils.sHttpCache.get(uri);

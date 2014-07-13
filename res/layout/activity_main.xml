@@ -33,11 +33,10 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical" >
 
-                    <com.baidu.mapapi.map.MapView
-                        android:id="@+id/bmapView"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:clickable="true" />
+                    <include
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        layout="@layout/home_view" />
                 </com.baiduvolunteer.view.IndexView>
 
                 <com.baiduvolunteer.view.ActivitiesView

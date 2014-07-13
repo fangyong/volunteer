@@ -6,8 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.ScaleAnimation;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -27,7 +32,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baiduvolunteer.R;
 
-public class IndexView extends LinearLayout {
+public class IndexView extends LinearLayout implements OnClickListener {
 
 	private MapView mapView;
 	private BaiduMap map;
@@ -35,6 +40,9 @@ public class IndexView extends LinearLayout {
 	private MyLocationListenner myListener;
 	private SDKReceiver myReceiver;
 	private boolean firstLoc = true;
+	private Button mSwitchButton;
+	private boolean isMap = true;
+	ViewFlipper mFlipper;
 
 	public IndexView(Context context) {
 		super(context);
@@ -67,9 +75,7 @@ public class IndexView extends LinearLayout {
 		IntentFilter iFilter = new IntentFilter();
 		iFilter.addAction(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR);
 		iFilter.addAction(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR);
-
 		getContext().registerReceiver(myReceiver, iFilter);
-		Log.d("test", "start location");
 	}
 
 	public class MyLocationListenner implements BDLocationListener {
@@ -118,11 +124,14 @@ public class IndexView extends LinearLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		mapView = (MapView) findViewById(R.id.bmapView);
+		mapView = (MapView) findViewById(R.id.bdmapView);
+		Log.d("test", "mapview: " + mapView);
 		map = mapView.getMap();
 		map.setMyLocationEnabled(true);
 		map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-
+		mSwitchButton = (Button) findViewById(R.id.button_switch);
+		mSwitchButton.setOnClickListener(this);
+		mFlipper = (ViewFlipper) findViewById(R.id.flipper);
 	}
 
 	// public IndexView(Context context, AttributeSet attrs, int defStyle) {
@@ -143,6 +152,18 @@ public class IndexView extends LinearLayout {
 					.equals(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR)) {
 				Toast.makeText(getContext(), "网络出错", Toast.LENGTH_LONG).show();
 			}
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		if (v == mSwitchButton) {
+			isMap = !isMap;
+			if(!isMap)
+				mFlipper.showNext();
+			else
+				mFlipper.showPrevious();
 		}
 	}
 }
