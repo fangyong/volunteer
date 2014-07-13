@@ -1,10 +1,10 @@
 package com.baiduvolunteer.activity;
 
-import com.baiduvolunteer.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TabHost;
+
+import com.baiduvolunteer.R;
 
 public class HomeAct extends Activity {
 
@@ -25,5 +25,8 @@ public class HomeAct extends Activity {
 				.setContent(R.id.tab_usercenter));
 		tabHost.addTab(tabHost.newTabSpec("tab_more").setIndicator("¸ü¶à")
 				.setContent(R.id.tab_more));
+		
 	}
+	
+	
 }
