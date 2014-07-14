@@ -29,7 +29,10 @@ public class SignatureTool {
 		}
 		Collections.sort(sortKeys);
 		StringBuilder sb = new StringBuilder();
-		for (String key : sortKeys) {
+		for (int i = 0;i< sortKeys.size();i++) {
+			String key = sortKeys.get(i);
+			if(i>0)
+				sb.append("&");
 			// Log.d("test","sorted Key:"+key);
 			sb.append(key);
 			sb.append("=");
@@ -49,7 +52,7 @@ public class SignatureTool {
 		sb = new StringBuilder(s);
 		sb.append(Config.APP_SECRET);
 		s = MD5.md5(sb.toString());
-		return s.toUpperCase();
+		return s;
 	}
 
 	public static final String getSignedParams(HashMap<String, String> inParams) {
