@@ -7,10 +7,13 @@ import android.content.IntentFilter;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.animation.ScaleAnimation;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -31,6 +34,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baiduvolunteer.R;
+import com.baiduvolunteer.model.ActivityInfo;
 
 public class IndexView extends LinearLayout implements OnClickListener {
 
@@ -42,7 +46,9 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	private boolean firstLoc = true;
 	private Button mSwitchButton;
 	private boolean isMap = true;
-	ViewFlipper mFlipper;
+	private ViewFlipper mFlipper;
+	private ArrayAdapter<ActivityInfo> mAdapter;
+	private ListView activityListView;
 
 	public IndexView(Context context) {
 		super(context);
@@ -132,6 +138,27 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		mSwitchButton = (Button) findViewById(R.id.button_switch);
 		mSwitchButton.setOnClickListener(this);
 		mFlipper = (ViewFlipper) findViewById(R.id.flipper);
+		activityListView = (ListView) findViewById(R.id.activitiesList);
+		mAdapter = new ArrayAdapter<ActivityInfo>(getContext(), 0) {
+			@Override
+			public int getCount() {
+				// TODO Auto-generated method stub
+				return 10;
+			}
+
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				// TODO Auto-generated method stub
+				if (convertView == null) {
+					TextView tv = new TextView(getContext());
+					convertView = tv;
+				}
+				TextView tv = (TextView) convertView;
+				tv.setText("" + position);
+				return convertView;
+			}
+		};
+		activityListView.setAdapter(mAdapter);
 	}
 
 	// public IndexView(Context context, AttributeSet attrs, int defStyle) {
@@ -160,7 +187,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		// TODO Auto-generated method stub
 		if (v == mSwitchButton) {
 			isMap = !isMap;
-			if(!isMap)
+			if (!isMap)
 				mFlipper.showNext();
 			else
 				mFlipper.showPrevious();
