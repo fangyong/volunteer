@@ -2,10 +2,14 @@ package com.baiduvolunteer.activity;
 
 import java.io.IOException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.InputFilter.LengthFilter;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -19,6 +23,9 @@ import com.baidu.api.AsyncBaiduRunner.RequestListener;
 import com.baidu.api.Baidu;
 import com.baidu.api.BaiduException;
 import com.baiduvolunteer.R;
+import com.baiduvolunteer.http.BaseRequest;
+import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
+import com.baiduvolunteer.http.LoginRequest;
 
 public class HomeAct extends Activity {
 
@@ -63,6 +70,29 @@ public class HomeAct extends Activity {
 							public void run() {
 								Toast.makeText(HomeAct.this, arg0,
 										Toast.LENGTH_LONG).show();
+								try {
+									JSONObject userinfo = new JSONObject(arg0);
+									String uid = userinfo.optString("uid");
+									LoginRequest loginRequest = new LoginRequest(
+											uid);
+									loginRequest
+											.setHandler(new ResponseHandler() {
+
+												@Override
+												public void handleResponse(
+														BaseRequest request,
+														int statusCode,
+														String errorMsg,
+														String response) {
+													// TODO Auto-generated
+													// method stub
+
+												}
+											});
+									loginRequest.start();
+								} catch (JSONException e) {
+									e.printStackTrace();
+								}
 
 							}
 						});
