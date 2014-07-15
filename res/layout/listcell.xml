@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baiduvolunteer.view.ListViewCell xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/iconView"
+        android:layout_width="48dip"
+        android:layout_height="48dip"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true" />
+
+    <ImageView
+        android:id="@+id/detailIcon"
+        android:layout_width="15dip"
+        android:layout_height="15dip"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/textLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/detailIcon"
+        android:layout_toRightOf="@+id/iconView"
+        android:gravity="center_vertical"
+        android:text="test" >
+    </TextView>
+
+</com.baiduvolunteer.view.ListViewCell>

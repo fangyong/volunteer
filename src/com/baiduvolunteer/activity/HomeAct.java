@@ -53,7 +53,7 @@ public class HomeAct extends Activity {
 		}
 		baidu.init(this);
 		AccessTokenManager atm = baidu.getAccessTokenManager();
-		// String accessToken = atm.getAccessToken();
+//		 String accessToken = atm.getAccessToken();
 		AsyncBaiduRunner runner = new AsyncBaiduRunner(baidu);
 		runner.request(Baidu.LoggedInUser_URL, null, "POST",
 				new RequestListener() {

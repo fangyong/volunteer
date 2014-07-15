@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffffff" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/infoContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/activityPic"
+                    android:layout_width="80dip"
+                    android:layout_height="80dip"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true" />
+
+                <TextView
+                    android:id="@+id/activityTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:layout_alignTop="@+id/activityPic"
+                    android:layout_toRightOf="@+id/activityPic"
+                    android:text="西南小学教师志愿者活动" />
+
+                <ImageView
+                    android:id="@+id/activityTimeIcon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignLeft="@+id/activityTitle"
+                    android:layout_below="@+id/activityTitle" />
+
+                <TextView
+                    android:id="@+id/activityTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/activityTitle"
+                    android:layout_toRightOf="@+id/activityTimeIcon"
+                    android:text="07.12 11:00 - 07.12 16:00" />
+
+                <ImageView
+                    android:id="@+id/activityCategoryIcon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignLeft="@+id/activityTitle"
+                    android:layout_below="@+id/activityTimeIcon" />
+
+                <TextView
+                    android:id="@+id/activityCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/activityTime"
+                    android:layout_toRightOf="@+id/activityCategoryIcon"
+                    android:text="领域 社区服务" />
+
+                <ImageView
+                    android:id="@+id/activityEnrollIcon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignLeft="@+id/activityCategoryIcon"
+                    android:layout_below="@+id/activityCategoryIcon" />
+
+                <TextView
+                    android:id="@+id/activityEnrollNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/activityCategory"
+                    android:layout_toRightOf="@+id/activityEnrollIcon"
+                    android:text="07.12 11:00 - 07.12 16:00" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#ffeeeeee" >
+            </LinearLayout>
+
+            <include
+                android:id="@+id/locationCell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/listcell" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#ffeeeeee" >
+            </LinearLayout>
+
+            <include
+                android:id="@+id/organizerCell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/listcell" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#ffeeeeee" >
+            </LinearLayout>
+
+            <include
+                android:id="@+id/contactCell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/listcell" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="#ffeeeeee" >
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/activityTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="活动介绍" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/activityIntro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lines="100"
+                android:text="测试测试测试测试测试测试测试测试测试测试测试测试测试" >
+            </TextView>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/joinButton"
+        android:layout_width="match_parent"
+        android:layout_height="44dip"
+        android:layout_alignParentBottom="true"
+        android:text="参与" />
+
+</RelativeLayout>
