@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dip"
+    android:background="#ffffffff" >
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="15dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginTop="15dip"
+        android:background="#ffeeeeee"
+        android:padding="5dip" />
+
+    <ImageView
+        android:id="@+id/rightIcon"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_marginRight="20dip"
+        android:src="@drawable/icon_fav" >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/distLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignRight="@+id/rightIcon"
+        android:text="&lt; 500m" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_marginBottom="-5dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="-5dip"
+        android:layout_toLeftOf="@+id/rightIcon"
+        android:layout_toRightOf="@+id/imageView"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/titleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="标题" />
+
+        <ImageView
+            android:id="@+id/locIcon"
+            android:layout_width="20dip"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:src="@drawable/icon_loc" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/timeIcon"
+                android:layout_width="20dip"
+                android:layout_height="20dip"
+                android:src="@drawable/icon_time" />
+
+            <TextView
+                android:id="@+id/timeLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="1月7日" >
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

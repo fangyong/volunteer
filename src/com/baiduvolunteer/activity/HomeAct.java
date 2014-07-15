@@ -9,7 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.InputFilter.LengthFilter;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -26,6 +26,7 @@ import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.LoginRequest;
+//import com.baiduvolunteer.http.LoginRequest;
 
 public class HomeAct extends Activity {
 
@@ -84,8 +85,7 @@ public class HomeAct extends Activity {
 														int statusCode,
 														String errorMsg,
 														String response) {
-													// TODO Auto-generated
-													// method stub
+													Log.d("test","response:"+response);
 
 												}
 											});

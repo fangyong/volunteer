@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -91,7 +92,6 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			// map view 销毁后不在处理新接收的位置
 			if (location == null || mapView == null)
 				return;
-			Log.d("test", "did receive location");
 			MyLocationData locData = new MyLocationData.Builder()
 					.accuracy(location.getRadius())
 					// 此处设置开发者获取到的方向信息，顺时针0-360
@@ -150,15 +150,24 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			public View getView(int position, View convertView, ViewGroup parent) {
 				// TODO Auto-generated method stub
 				if (convertView == null) {
-					TextView tv = new TextView(getContext());
-					convertView = tv;
+					ActivityListCellHolder holder = ActivityListCellHolder
+							.createFromInflater(LayoutInflater
+									.from(getContext()));
+
+					convertView = holder.container;
+					convertView.setTag(holder);
 				}
-				TextView tv = (TextView) convertView;
-				tv.setText("" + position);
+				ActivityListCellHolder holder = (ActivityListCellHolder) convertView
+						.getTag();
+				holder.titleLabel.setText("" + position);
 				return convertView;
 			}
 		};
 		activityListView.setAdapter(mAdapter);
+		activityListView.setDivider(getResources().getDrawable(
+				R.drawable.listviewdivider));
+		activityListView.setDividerHeight(20);
+		activityListView.setBackgroundColor(0xfff5f4f1);
 	}
 
 	// public IndexView(Context context, AttributeSet attrs, int defStyle) {

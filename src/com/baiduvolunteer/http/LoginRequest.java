@@ -14,13 +14,14 @@ public class LoginRequest extends BaseRequest {
 
 	@Override
 	protected String url() {
-		return "";
+		return "app";
 	}
 
 	@Override
 	protected void generateParams(HashMap<String, String> map) {
 		map.put("uid",uid);
-		map.put("signature",SignatureTool.getSignature(map));
+		map.put("method", "login");
+//		map.put("signature",SignatureTool.getSignature(map));
 		
 	}
 

@@ -4,6 +4,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
 
 import android.util.Log;
 
@@ -54,7 +57,8 @@ public abstract class BaseRequest {
 	}
 
 	public final String cacheURL() {
-		URIBuilder builder = new URIBuilder(String.format("%s%s", Config.baseURL,url()));
+		URIBuilder builder = new URIBuilder(String.format("%s%s",
+				Config.baseURL, url()));
 		for (String key : params.keySet()) {
 			builder.addParameter(key, params.get(key));
 		}
@@ -75,7 +79,13 @@ public abstract class BaseRequest {
 		for (String key : params.keySet()) {
 			requestParams.addQueryStringParameter(key, params.get(key));
 		}
-		requestParams.addQueryStringParameter("sig", sig);
+		requestParams.addQueryStringParameter("signature", sig);
+		List<NameValuePair> list = requestParams.getQueryStringParams();
+		for (NameValuePair pair : list) {
+			Log.d("test",
+					"key: " + pair.getName() + ", value: " + pair.getValue());
+		}
+
 		String url = String.format("%s%s", Config.baseURL, url());
 		if (getMethod() == HttpMethod.GET && cachable) {
 
@@ -105,6 +115,7 @@ public abstract class BaseRequest {
 							handler.handleResponse(BaseRequest.this, 200, null,
 									info.result);
 						}
+						Log.d("test", "success: code "+info.statusCode);
 					}
 
 					@Override
@@ -114,6 +125,7 @@ public abstract class BaseRequest {
 							handler.handleResponse(BaseRequest.this,
 									arg0.getExceptionCode(), null, null);
 						}
+						Log.d("test", "error: code " + arg0.getExceptionCode());
 					}
 				});
 	}

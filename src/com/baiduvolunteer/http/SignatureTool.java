@@ -9,6 +9,8 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.baiduvolunteer.config.Config;
 
 public class SignatureTool {
@@ -22,21 +24,24 @@ public class SignatureTool {
 
 	public static final String getSignature(HashMap<String, String> inParams) {
 		ArrayList<String> sortKeys = new ArrayList<String>();
-		for (String key : inParams.keySet()) {
-			if (inParams.get(key) != null) {
+		HashMap<String, String> signParams = new HashMap<String, String>(
+				inParams);
+		signParams.put("app_key", Config.APP_SECRET);
+		for (String key : signParams.keySet()) {
+			if (signParams.get(key) != null) {
 				sortKeys.add(key);
 			}
 		}
 		Collections.sort(sortKeys);
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0;i< sortKeys.size();i++) {
+		for (int i = 0; i < sortKeys.size(); i++) {
 			String key = sortKeys.get(i);
-			if(i>0)
+			if (i > 0)
 				sb.append("&");
 			// Log.d("test","sorted Key:"+key);
-			sb.append(key);
-			sb.append("=");
-			String value = inParams.get(key);
+//			sb.append(key);
+//			sb.append("=");
+			String value = signParams.get(key);
 			// try {
 			// String encodeValue = URLEncoder.encode(
 			// String.format("%s", value), "utf-8").replace("+",
@@ -48,10 +53,10 @@ public class SignatureTool {
 			// }
 
 		}
-		String s = MD5.md5(sb.toString()).toUpperCase();
-		sb = new StringBuilder(s);
-		sb.append(Config.APP_SECRET);
-		s = MD5.md5(sb.toString());
+		String s = MD5.md5(sb.toString());
+		Log.d("test", "base Str:" + sb.toString());
+		// sb.append(Config.APP_SECRET);
+		// s = MD5.md5(sb.toString());
 		return s;
 	}
 
