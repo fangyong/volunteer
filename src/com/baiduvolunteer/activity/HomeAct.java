@@ -47,7 +47,7 @@ public class HomeAct extends Activity {
 
 		Intent intent = getIntent();
 		baidu = intent.getParcelableExtra("baidu");
-		// 初始化当前的环境
+		// 锟斤拷始锟斤拷锟斤拷前锟侥伙拷锟斤拷
 		if (baidu == null) {
 			return;
 		}
@@ -115,22 +115,22 @@ public class HomeAct extends Activity {
 	void initTabs() {
 		View lb1 = getLayoutInflater().inflate(R.layout.label_tabhost, null);
 		TextView tx1 = (TextView) lb1.findViewById(R.id.text);
-		tx1.setText("首页");
+		tx1.setText("棣栭〉");
 		ImageView iv1 = (ImageView) lb1.findViewById(R.id.img);
 		iv1.setImageResource(R.drawable.tab1);
 		View lb2 = getLayoutInflater().inflate(R.layout.label_tabhost, null);
 		TextView tx2 = (TextView) lb2.findViewById(R.id.text);
-		tx2.setText("活动");
+		tx2.setText("娲诲姩");
 		ImageView iv2 = (ImageView) lb2.findViewById(R.id.img);
 		iv2.setImageResource(R.drawable.tab2);
 		View lb3 = getLayoutInflater().inflate(R.layout.label_tabhost, null);
 		TextView tx3 = (TextView) lb3.findViewById(R.id.text);
-		tx3.setText("我的");
+		tx3.setText("鎴戠殑");
 		ImageView iv3 = (ImageView) lb3.findViewById(R.id.img);
 		iv3.setImageResource(R.drawable.tab3);
 		View lb4 = getLayoutInflater().inflate(R.layout.label_tabhost, null);
 		TextView tx4 = (TextView) lb4.findViewById(R.id.text);
-		tx4.setText("更多");
+		tx4.setText("鏇村");
 		ImageView iv4 = (ImageView) lb4.findViewById(R.id.img);
 		iv4.setImageResource(R.drawable.tab4);
 		tabHost.addTab(tabHost.newTabSpec("tab_index").setIndicator(lb1)
