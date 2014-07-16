@@ -4,9 +4,34 @@
     android:layout_height="match_parent"
     android:background="#ffffffff" >
 
+    <RelativeLayout
+        android:id="@+id/titleView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#cccccc" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="活动详情"
+            android:textColor="#000"
+            android:textSize="17sp" />
+
+        <Button
+            android:id="@+id/shareBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="#000000" />
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titleView" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -141,8 +166,8 @@
     <Button
         android:id="@+id/joinButton"
         android:layout_width="match_parent"
-        android:layout_height="44dip"
+        android:layout_height="57dip"
         android:layout_alignParentBottom="true"
-        android:text="参与" />
+        android:background="@drawable/btn_attend" />
 
 </RelativeLayout>

@@ -47,11 +47,10 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical" >
 
-                    <ListView
-                        android:id="@+id/activityList"
+                    <include
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
-                    </ListView>
+                        android:layout_height="match_parent"
+                        layout="@layout/activities_list" />
                 </com.baiduvolunteer.view.ActivitiesView>
 
                 <com.baiduvolunteer.view.UserCenterView
@@ -72,11 +71,10 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical" >
 
-                    <RadioButton
-                        android:id="@+id/radioButton1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="RadioButton" />
+                    <include
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        layout="@layout/more_view" />
                 </com.baiduvolunteer.view.MoreView>
             </FrameLayout>
         </RelativeLayout>

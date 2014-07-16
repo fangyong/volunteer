@@ -29,6 +29,7 @@ public class ActivitiesView extends LinearLayout {
 	public ActivitiesView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
+		
 	}
 
 	// public ActivitiesView(Context context, AttributeSet attrs, int defStyle)
@@ -69,7 +70,7 @@ public class ActivitiesView extends LinearLayout {
 		activityListView.setAdapter(mAdapter);
 		activityListView.setDivider(getResources().getDrawable(
 				R.drawable.listviewdivider));
-		activityListView.setDividerHeight(20);
+		activityListView.setDividerHeight(4);
 		activityListView.setBackgroundColor(0xfff5f4f1);
 		activityListView.setOnItemClickListener(new OnItemClickListener() {
 			@Override

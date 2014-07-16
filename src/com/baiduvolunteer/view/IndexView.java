@@ -45,11 +45,11 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	private MyLocationListenner myListener;
 	private SDKReceiver myReceiver;
 	private boolean firstLoc = true;
-	private Button mSwitchButton;
-	private boolean isMap = true;
-	private ViewFlipper mFlipper;
-	private ArrayAdapter<ActivityInfo> mAdapter;
-	private ListView activityListView;
+//	private Button mSwitchButton;
+//	private boolean isMap = true;
+//	private ViewFlipper mFlipper;
+//	private ArrayAdapter<ActivityInfo> mAdapter;
+//	private ListView activityListView;
 
 	public IndexView(Context context) {
 		super(context);
@@ -135,39 +135,36 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		map = mapView.getMap();
 		map.setMyLocationEnabled(true);
 		map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-		mSwitchButton = (Button) findViewById(R.id.button_switch);
-		mSwitchButton.setOnClickListener(this);
-		mFlipper = (ViewFlipper) findViewById(R.id.flipper);
-		activityListView = (ListView) findViewById(R.id.activitiesList);
-		mAdapter = new ArrayAdapter<ActivityInfo>(getContext(), 0) {
-			@Override
-			public int getCount() {
-				// TODO Auto-generated method stub
-				return 10;
-			}
-
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				// TODO Auto-generated method stub
-				if (convertView == null) {
-					ActivityListCellHolder holder = ActivityListCellHolder
-							.createFromInflater(LayoutInflater
-									.from(getContext()));
-
-					convertView = holder.container;
-					convertView.setTag(holder);
-				}
-				ActivityListCellHolder holder = (ActivityListCellHolder) convertView
-						.getTag();
-				holder.titleLabel.setText("" + position);
-				return convertView;
-			}
-		};
-		activityListView.setAdapter(mAdapter);
-		activityListView.setDivider(getResources().getDrawable(
-				R.drawable.listviewdivider));
-		activityListView.setDividerHeight(20);
-		activityListView.setBackgroundColor(0xfff5f4f1);
+//		activityListView = (ListView) findViewById(R.id.activitiesList);
+//		mAdapter = new ArrayAdapter<ActivityInfo>(getContext(), 0) {
+//			@Override
+//			public int getCount() {
+//				// TODO Auto-generated method stub
+//				return 10;
+//			}
+//
+//			@Override
+//			public View getView(int position, View convertView, ViewGroup parent) {
+//				// TODO Auto-generated method stub
+//				if (convertView == null) {
+//					ActivityListCellHolder holder = ActivityListCellHolder
+//							.createFromInflater(LayoutInflater
+//									.from(getContext()));
+//
+//					convertView = holder.container;
+//					convertView.setTag(holder);
+//				}
+//				ActivityListCellHolder holder = (ActivityListCellHolder) convertView
+//						.getTag();
+//				holder.titleLabel.setText("" + position);
+//				return convertView;
+//			}
+//		};
+//		activityListView.setAdapter(mAdapter);
+//		activityListView.setDivider(getResources().getDrawable(
+//				R.drawable.listviewdivider));
+//		activityListView.setDividerHeight(20);
+//		activityListView.setBackgroundColor(0xfff5f4f1);
 	}
 
 	// public IndexView(Context context, AttributeSet attrs, int defStyle) {
@@ -194,12 +191,5 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if (v == mSwitchButton) {
-			isMap = !isMap;
-			if (!isMap)
-				mFlipper.showNext();
-			else
-				mFlipper.showPrevious();
-		}
 	}
 }
