@@ -8,6 +8,10 @@
 package com.baiduvolunteer;
 
 public final class R {
+    public static final class anim {
+        public static final int share_menu_appear=0x7f040000;
+        public static final int share_menu_disappear=0x7f040001;
+    }
     public static final class attr {
     }
     public static final class dimen {
@@ -17,104 +21,137 @@ public final class R {
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f040000;
-        public static final int activity_vertical_margin=0x7f040001;
+        public static final int activity_horizontal_margin=0x7f050000;
+        public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
-        public static final int boot=0x7f020000;
-        public static final int button_list=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int icon_fav=0x7f020003;
-        public static final int icon_fav_1=0x7f020004;
-        public static final int icon_gcoding=0x7f020005;
-        public static final int icon_geo=0x7f020006;
-        public static final int icon_loc=0x7f020007;
-        public static final int icon_loc_sel=0x7f020008;
-        public static final int icon_marka=0x7f020009;
-        public static final int icon_markb=0x7f02000a;
-        public static final int icon_markc=0x7f02000b;
-        public static final int icon_markd=0x7f02000c;
-        public static final int icon_marke=0x7f02000d;
-        public static final int icon_markf=0x7f02000e;
-        public static final int icon_markg=0x7f02000f;
-        public static final int icon_markh=0x7f020010;
-        public static final int icon_marki=0x7f020011;
-        public static final int icon_markj=0x7f020012;
-        public static final int icon_search=0x7f020013;
-        public static final int icon_time=0x7f020014;
-        public static final int icon_time_sel=0x7f020015;
-        public static final int listviewdivider=0x7f020016;
-        public static final int tab1=0x7f020017;
-        public static final int tab2=0x7f020018;
-        public static final int tab3=0x7f020019;
-        public static final int tab4=0x7f02001a;
-        public static final int textfield_bg=0x7f02001b;
+        public static final int arrow_down=0x7f020000;
+        public static final int boot=0x7f020001;
+        public static final int button_list=0x7f020002;
+        public static final int circle_rectangle2=0x7f020003;
+        public static final int circle_rectangle_bottom=0x7f020004;
+        public static final int et_bg=0x7f020005;
+        public static final int ic_launcher=0x7f020006;
+        public static final int icon_fav=0x7f020007;
+        public static final int icon_fav_1=0x7f020008;
+        public static final int icon_gcoding=0x7f020009;
+        public static final int icon_geo=0x7f02000a;
+        public static final int icon_loc=0x7f02000b;
+        public static final int icon_loc_sel=0x7f02000c;
+        public static final int icon_marka=0x7f02000d;
+        public static final int icon_markb=0x7f02000e;
+        public static final int icon_markc=0x7f02000f;
+        public static final int icon_markd=0x7f020010;
+        public static final int icon_marke=0x7f020011;
+        public static final int icon_markf=0x7f020012;
+        public static final int icon_markg=0x7f020013;
+        public static final int icon_markh=0x7f020014;
+        public static final int icon_marki=0x7f020015;
+        public static final int icon_markj=0x7f020016;
+        public static final int icon_search=0x7f020017;
+        public static final int icon_time=0x7f020018;
+        public static final int icon_time_sel=0x7f020019;
+        public static final int listview_bg=0x7f02001a;
+        public static final int listview_bg2=0x7f02001b;
+        public static final int listview_selector=0x7f02001c;
+        public static final int listviewdivider=0x7f02001d;
+        public static final int rectangle=0x7f02001e;
+        public static final int rectangle2=0x7f02001f;
+        public static final int rectangle_btx=0x7f020020;
+        public static final int rectangle_button_btx=0x7f020021;
+        public static final int tab1=0x7f020022;
+        public static final int tab2=0x7f020023;
+        public static final int tab3=0x7f020024;
+        public static final int tab4=0x7f020025;
+        public static final int textfield_bg=0x7f020026;
     }
     public static final class id {
-        public static final int TextView01=0x7f08001b;
-        public static final int action_settings=0x7f080024;
-        public static final int activitiesList=0x7f080011;
-        public static final int bdmapView=0x7f080010;
-        public static final int button1=0x7f080007;
-        public static final int button_switch=0x7f08000d;
-        public static final int distLabel=0x7f080002;
-        public static final int flipper=0x7f08000f;
-        public static final int imageView=0x7f080000;
-        public static final int imageView1=0x7f080018;
-        public static final int img=0x7f080012;
-        public static final int locIcon=0x7f080004;
-        public static final int msg_bt=0x7f080015;
-        public static final int radioButton1=0x7f08000c;
-        public static final int rightIcon=0x7f080001;
-        public static final int scrollView1=0x7f080016;
-        public static final int search=0x7f08000e;
-        public static final int tab_activities=0x7f080009;
-        public static final int tab_index=0x7f080008;
-        public static final int tab_more=0x7f08000b;
-        public static final int tab_usercenter=0x7f08000a;
-        public static final int text=0x7f080013;
-        public static final int textView1=0x7f080019;
-        public static final int textView10=0x7f080023;
-        public static final int textView2=0x7f08001a;
-        public static final int textView3=0x7f08001d;
-        public static final int textView4=0x7f08001e;
-        public static final int textView5=0x7f08001c;
-        public static final int textView6=0x7f08001f;
-        public static final int textView7=0x7f080020;
-        public static final int textView8=0x7f080021;
-        public static final int textView9=0x7f080022;
-        public static final int timeIcon=0x7f080005;
-        public static final int timeLabel=0x7f080006;
-        public static final int title=0x7f080014;
-        public static final int titleLabel=0x7f080003;
-        public static final int top_bg_ll=0x7f080017;
+        public static final int TextView01=0x7f09002f;
+        public static final int action_settings=0x7f090032;
+        public static final int activitiesList=0x7f090026;
+        public static final int bdmapView=0x7f090025;
+        public static final int button1=0x7f090007;
+        public static final int button2=0x7f09000f;
+        public static final int button_switch=0x7f090022;
+        public static final int city_bt=0x7f090019;
+        public static final int city_spinner=0x7f090017;
+        public static final int distLabel=0x7f090002;
+        public static final int district_bt=0x7f09001a;
+        public static final int district_spinner=0x7f09001b;
+        public static final int flipper=0x7f090024;
+        public static final int imageView=0x7f090000;
+        public static final int imageView1=0x7f09002d;
+        public static final int img=0x7f090027;
+        public static final int listView1=0x7f09002a;
+        public static final int locIcon=0x7f090004;
+        public static final int msg_bt=0x7f09002b;
+        public static final int popwindow=0x7f090021;
+        public static final int province_bt=0x7f090016;
+        public static final int province_spinner=0x7f090014;
+        public static final int pset=0x7f090020;
+        public static final int radioButton1=0x7f09000c;
+        public static final int rightIcon=0x7f090001;
+        public static final int scrollView1=0x7f090010;
+        public static final int search=0x7f090023;
+        public static final int street_et=0x7f090012;
+        public static final int tab_activities=0x7f090009;
+        public static final int tab_index=0x7f090008;
+        public static final int tab_more=0x7f09000b;
+        public static final int tab_usercenter=0x7f09000a;
+        public static final int telephone_et=0x7f09001e;
+        public static final int text=0x7f090028;
+        public static final int textView1=0x7f09000e;
+        public static final int textView10=0x7f090031;
+        public static final int textView2=0x7f090011;
+        public static final int textView3=0x7f090015;
+        public static final int textView4=0x7f090018;
+        public static final int textView5=0x7f090013;
+        public static final int textView6=0x7f090030;
+        public static final int textView7=0x7f09001d;
+        public static final int textView8=0x7f09001f;
+        public static final int textView9=0x7f09001c;
+        public static final int timeIcon=0x7f090005;
+        public static final int timeLabel=0x7f090006;
+        public static final int title=0x7f090029;
+        public static final int titleLabel=0x7f090003;
+        public static final int top_bar=0x7f09000d;
+        public static final int top_bg_ll=0x7f09002c;
+        public static final int userinfo_ll=0x7f09002e;
     }
     public static final class layout {
         public static final int activity_listitem=0x7f030000;
         public static final int activity_login=0x7f030001;
         public static final int activity_main=0x7f030002;
-        public static final int activity_start_page=0x7f030003;
-        public static final int home_view=0x7f030004;
-        public static final int label_tabhost=0x7f030005;
-        public static final int usercenter_view=0x7f030006;
+        public static final int activity_modify_userinfo=0x7f030003;
+        public static final int activity_start_page=0x7f030004;
+        public static final int home_view=0x7f030005;
+        public static final int label_tabhost=0x7f030006;
+        public static final int menu_province_list=0x7f030007;
+        public static final int usercenter_view=0x7f030008;
     }
     public static final class menu {
-        public static final int main=0x7f070000;
+        public static final int main=0x7f080000;
     }
     public static final class string {
-        public static final int action_settings=0x7f050001;
-        public static final int app_name=0x7f050000;
-        public static final int hello_world=0x7f050002;
+        public static final int action_settings=0x7f060001;
+        public static final int app_name=0x7f060000;
+        public static final int hello_world=0x7f060002;
     }
     public static final class style {
+        public static final int ActionBarHomeLogo=0x7f070005;
+        public static final int ActionBarProgressBar=0x7f070006;
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
+
         
 
         Base application theme for API 11+. This theme completely replaces
@@ -128,10 +165,24 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f060000;
+        public static final int AppBaseTheme=0x7f070000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f060001;
+        public static final int AppTheme=0x7f070001;
+        public static final int DashboardButton=0x7f070002;
+        public static final int PopupAnimation=0x7f070003;
+        /** 
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
+
+    
+         */
+        public static final int Theme_Transparent=0x7f070007;
+        public static final int customListView=0x7f070004;
+        /**  <item name="android:windowContentOverlay">@null</item> 
+         */
+        public static final int theme_dialog_alert=0x7f070008;
     }
 }
