@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,12 +52,12 @@ public class ActivitiesView extends LinearLayout {
 		// TODO Auto-generated method stub
 		super.onFinishInflate();
 		activityListView = (ListView) findViewById(R.id.activityList);
-		new GetActivitiesListRequest().setvUid(1+"").setHandler(new ResponseHandler() {
+		new GetActivitiesListRequest().setHandler(new ResponseHandler() {
 			
 			@Override
 			public void handleResponse(BaseRequest request, int statusCode,
 					String errorMsg, String response) {
-				Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+				Log.d("activity test",response);
 				
 			}
 		}).start();

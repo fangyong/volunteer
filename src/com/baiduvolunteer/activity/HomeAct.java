@@ -37,6 +37,8 @@ public class HomeAct extends Activity {
 	private Baidu baidu = null;
 
 	private Handler getUserInfoHandler;
+	
+	private String uid;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +86,7 @@ public class HomeAct extends Activity {
 														String response) {
 													Log.d("test", "response:"
 															+ response);
-
+													
 												}
 											});
 									loginRequest.start();
@@ -139,6 +141,10 @@ public class HomeAct extends Activity {
 				.setContent(R.id.tab_usercenter));
 		tabHost.addTab(tabHost.newTabSpec("tab_more").setIndicator(lb4)
 				.setContent(R.id.tab_more));
+	}
+	
+	public void setUid(String uid){
+		this.uid = uid;
 	}
 
 }
