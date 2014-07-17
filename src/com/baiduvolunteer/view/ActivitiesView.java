@@ -1,5 +1,8 @@
 package com.baiduvolunteer.view;
 
+import java.util.ArrayList;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
@@ -11,15 +14,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.activity.ActivityInfoActivity;
+import com.baiduvolunteer.adapter.ActivitiesAdapter;
+import com.baiduvolunteer.http.BaseRequest;
+import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
+import com.baiduvolunteer.http.GetActivitiesListRequest;
 import com.baiduvolunteer.model.ActivityInfo;
 
 public class ActivitiesView extends LinearLayout {
 
 	private ListView activityListView;
-	private ArrayAdapter<ActivityInfo> mAdapter;
+	private ActivitiesAdapter mAdapter;
 
 	public ActivitiesView(Context context) {
 		super(context);
@@ -43,31 +51,18 @@ public class ActivitiesView extends LinearLayout {
 		// TODO Auto-generated method stub
 		super.onFinishInflate();
 		activityListView = (ListView) findViewById(R.id.activityList);
-		mAdapter = new ArrayAdapter<ActivityInfo>(getContext(), 0) {
+		new GetActivitiesListRequest().setvUid(1+"").setHandler(new ResponseHandler() {
+			
 			@Override
-			public int getCount() {
-				// TODO Auto-generated method stub
-				return 10;
+			public void handleResponse(BaseRequest request, int statusCode,
+					String errorMsg, String response) {
+				Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+				
 			}
-
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				// TODO Auto-generated method stub
-				if (convertView == null) {
-					ActivityListCellHolder holder = ActivityListCellHolder
-							.createFromInflater(LayoutInflater
-									.from(getContext()));
-
-					convertView = holder.container;
-					convertView.setTag(holder);
-				}
-				ActivityListCellHolder holder = (ActivityListCellHolder) convertView
-						.getTag();
-				holder.titleLabel.setText("" + position);
-				return convertView;
-			}
-		};
-		activityListView.setAdapter(mAdapter);
+		}).start();
+		ArrayList<ActivityInfo> list = new ArrayList<ActivityInfo>();
+		Activity activity = (Activity)getContext();
+		mAdapter = new ActivitiesAdapter(activity, list);
 		activityListView.setDivider(getResources().getDrawable(
 				R.drawable.listviewdivider));
 		activityListView.setDividerHeight(4);

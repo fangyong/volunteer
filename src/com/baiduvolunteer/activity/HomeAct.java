@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.api.AccessTokenManager;
 import com.baidu.api.AsyncBaiduRunner;
@@ -70,8 +69,6 @@ public class HomeAct extends Activity {
 
 							@Override
 							public void run() {
-								Toast.makeText(HomeAct.this, arg0,
-										Toast.LENGTH_LONG).show();
 								try {
 									JSONObject userinfo = new JSONObject(arg0);
 									String uid = userinfo.optString("uid");
