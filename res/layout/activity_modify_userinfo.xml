@@ -24,15 +24,14 @@
 
         <Button
             android:id="@+id/button2"
-            android:text="返回"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:minHeight="0dp"
-            android:minWidth="0dp" />
-
+            android:minWidth="0dp"
+            android:text="返回" />
     </RelativeLayout>
 
     <LinearLayout
@@ -63,7 +62,7 @@
                         android:orientation="vertical" >
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/TextView01"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="用户名"
@@ -86,6 +85,97 @@
                             android:paddingRight="5dp"
                             android:singleLine="true"
                             android:textColor="#000000" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="性别"
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical" >
+
+                                <RelativeLayout
+                                    android:id="@+id/male_layout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/rectangle_check"
+                                    android:paddingBottom="5dp"
+                                    android:paddingLeft="20dp"
+                                    android:paddingRight="20dp"
+                                    android:paddingTop="5dp" >
+
+                                    <TextView
+                                        android:id="@+id/TextView02"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="男"
+                                        android:textColor="#000000"
+                                        android:textSize="16sp" />
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/female_layout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:background="@drawable/rectangle_check"
+                                    android:paddingBottom="5dp"
+                                    android:paddingLeft="20dp"
+                                    android:paddingRight="20dp"
+                                    android:paddingTop="5dp" >
+
+                                    <TextView
+                                        android:id="@+id/female"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="女"
+                                        android:textColor="#000000"
+                                        android:textSize="16sp" />
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/other_layout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/rectangle_check"
+                                    android:layout_marginLeft="10dp"
+                                    android:paddingBottom="5dp"
+                                    android:paddingLeft="20dp"
+                                    android:paddingRight="20dp"
+                                    android:paddingTop="5dp" >
+
+                                    <TextView
+                                        android:id="@+id/male"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="其他"
+                                        android:textColor="#000000"
+                                        android:textSize="16sp" />
+                                </RelativeLayout>
+                            </LinearLayout>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -206,8 +296,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="10dp"
-                            android:visibility="gone"
-                            android:padding="5dp" >
+                            android:padding="5dp"
+                            android:visibility="gone" >
 
                             <LinearLayout
                                 android:id="@+id/district_spinner"
@@ -281,7 +371,6 @@
                             android:paddingRight="5dp"
                             android:singleLine="true"
                             android:textColor="#000000" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -298,7 +387,6 @@
                             android:textColor="#000000"
                             android:textSize="18sp"
                             android:visibility="gone" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -312,14 +400,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/et_bg"
-                            android:textColor="#000000"
                             android:gravity="top"
                             android:maxLines="5"
                             android:minLines="5"
                             android:paddingLeft="5dp"
                             android:paddingRight="5dp"
+                            android:textColor="#000000"
                             android:visibility="gone" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -341,7 +428,6 @@
                             android:textColor="#ffffff"
                             android:textSize="16sp"
                             android:textStyle="bold" />
-
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>
@@ -354,7 +440,6 @@
                 android:background="#aa000000"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
