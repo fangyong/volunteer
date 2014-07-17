@@ -16,26 +16,32 @@ public class TestRequest extends BaseRequest {
 	protected void generateParams(HashMap<String, String> map) {
 		map.put("test", "sfs");
 	}
-		
+
 	@Override
-	protected HttpMethod getMethod() {
+	protected String method() {
+		// TODO Auto-generated method stub
+		return "test";
+	}
+
+	@Override
+	protected HttpMethod requestMethod() {
 		// TODO Auto-generated method stub
 		return HttpMethod.GET;
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		TestRequest testRequest = new TestRequest();
 		testRequest.start();
 		testRequest.setHandler(new ResponseHandler() {
-			
+
 			@Override
 			public void handleResponse(BaseRequest request, int statusCode,
 					String errorMsg, String response) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 	}
 
 }

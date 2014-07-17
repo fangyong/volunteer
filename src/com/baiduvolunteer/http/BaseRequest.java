@@ -43,6 +43,8 @@ public abstract class BaseRequest {
 	 */
 	protected abstract String url();
 
+	protected abstract String method();
+
 	protected abstract void generateParams(HashMap<String, String> map);
 
 	public BaseRequest setHandler(ResponseHandler handler) {
@@ -50,7 +52,7 @@ public abstract class BaseRequest {
 		return this;
 	}
 
-	protected abstract HttpMethod getMethod();
+	protected abstract HttpMethod requestMethod();
 
 	protected boolean cachable() {
 		return cachable;
@@ -75,6 +77,7 @@ public abstract class BaseRequest {
 		RequestParams requestParams = new RequestParams();
 		params.clear();
 		generateParams(params);
+		params.put("method",method());
 		String sig = SignatureTool.getSignature(params);
 		for (String key : params.keySet()) {
 			requestParams.addQueryStringParameter(key, params.get(key));
@@ -87,7 +90,7 @@ public abstract class BaseRequest {
 		}
 
 		String url = String.format("%s%s", Config.baseURL, url());
-		if (getMethod() == HttpMethod.GET && cachable) {
+		if (requestMethod() == HttpMethod.GET && cachable) {
 
 			String uri = cacheURL();
 			String result = HttpUtils.sHttpCache.get(uri);
@@ -105,7 +108,7 @@ public abstract class BaseRequest {
 
 	private void doSendRequest(String url, RequestParams requestParams,
 			final boolean cached) {
-		HttpUtilsWrapper.sharedInstance().send(getMethod(), url, requestParams,
+		HttpUtilsWrapper.sharedInstance().send(requestMethod(), url, requestParams,
 				new RequestCallBack<String>() {
 					@Override
 					public void onSuccess(ResponseInfo<String> info) {
@@ -115,7 +118,7 @@ public abstract class BaseRequest {
 							handler.handleResponse(BaseRequest.this, 200, null,
 									info.result);
 						}
-						Log.d("test", "success: code "+info.statusCode);
+						Log.d("test", "success: code " + info.statusCode);
 					}
 
 					@Override

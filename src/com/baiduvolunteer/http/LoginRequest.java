@@ -20,14 +20,19 @@ public class LoginRequest extends BaseRequest {
 	@Override
 	protected void generateParams(HashMap<String, String> map) {
 		map.put("uid",uid);
-		map.put("method", "login");
 //		map.put("signature",SignatureTool.getSignature(map));
 		
 	}
 
 	@Override
-	protected HttpMethod getMethod() {
+	protected HttpMethod requestMethod() {
 		return HttpMethod.POST;
+	}
+	
+	@Override
+	protected String method() {
+		// TODO Auto-generated method stub
+		return "login";
 	}
 
 }
