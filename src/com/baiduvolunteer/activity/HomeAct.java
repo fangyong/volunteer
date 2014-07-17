@@ -47,7 +47,6 @@ public class HomeAct extends Activity {
 
 		Intent intent = getIntent();
 		baidu = intent.getParcelableExtra("baidu");
-		// ��ʼ����ǰ�Ļ���
 		if (baidu == null) {
 			return;
 		}
