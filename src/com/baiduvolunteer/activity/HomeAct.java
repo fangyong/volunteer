@@ -26,6 +26,7 @@ import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.LoginRequest;
+
 //import com.baiduvolunteer.http.LoginRequest;
 
 public class HomeAct extends Activity {
@@ -52,7 +53,7 @@ public class HomeAct extends Activity {
 		}
 		baidu.init(this);
 		AccessTokenManager atm = baidu.getAccessTokenManager();
-//		 String accessToken = atm.getAccessToken();
+		// String accessToken = atm.getAccessToken();
 		AsyncBaiduRunner runner = new AsyncBaiduRunner(baidu);
 		runner.request(Baidu.LoggedInUser_URL, null, "POST",
 				new RequestListener() {
@@ -84,7 +85,8 @@ public class HomeAct extends Activity {
 														int statusCode,
 														String errorMsg,
 														String response) {
-													Log.d("test","response:"+response);
+													Log.d("test", "response:"
+															+ response);
 
 												}
 											});
