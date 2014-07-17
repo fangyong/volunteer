@@ -38,7 +38,7 @@ public class ActivitiesView extends LinearLayout {
 	public ActivitiesView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
-		
+
 	}
 
 	// public ActivitiesView(Context context, AttributeSet attrs, int defStyle)
@@ -53,16 +53,17 @@ public class ActivitiesView extends LinearLayout {
 		super.onFinishInflate();
 		activityListView = (ListView) findViewById(R.id.activityList);
 		new GetActivitiesListRequest().setHandler(new ResponseHandler() {
-			
+
 			@Override
 			public void handleResponse(BaseRequest request, int statusCode,
 					String errorMsg, String response) {
-				Log.d("activity test",response);
-				
+				Log.d("activity test", response);
+
 			}
 		}).start();
 		ArrayList<ActivityInfo> list = new ArrayList<ActivityInfo>();
-		Activity activity = (Activity)getContext();
+		list.add(new ActivityInfo());
+		Activity activity = (Activity) getContext();
 		mAdapter = new ActivitiesAdapter(activity, list);
 		activityListView.setDivider(getResources().getDrawable(
 				R.drawable.listviewdivider));
@@ -73,10 +74,12 @@ public class ActivitiesView extends LinearLayout {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(getContext(), ActivityInfoActivity.class);
+				Intent intent = new Intent(getContext(),
+						ActivityInfoActivity.class);
 				getContext().startActivity(intent);
 			}
 		});
+		activityListView.setAdapter(mAdapter);
 	}
 
 }

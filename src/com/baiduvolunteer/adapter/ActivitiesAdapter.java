@@ -2,17 +2,14 @@ package com.baiduvolunteer.adapter;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.baiduvolunteer.model.ActivityInfo;
-import com.baiduvolunteer.view.ActivityListCellHolder;
-
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.baiduvolunteer.model.ActivityInfo;
+import com.baiduvolunteer.view.ActivityListCellHolder;
 
 public class ActivitiesAdapter extends BaseAdapter {
 

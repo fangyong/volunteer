@@ -37,7 +37,7 @@ public class HomeAct extends Activity {
 	private Baidu baidu = null;
 
 	private Handler getUserInfoHandler;
-	
+
 	private String uid;
 
 	@Override
@@ -86,7 +86,7 @@ public class HomeAct extends Activity {
 														String response) {
 													Log.d("test", "response:"
 															+ response);
-													
+
 												}
 											});
 									loginRequest.start();
@@ -117,22 +117,22 @@ public class HomeAct extends Activity {
 		TextView tx1 = (TextView) lb1.findViewById(R.id.text);
 		tx1.setText("首页");
 		ImageView iv1 = (ImageView) lb1.findViewById(R.id.img);
-		iv1.setImageResource(R.drawable.tab1);
+		iv1.setImageResource(R.drawable.icon_tab_home);
 		View lb2 = getLayoutInflater().inflate(R.layout.label_tabhost, null);
 		TextView tx2 = (TextView) lb2.findViewById(R.id.text);
 		tx2.setText("活动");
 		ImageView iv2 = (ImageView) lb2.findViewById(R.id.img);
-		iv2.setImageResource(R.drawable.tab2);
+		iv2.setImageResource(R.drawable.icon_tab_activity);
 		View lb3 = getLayoutInflater().inflate(R.layout.label_tabhost, null);
 		TextView tx3 = (TextView) lb3.findViewById(R.id.text);
 		tx3.setText("我的");
 		ImageView iv3 = (ImageView) lb3.findViewById(R.id.img);
-		iv3.setImageResource(R.drawable.tab3);
+		iv3.setImageResource(R.drawable.icon_tab_me);
 		View lb4 = getLayoutInflater().inflate(R.layout.label_tabhost, null);
 		TextView tx4 = (TextView) lb4.findViewById(R.id.text);
 		tx4.setText("更多");
 		ImageView iv4 = (ImageView) lb4.findViewById(R.id.img);
-		iv4.setImageResource(R.drawable.tab4);
+		iv4.setImageResource(R.drawable.icon_tab_more);
 		tabHost.addTab(tabHost.newTabSpec("tab_index").setIndicator(lb1)
 				.setContent(R.id.tab_index));
 		tabHost.addTab(tabHost.newTabSpec("tab_activities").setIndicator(lb2)
@@ -142,8 +142,8 @@ public class HomeAct extends Activity {
 		tabHost.addTab(tabHost.newTabSpec("tab_more").setIndicator(lb4)
 				.setContent(R.id.tab_more));
 	}
-	
-	public void setUid(String uid){
+
+	public void setUid(String uid) {
 		this.uid = uid;
 	}
 

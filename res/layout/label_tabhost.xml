@@ -2,9 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/tabbackground"
     android:gravity="center_horizontal"
-    android:background="#fcfbfb"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp" >
 
     <ImageView
         android:id="@+id/img"
@@ -19,6 +21,7 @@
         android:ellipsize="marquee"
         android:gravity="center_horizontal"
         android:singleLine="true"
+        android:textColor="#ffffffff"
         android:textSize="11.0sp" />
 
 </LinearLayout>

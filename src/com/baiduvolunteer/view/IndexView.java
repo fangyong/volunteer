@@ -6,17 +6,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -24,10 +18,14 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.InfoWindow.OnInfoWindowClickListener;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfigeration;
 import com.baidu.mapapi.map.MyLocationConfigeration.LocationMode;
@@ -35,7 +33,6 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baiduvolunteer.R;
-import com.baiduvolunteer.model.ActivityInfo;
 
 public class IndexView extends LinearLayout implements OnClickListener {
 
@@ -45,11 +42,12 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	private MyLocationListenner myListener;
 	private SDKReceiver myReceiver;
 	private boolean firstLoc = true;
-//	private Button mSwitchButton;
-//	private boolean isMap = true;
-//	private ViewFlipper mFlipper;
-//	private ArrayAdapter<ActivityInfo> mAdapter;
-//	private ListView activityListView;
+
+	// private Button mSwitchButton;
+	// private boolean isMap = true;
+	// private ViewFlipper mFlipper;
+	// private ArrayAdapter<ActivityInfo> mAdapter;
+	// private ListView activityListView;
 
 	public IndexView(Context context) {
 		super(context);
@@ -135,42 +133,26 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		map = mapView.getMap();
 		map.setMyLocationEnabled(true);
 		map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-//		activityListView = (ListView) findViewById(R.id.activitiesList);
-//		mAdapter = new ArrayAdapter<ActivityInfo>(getContext(), 0) {
-//			@Override
-//			public int getCount() {
-//				// TODO Auto-generated method stub
-//				return 10;
-//			}
-//
-//			@Override
-//			public View getView(int position, View convertView, ViewGroup parent) {
-//				// TODO Auto-generated method stub
-//				if (convertView == null) {
-//					ActivityListCellHolder holder = ActivityListCellHolder
-//							.createFromInflater(LayoutInflater
-//									.from(getContext()));
-//
-//					convertView = holder.container;
-//					convertView.setTag(holder);
-//				}
-//				ActivityListCellHolder holder = (ActivityListCellHolder) convertView
-//						.getTag();
-//				holder.titleLabel.setText("" + position);
-//				return convertView;
-//			}
-//		};
-//		activityListView.setAdapter(mAdapter);
-//		activityListView.setDivider(getResources().getDrawable(
-//				R.drawable.listviewdivider));
-//		activityListView.setDividerHeight(20);
-//		activityListView.setBackgroundColor(0xfff5f4f1);
-	}
+		map.setOnMarkerClickListener(new OnMarkerClickListener() {
 
-	// public IndexView(Context context, AttributeSet attrs, int defStyle) {
-	// super(context, attrs, defStyle);
-	// // TODO Auto-generated constructor stub
-	// }
+			@Override
+			public boolean onMarkerClick(Marker arg0) {
+				// TODO Auto-generated method stub
+				TextView tv = new TextView(getContext());
+				tv.setText("sdsfs");
+				map.showInfoWindow(new InfoWindow(tv, arg0.getPosition(),
+						new OnInfoWindowClickListener() {
+
+							@Override
+							public void onInfoWindowClick() {
+								// TODO Auto-generated method stub
+
+							}
+						}));
+				return true;
+			}
+		});
+	}
 
 	public class SDKReceiver extends BroadcastReceiver {
 		public void onReceive(Context context, Intent intent) {
