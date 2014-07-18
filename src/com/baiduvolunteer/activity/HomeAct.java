@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.LoginRequest;
+import com.baiduvolunteer.view.IndexView;
 
 //import com.baiduvolunteer.http.LoginRequest;
 
@@ -39,6 +41,8 @@ public class HomeAct extends Activity {
 	private Handler getUserInfoHandler;
 
 	private String uid;
+
+	private IndexView indexView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +112,7 @@ public class HomeAct extends Activity {
 
 		tabHost = (TabHost) findViewById(android.R.id.tabhost);
 		tabHost.setup();
-
+		indexView = (IndexView) findViewById(R.id.tab_index);
 		initTabs();
 	}
 
@@ -141,10 +145,39 @@ public class HomeAct extends Activity {
 				.setContent(R.id.tab_usercenter));
 		tabHost.addTab(tabHost.newTabSpec("tab_more").setIndicator(lb4)
 				.setContent(R.id.tab_more));
+		tabHost.setOnTabChangedListener(new OnTabChangeListener() {
+
+			@Override
+			public void onTabChanged(String tabId) {
+				// TODO Auto-generated method stub
+				if ("tab_index".equals(tabId)) {
+					indexView.onResume();
+				} else {
+					indexView.onPause();
+				}
+			}
+		});
 	}
 
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if (indexView != null) {
+			indexView.onResume();
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		if (indexView != null) {
+			indexView.onPause();
+		}
+	}
 }

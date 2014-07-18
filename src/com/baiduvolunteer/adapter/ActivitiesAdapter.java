@@ -50,15 +50,14 @@ public class ActivitiesAdapter extends BaseAdapter {
 		}
 		ActivityListCellHolder holder = (ActivityListCellHolder) convertView
 				.getTag();
-		holder.titleLabel.setText("" + position);
-		holder.imageView.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent(activity, PublisherAct.class);
-				activity.startActivity(intent);
-			}
-		});
+//		holder.imageView.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View arg0) {
+//				Intent intent = new Intent(activity, PublisherAct.class);
+//				activity.startActivity(intent);
+//			}
+//		});
 		return convertView;
 	}
 

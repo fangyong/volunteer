@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.view.ListViewCell;
@@ -17,6 +18,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 	private ListViewCell locationCell;
 	private ListViewCell organizerCell;
 	private ListViewCell contactCell;
+	private Button backButton;
+	private Button attendButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,11 @@ public class ActivityInfoActivity extends BaseActivity implements
 		contactCell.iconView.setImageResource(R.drawable.icon_info_call);
 		contactCell.textLabel.setText("18201506318");
 		contactCell.setOnClickListener(this);
+		organizerCell.setOnClickListener(this);
+		backButton = (Button) findViewById(R.id.backBtn);
+		backButton.setOnClickListener(this);
+		attendButton = (Button) findViewById(R.id.joinButton);
+		attendButton.setOnClickListener(this);
 	}
 
 	@Override
@@ -67,6 +75,37 @@ public class ActivityInfoActivity extends BaseActivity implements
 										int which) {
 									// TODO Auto-generated method stub
 									dialog.dismiss();
+								}
+							}).show();
+		} else if (v == organizerCell) {
+			Intent intent = new Intent(this, PublisherAct.class);
+			this.startActivity(intent);
+		} else if (v == backButton) {
+			this.finish();
+		} else if (v == attendButton) {
+			new AlertDialog.Builder(this)
+					.setMessage("请先补完个人资料")
+					.setPositiveButton("取消",
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									// TODO Auto-generated method stub
+									dialog.dismiss();
+								}
+							})
+					.setNeutralButton("设置",
+							new DialogInterface.OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									dialog.dismiss();
+									Intent intent = new Intent(
+											ActivityInfoActivity.this,
+											ModifyUserInfoAct.class);
+									startActivity(intent);
 								}
 							}).show();
 		}

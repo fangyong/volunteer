@@ -31,7 +31,7 @@
             android:layout_marginLeft="10dp"
             android:minHeight="0dp"
             android:minWidth="0dp"
-            android:text="返回" />
+            android:background="@drawable/icon_button_back"/>
     </RelativeLayout>
 
     <LinearLayout

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="280dp"
+    android:layout_height="80dp"
+    android:background="@drawable/map_infowindow_bg"
+    android:minHeight="80dp"
+    android:minWidth="280dp" >
+
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_height="80dp" >
+
+        <ImageView
+            android:id="@+id/placeMarker"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/icon_marka" />
+
+        <TextView
+            android:id="@+id/titleLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/placeMarker"
+            android:layout_toRightOf="@+id/placeMarker"
+            android:text="中科院志愿者活动"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/addressLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/placeMarker"
+            android:layout_alignLeft="@+id/titleLabel"
+            android:text="北京市海淀区海淀中街13号"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/detailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="查看详情"
+            android:textColor="#ff6d9ffd" />
+    </RelativeLayout>
+
+</LinearLayout>

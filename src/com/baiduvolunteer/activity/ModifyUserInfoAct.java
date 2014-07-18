@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -27,7 +28,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupWindow.OnDismissListener;
 
-public class ModifyUserInfoAct extends Activity {
+public class ModifyUserInfoAct extends Activity implements OnClickListener{
 
 	@ViewInject(R.id.textView3)
 	private TextView provinceTv;
@@ -41,6 +42,7 @@ public class ModifyUserInfoAct extends Activity {
 	@ViewInject(R.id.telephone_et)
 	private EditText telephoneEt;
 
+	private Button backButton;
 	private ListView listView;
 
 	private String id;
@@ -76,7 +78,8 @@ public class ModifyUserInfoAct extends Activity {
 		mpw = new MyPopupWindow(contentView, false);
 		listView = (ListView) contentView.findViewById(R.id.listView1);
 		setProvince();
-
+		backButton = (Button) findViewById(R.id.button2);
+		backButton.setOnClickListener(this);
 		((Button) findViewById(R.id.button1)).setText("保存");
 	}
 
@@ -233,4 +236,11 @@ public class ModifyUserInfoAct extends Activity {
 		}
 	}
 
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		if(backButton==v){
+			this.finish();
+		}
+	}
 }
