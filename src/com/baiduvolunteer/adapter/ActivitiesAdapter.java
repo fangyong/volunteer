@@ -3,11 +3,14 @@ package com.baiduvolunteer.adapter;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.baiduvolunteer.activity.PublisherAct;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.view.ActivityListCellHolder;
 
@@ -48,6 +51,14 @@ public class ActivitiesAdapter extends BaseAdapter {
 		ActivityListCellHolder holder = (ActivityListCellHolder) convertView
 				.getTag();
 		holder.titleLabel.setText("" + position);
+		holder.imageView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(activity, PublisherAct.class);
+				activity.startActivity(intent);
+			}
+		});
 		return convertView;
 	}
 
