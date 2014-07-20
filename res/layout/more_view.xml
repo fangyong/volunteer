@@ -118,6 +118,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/textfield_bg"
+        android:id="@+id/logoutBtn"
         android:text="退出登录" />
 
 </RelativeLayout>

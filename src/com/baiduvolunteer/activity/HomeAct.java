@@ -22,6 +22,7 @@ import com.baidu.api.AsyncBaiduRunner;
 import com.baidu.api.AsyncBaiduRunner.RequestListener;
 import com.baidu.api.Baidu;
 import com.baidu.api.BaiduException;
+import com.baiduvolunteer.MyApplication;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
@@ -36,8 +37,6 @@ public class HomeAct extends Activity {
 
 	private TabHost tabHost;
 
-	private Baidu baidu = null;
-
 	private Handler getUserInfoHandler;
 
 	private String uid;
@@ -51,62 +50,63 @@ public class HomeAct extends Activity {
 
 		getUserInfoHandler = new Handler();
 
-		Intent intent = getIntent();
-		baidu = intent.getParcelableExtra("baidu");
-		if (baidu == null) {
-			return;
-		}
-		baidu.init(this);
-		AccessTokenManager atm = baidu.getAccessTokenManager();
-		// String accessToken = atm.getAccessToken();
-		AsyncBaiduRunner runner = new AsyncBaiduRunner(baidu);
-		runner.request(Baidu.LoggedInUser_URL, null, "POST",
-				new RequestListener() {
+		Baidu baidu = MyApplication.getApplication().getBaidu();
+		if (baidu != null) {
+			baidu.init(this);
+			AccessTokenManager atm = baidu.getAccessTokenManager();
+			// String accessToken = atm.getAccessToken();
+			AsyncBaiduRunner runner = new AsyncBaiduRunner(baidu);
+			runner.request(Baidu.LoggedInUser_URL, null, "POST",
+					new RequestListener() {
 
-					@Override
-					public void onIOException(IOException arg0) {
+						@Override
+						public void onIOException(IOException arg0) {
 
-					}
+						}
 
-					@Override
-					public void onComplete(final String arg0) {
-						getUserInfoHandler.post(new Runnable() {
+						@Override
+						public void onComplete(final String arg0) {
+							getUserInfoHandler.post(new Runnable() {
 
-							@Override
-							public void run() {
-								try {
-									JSONObject userinfo = new JSONObject(arg0);
-									String uid = userinfo.optString("uid");
-									LoginRequest loginRequest = new LoginRequest(
-											uid);
-									loginRequest
-											.setHandler(new ResponseHandler() {
+								@Override
+								public void run() {
+									try {
+										JSONObject userinfo = new JSONObject(
+												arg0);
+										String uid = userinfo.optString("uid");
+										LoginRequest loginRequest = new LoginRequest(
+												uid);
+										loginRequest
+												.setHandler(new ResponseHandler() {
 
-												@Override
-												public void handleResponse(
-														BaseRequest request,
-														int statusCode,
-														String errorMsg,
-														String response) {
-													Log.d("test", "response:"
-															+ response);
+													@Override
+													public void handleResponse(
+															BaseRequest request,
+															int statusCode,
+															String errorMsg,
+															String response) {
+														Log.d("test",
+																"response:"
+																		+ response);
 
-												}
-											});
-									loginRequest.start();
-								} catch (JSONException e) {
-									e.printStackTrace();
+													}
+												});
+										loginRequest.start();
+									} catch (JSONException e) {
+										e.printStackTrace();
+									}
+
 								}
+							});
+						}
 
-							}
-						});
-					}
+						@Override
+						public void onBaiduException(BaiduException arg0) {
 
-					@Override
-					public void onBaiduException(BaiduException arg0) {
+						}
+					});
+		}
 
-					}
-				});
 		tabWidget = (TabWidget) findViewById(android.R.id.tabs);
 		tabWidget.setBackgroundColor(0xffffffff);
 

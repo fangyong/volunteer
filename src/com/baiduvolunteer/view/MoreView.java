@@ -1,13 +1,18 @@
 package com.baiduvolunteer.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.baidu.api.Baidu;
+import com.baiduvolunteer.MyApplication;
 import com.baiduvolunteer.R;
+import com.baiduvolunteer.activity.LoginAct;
 
 public class MoreView extends LinearLayout implements OnClickListener {
 
@@ -15,6 +20,7 @@ public class MoreView extends LinearLayout implements OnClickListener {
 	private TextView feedBack;
 	private TextView about;
 	private TextView checkUpdate;
+	private Button logoutButton;
 
 	public MoreView(Context context) {
 		this(context, null);
@@ -42,6 +48,21 @@ public class MoreView extends LinearLayout implements OnClickListener {
 		feedBack.setOnClickListener(this);
 		about.setOnClickListener(this);
 		checkUpdate.setOnClickListener(this);
+		logoutButton = (Button) findViewById(R.id.logoutBtn);
+		logoutButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Baidu baidu = MyApplication.getApplication().getBaidu();
+				if (baidu != null) {
+					baidu.clearAccessToken();
+				}
+				Intent intent = new Intent(getContext(), LoginAct.class);
+				intent.putExtra("forceLogin", true);
+				getContext().startActivity(intent);
+			}
+		});
 	}
 
 	@Override
