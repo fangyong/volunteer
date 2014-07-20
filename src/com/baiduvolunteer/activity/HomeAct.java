@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
@@ -114,6 +115,7 @@ public class HomeAct extends Activity {
 		tabHost.setup();
 		indexView = (IndexView) findViewById(R.id.tab_index);
 		initTabs();
+		
 	}
 
 	void initTabs() {
@@ -157,6 +159,13 @@ public class HomeAct extends Activity {
 				}
 			}
 		});
+	}
+	
+	public void logout(View v){
+		baidu.clearAccessToken();
+		Intent intent = new Intent(HomeAct.this,LoginAct.class);
+		startActivity(intent);
+		finish();
 	}
 
 	public void setUid(String uid) {

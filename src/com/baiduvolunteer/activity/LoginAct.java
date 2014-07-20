@@ -59,6 +59,13 @@ public class LoginAct extends Activity {
 						finish();
 					}
 				});
+		
+		
 
+	}
+
+	@Override
+	public void onBackPressed() {
+		
 	}
 }
