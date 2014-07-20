@@ -13,12 +13,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.activity.ActivityInfoActivity;
+import com.baiduvolunteer.activity.SearchActivity;
 import com.baiduvolunteer.adapter.ActivitiesAdapter;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
@@ -29,6 +31,7 @@ public class ActivitiesView extends LinearLayout {
 
 	private ListView activityListView;
 	private ActivitiesAdapter mAdapter;
+	private EditText searchField;
 
 	public ActivitiesView(Context context) {
 		super(context);
@@ -80,6 +83,16 @@ public class ActivitiesView extends LinearLayout {
 			}
 		});
 		activityListView.setAdapter(mAdapter);
+		searchField = (EditText) findViewById(R.id.search);
+		searchField.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(getContext(), SearchActivity.class);
+				getContext().startActivity(intent);
+			}
+		});
 	}
 
 }
