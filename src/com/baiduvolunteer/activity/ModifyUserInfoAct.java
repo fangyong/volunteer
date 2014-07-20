@@ -3,8 +3,10 @@ package com.baiduvolunteer.activity;
 import org.json.JSONObject;
 import org.w3c.dom.NodeList;
 
+import com.baidu.mapapi.map.Text;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.adapter.PopupwindowListAdapter;
+import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.task.LoadProvinceListTask;
 import com.baiduvolunteer.view.MyPopupWindow;
 import com.lidroid.xutils.ViewUtils;
@@ -13,6 +15,9 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.MailTo;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -28,7 +33,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupWindow.OnDismissListener;
 
-public class ModifyUserInfoAct extends Activity implements OnClickListener{
+public class ModifyUserInfoAct extends Activity implements OnClickListener {
 
 	@ViewInject(R.id.textView3)
 	private TextView provinceTv;
@@ -37,13 +42,18 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener{
 	@ViewInject(R.id.textView9)
 	private TextView districtTv;
 
-	@ViewInject(R.id.street_et)
-	private EditText streetEt;
+	@ViewInject(R.id.uname_et)
+	private EditText unameEt;
 	@ViewInject(R.id.telephone_et)
 	private EditText telephoneEt;
 
 	private Button backButton;
 	private ListView listView;
+
+	private View maleTv;
+	private View femaleTv;
+	private View otherTv;
+	private Button saveButton;
 
 	private String id;
 	private String cityName;
@@ -55,6 +65,7 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener{
 	private String telephone;
 	private String addressee;
 	private String provinceName;
+	private int sex;
 
 	private NodeList provinceList;
 	private NodeList cityList;
@@ -80,7 +91,25 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener{
 		setProvince();
 		backButton = (Button) findViewById(R.id.button2);
 		backButton.setOnClickListener(this);
-		((Button) findViewById(R.id.button1)).setText("保存");
+		saveButton = (Button) findViewById(R.id.button1);
+		saveButton.setText("保存");
+		saveButton.setOnClickListener(this);
+
+		maleTv = findViewById(R.id.male_layout);
+		femaleTv = findViewById(R.id.female_layout);
+		otherTv = findViewById(R.id.other_layout);
+		maleTv.setOnClickListener(this);
+		femaleTv.setOnClickListener(this);
+		otherTv.setOnClickListener(this);
+		if (User.sharedUser().uname != null) {
+			unameEt.setText(User.sharedUser().uname);
+		}
+		if (User.sharedUser().phoneNumber != null) {
+			telephoneEt.setText(User.sharedUser().phoneNumber);
+		}
+		if (User.sharedUser().gender != 0) {
+			this.setSex(User.sharedUser().gender);
+		}
 	}
 
 	void setProvince() {
@@ -239,8 +268,50 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		if(backButton==v){
+		if (backButton == v) {
 			this.finish();
+		} else if (maleTv == v) {
+			this.setSex(1);
+		} else if (femaleTv == v) {
+			this.setSex(3);
+		} else if (otherTv == v) {
+			this.setSex(2);
+		} else if (saveButton == v) {
+			this.save();
+			this.finish();
+		}
+	}
+
+	private void save() {
+		if (!unameEt.getText().toString().isEmpty())
+			User.sharedUser().uname = unameEt.getText().toString();
+		if (!telephoneEt.getText().toString().isEmpty()) {
+			User.sharedUser().phoneNumber = telephoneEt.getText().toString();
+		}
+		User.sharedUser().gender = sex;
+		User.sharedUser().save();
+	}
+
+	private void setSex(int sex) {
+		this.sex = sex;
+
+		if (sex == 3)
+			femaleTv.setBackgroundColor(0xffeeeeee);
+		else
+			femaleTv.setBackground(getResources().getDrawable(
+					R.drawable.rectangle_check));
+
+		if (sex == 1)
+			maleTv.setBackgroundColor(0xffeeeeee);
+		else {
+			maleTv.setBackground(getResources().getDrawable(
+					R.drawable.rectangle_check));
+		}
+		if (sex == 2) {
+			otherTv.setBackgroundColor(0xffeeeeee);
+		} else {
+			otherTv.setBackground(getResources().getDrawable(
+					R.drawable.rectangle_check));
 		}
 	}
 }

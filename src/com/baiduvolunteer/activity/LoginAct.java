@@ -1,18 +1,14 @@
 package com.baiduvolunteer.activity;
 
-import com.baidu.api.Baidu;
-import com.baidu.api.BaiduDialogError;
-import com.baidu.api.BaiduException;
-import com.baidu.api.BaiduDialog.BaiduDialogListener;
-import com.baiduvolunteer.MyApplication;
-import com.baiduvolunteer.R;
-
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
+
+import com.baidu.api.Baidu;
+import com.baidu.api.BaiduDialog.BaiduDialogListener;
+import com.baidu.api.BaiduDialogError;
+import com.baidu.api.BaiduException;
+import com.baiduvolunteer.MyApplication;
 
 public class LoginAct extends Activity {
 

@@ -101,14 +101,14 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 		this.selectIndex = selectIndex;
 		if (selectIndex == 0) {
 			tab1.setTextColor(0xff5190fc);
-			tab2.setTextColor(color.black);
+			tab2.setTextColor(0xff000000);
 			indicator1.setBackgroundColor(0xff107cfd);
 			indicator2.setBackgroundColor(0x00000000);
 			tab1.setClickable(false);
 			tab2.setClickable(true);
 		} else {
 			tab2.setTextColor(0xff5190fc);
-			tab1.setTextColor(color.black);
+			tab1.setTextColor(0xFF000000);
 			indicator2.setBackgroundColor(0xff107cfd);
 			indicator1.setBackgroundColor(0x00000000);
 			tab2.setClickable(false);

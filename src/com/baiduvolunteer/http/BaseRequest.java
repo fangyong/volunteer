@@ -11,6 +11,7 @@ import org.apache.http.NameValuePair;
 import android.util.Log;
 
 import com.baiduvolunteer.config.Config;
+import com.baiduvolunteer.model.User;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -61,6 +62,7 @@ public abstract class BaseRequest {
 	public final String cacheURL() {
 		URIBuilder builder = new URIBuilder(String.format("%s%s",
 				Config.baseURL, url()));
+		builder.addParameter("method", method());
 		for (String key : params.keySet()) {
 			builder.addParameter(key, params.get(key));
 		}
@@ -77,7 +79,9 @@ public abstract class BaseRequest {
 		RequestParams requestParams = new RequestParams();
 		params.clear();
 		generateParams(params);
-		params.put("method",method());
+		params.put("method", method());
+		if (User.sharedUser().vuid != null && !User.sharedUser().vuid.isEmpty())
+			params.put("vuid", User.sharedUser().vuid);
 		String sig = SignatureTool.getSignature(params);
 		for (String key : params.keySet()) {
 			requestParams.addQueryStringParameter(key, params.get(key));
@@ -108,8 +112,8 @@ public abstract class BaseRequest {
 
 	private void doSendRequest(String url, RequestParams requestParams,
 			final boolean cached) {
-		HttpUtilsWrapper.sharedInstance().send(requestMethod(), url, requestParams,
-				new RequestCallBack<String>() {
+		HttpUtilsWrapper.sharedInstance().send(requestMethod(), url,
+				requestParams, new RequestCallBack<String>() {
 					@Override
 					public void onSuccess(ResponseInfo<String> info) {
 						if (cached)

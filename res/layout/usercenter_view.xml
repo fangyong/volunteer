@@ -31,7 +31,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="消息"
-                android:textColor="#000000" />
+                android:textColor="#000000" android:visibility="invisible"/>
         </RelativeLayout>
 
         <ScrollView
@@ -86,7 +86,7 @@
                             android:orientation="vertical" >
 
                             <TextView
-                                android:id="@+id/textView1"
+                                android:id="@+id/userNameLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
@@ -124,7 +124,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp" >
+                        android:layout_marginTop="5dp" android:id="@+id/joinedCell">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
