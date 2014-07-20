@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
+                android:layout_centerVertical="true"
                 android:text="消息"
                 android:textColor="#000000" />
         </RelativeLayout>
@@ -179,6 +179,7 @@
                     </LinearLayout>
 
                     <RelativeLayout
+                        android:id="@+id/favCell"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp" >
@@ -239,10 +240,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
                     android:layout_marginTop="15dp"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" android:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"

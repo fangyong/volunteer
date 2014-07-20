@@ -7,11 +7,16 @@ import android.content.IntentFilter;
 import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -51,6 +56,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	private boolean firstLoc = true;
 	private LinearLayout infoView;
 	private Marker marker = null;
+
+	private EditText searchField;
 
 	// private Button mSwitchButton;
 	// private boolean isMap = true;
@@ -236,6 +243,20 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				return true;
 			}
 		});
+		searchField = (EditText) findViewById(R.id.search);
+		searchField.setOnClickListener(this);
+		searchField.setOnEditorActionListener(new OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if(event.getKeyCode()==KeyEvent.KEYCODE_ENTER){
+					InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 
 	public class SDKReceiver extends BroadcastReceiver {
@@ -257,5 +278,9 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+//		if(v == searchField){
+//			Intent intent = new Intent(getContext(), SearchActivity.class);
+//			getContext().startActivity(intent);
+//		}
 	}
 }
