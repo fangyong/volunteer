@@ -44,6 +44,7 @@ public class ActivitiesAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		ActivityInfo activityInfo = getItem(position);
 		if (convertView == null) {
 			ActivityListCellHolder holder = ActivityListCellHolder
 					.create(activity);
@@ -54,8 +55,9 @@ public class ActivitiesAdapter extends BaseAdapter {
 		ActivityListCellHolder holder = (ActivityListCellHolder) convertView
 				.getTag();
 		holder.favIcon
-				.setImageResource(favStates[position] == 0 ? R.drawable.icon_fav
+				.setImageResource(activityInfo.addedToFav ? R.drawable.icon_fav
 						: R.drawable.icon_fav_sel);
+		holder.titleLabel.setText(activityInfo.title);
 		holder.favIcon.setTag(Integer.valueOf(position));
 		holder.favIcon.setOnClickListener(new OnClickListener() {
 

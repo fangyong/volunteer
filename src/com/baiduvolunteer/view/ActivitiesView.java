@@ -2,6 +2,10 @@ package com.baiduvolunteer.view;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +34,7 @@ import com.baiduvolunteer.model.ActivityInfo;
 public class ActivitiesView extends LinearLayout {
 
 	private ListView activityListView;
+	private ArrayList<ActivityInfo> activityInfoList = new ArrayList<ActivityInfo>();
 	private ActivitiesAdapter mAdapter;
 	private EditText searchField;
 
@@ -60,14 +65,41 @@ public class ActivitiesView extends LinearLayout {
 			@Override
 			public void handleResponse(BaseRequest request, int statusCode,
 					String errorMsg, String response) {
-				Log.d("activity test", response);
+				try {
+					JSONObject ret = new JSONObject(response);
+					JSONArray activities = ret.optJSONObject("result")
+							.optJSONArray("activities");
+					for (int i = 0; i < activities.length(); i++) {
+						JSONObject activity = activities.optJSONObject(i);
+						ActivityInfo activityInfo = new ActivityInfo();
+						activityInfo.activityID = activity
+								.getString("activityId");
+						activityInfo.title = activity.getString("actName");
+						if (activity.optInt("isLine") == 1)
+							activityInfo.isLine = true;
+						else
+							activityInfo.isLine = false;
+						if (activity.optInt("collection") == 1)
+							activityInfo.addedToFav = true;
+						else
+							activityInfo.addedToFav = false;
+						activityInfo.publishType = activity
+								.getString("publishType");
+						activityInfo.publisher = activity
+								.getString("publisher");
+						activityInfo.address = activity
+								.optString("serviceAdress");
+						activityInfoList.add(activityInfo);
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			}
 		}).start();
-		ArrayList<ActivityInfo> list = new ArrayList<ActivityInfo>();
-		list.add(new ActivityInfo());
 		Activity activity = (Activity) getContext();
-		mAdapter = new ActivitiesAdapter(activity, list);
+		mAdapter = new ActivitiesAdapter(activity, activityInfoList);
 		activityListView.setDivider(getResources().getDrawable(
 				R.drawable.listviewdivider));
 		activityListView.setDividerHeight(4);
@@ -85,7 +117,7 @@ public class ActivitiesView extends LinearLayout {
 		activityListView.setAdapter(mAdapter);
 		searchField = (EditText) findViewById(R.id.search);
 		searchField.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -94,5 +126,4 @@ public class ActivitiesView extends LinearLayout {
 			}
 		});
 	}
-
 }
