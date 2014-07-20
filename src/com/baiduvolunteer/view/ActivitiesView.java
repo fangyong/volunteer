@@ -66,6 +66,9 @@ public class ActivitiesView extends LinearLayout {
 			public void handleResponse(BaseRequest request, int statusCode,
 					String errorMsg, String response) {
 				try {
+
+					Log.i("response test", response);
+
 					JSONObject ret = new JSONObject(response);
 					JSONArray activities = ret.optJSONObject("result")
 							.optJSONArray("activities");

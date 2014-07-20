@@ -58,6 +58,7 @@ public class ActivitiesAdapter extends BaseAdapter {
 				.setImageResource(activityInfo.addedToFav ? R.drawable.icon_fav
 						: R.drawable.icon_fav_sel);
 		holder.titleLabel.setText(activityInfo.title);
+		holder.locationLabel.setText(activityInfo.address);
 		holder.favIcon.setTag(Integer.valueOf(position));
 		holder.favIcon.setOnClickListener(new OnClickListener() {
 

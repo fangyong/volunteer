@@ -17,6 +17,7 @@ public class ActivityListCellHolder {
 	public TextView titleLabel;
 	public TextView distLabel;
 	public TextView timeLabel;
+	public TextView locationLabel;
 	public RelativeLayout container;
 
 	public static ActivityListCellHolder create(Context ctx) {
@@ -31,6 +32,7 @@ public class ActivityListCellHolder {
 		holder.locIcon = (ImageView) rl.findViewById(R.id.locIcon);
 		holder.titleLabel = (TextView) rl.findViewById(R.id.titleLabel);
 		holder.distLabel = (TextView) rl.findViewById(R.id.distLabel);
+		holder.locationLabel = (TextView) rl.findViewById(R.id.locationLabel);
 		holder.timeLabel = (TextView) rl.findViewById(R.id.timeLabel);
 		return holder;
 	}
