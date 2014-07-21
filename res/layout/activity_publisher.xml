@@ -12,7 +12,7 @@
             android:id="@+id/top_bar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#cccccc" >
+            android:background="#107cfd" >
 
             <TextView
                 android:id="@+id/textView1"
@@ -21,7 +21,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="发布者信息"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textSize="16sp" />
 
             <Button
@@ -31,6 +31,12 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/icon_button_back" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="#ffffff" />
         </RelativeLayout>
 
         <LinearLayout
@@ -53,7 +59,7 @@
                     android:orientation="vertical"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp" >
-
+	
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

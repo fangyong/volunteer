@@ -25,7 +25,7 @@ import com.baiduvolunteer.view.ListViewCell;
 
 public class ActivityInfoActivity extends BaseActivity implements
 		OnClickListener {
-	private ListViewCell infoCell;
+//	private ListViewCell infoCell;
 	private ListViewCell locationCell;
 	private ListViewCell organizerCell;
 	private ListViewCell contactCell;
@@ -44,7 +44,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 				"activity");
 		locationCell = (ListViewCell) findViewById(R.id.locationCell);
 		organizerCell = (ListViewCell) findViewById(R.id.organizerCell);
-		infoCell = (ListViewCell) findViewById(R.id.infoContainer);
+//		infoCell = (ListViewCell) findViewById(R.id.infoContainer);
 		locationCell.iconView.setImageResource(R.drawable.icon_info_location);
 		organizerCell.textLabel.setText("北大青年志愿者协会");
 		organizerCell.iconView
