@@ -62,26 +62,29 @@ public class HomeAct extends Activity {
 			AccessTokenManager atm = baidu.getAccessTokenManager();
 			// String accessToken = atm.getAccessToken();
 			AsyncBaiduRunner runner = new AsyncBaiduRunner(baidu);
-			runner.request("https://openapi.baidu.com/rest/2.0/passport/users/getInfo", null, "POST", new RequestListener() {
-				
-				@Override
-				public void onIOException(IOException arg0) {
-					// TODO Auto-generated method stub
-					Log.d("test", "ioexception");
-				}
-				
-				@Override
-				public void onComplete(String arg0) {
-					// TODO Auto-generated method stub
-					Log.d("test", "response:"+arg0);
-				}
-				
-				@Override
-				public void onBaiduException(BaiduException arg0) {
-					// TODO Auto-generated method stub
-					Log.d("test", "baidu exception:"+arg0.getMessage());
-				}
-			});
+			// runner.request(
+			// "https://openapi.baidu.com/rest/2.0/passport/users/getInfo",
+			// null, "POST", new RequestListener() {
+			//
+			// @Override
+			// public void onIOException(IOException arg0) {
+			// // TODO Auto-generated method stub
+			// Log.d("test", "ioexception");
+			// }
+			//
+			// @Override
+			// public void onComplete(String arg0) {
+			// // TODO Auto-generated method stub
+			// Log.d("test", "response:" + arg0);
+			// }
+			//
+			// @Override
+			// public void onBaiduException(BaiduException arg0) {
+			// // TODO Auto-generated method stub
+			// Log.d("test",
+			// "baidu exception:" + arg0.getMessage());
+			// }
+			// });
 			runner.request(Baidu.LoggedInUser_URL, null, "POST",
 					new RequestListener() {
 
@@ -97,9 +100,9 @@ public class HomeAct extends Activity {
 								@Override
 								public void run() {
 									try {
-										// // Toast.makeText(HomeAct.this, arg0,
-										// Toast.LENGTH_LONG).show();
-										// ;
+										Toast.makeText(HomeAct.this, arg0,
+												Toast.LENGTH_LONG).show();
+										;
 										JSONObject userinfo = new JSONObject(
 												arg0);
 										String uid = userinfo.optString("uid");
@@ -111,7 +114,9 @@ public class HomeAct extends Activity {
 											User.sharedUser().uname = uname;
 										}
 										User.sharedUser().save();
-
+										Log.d("test",
+												"user.name "
+														+ User.sharedUser().uname);
 										LoginRequest loginRequest = new LoginRequest(
 												uid);
 										loginRequest

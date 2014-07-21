@@ -1,59 +1,47 @@
 package com.baiduvolunteer.activity;
 
-import org.json.JSONObject;
+import java.util.ArrayList;
+
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.baidu.mapapi.map.Text;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow.OnDismissListener;
+import android.widget.Spinner;
+
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.adapter.PopupwindowListAdapter;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.task.LoadProvinceListTask;
 import com.baiduvolunteer.view.MyPopupWindow;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.net.MailTo;
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.PopupWindow.OnDismissListener;
 
 public class ModifyUserInfoAct extends Activity implements OnClickListener {
 
-	@ViewInject(R.id.textView3)
-	private TextView provinceTv;
-	@ViewInject(R.id.textView4)
-	private TextView cityTv;
-	@ViewInject(R.id.textView9)
-	private TextView districtTv;
-
-	@ViewInject(R.id.uname_et)
-	private EditText unameEt;
-	@ViewInject(R.id.telephone_et)
-	private EditText telephoneEt;
-
 	private Button backButton;
-	private ListView listView;
+
+	private Button saveButton;
+
+	private EditText unameEt;
+	private EditText telephoneEt;
 
 	private View maleTv;
 	private View femaleTv;
 	private View otherTv;
-	private Button saveButton;
+
+	private Spinner provinceSpinner;
+	private Spinner citySpinner;
 
 	private String id;
 	private String cityName;
@@ -67,9 +55,16 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 	private String provinceName;
 	private int sex;
 
+	private ArrayAdapter<String> provinceAdapter;
+	private ArrayAdapter<String> cityAdapter;
+
 	private NodeList provinceList;
 	private NodeList cityList;
 	private NodeList districtList;
+
+	private View maleCheck;
+	private View femaleCheck;
+	private View otherCheck;
 
 	private MyPopupWindow mpw;
 
@@ -82,25 +77,59 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 
 	void initViews() {
 		ViewUtils.inject(this);
-		View contentView = getLayoutInflater().inflate(
-				R.layout.menu_province_list, null);
-		findViewById(R.id.pset).setVisibility(View.GONE);
-		findViewById(R.id.textView8).setVisibility(View.GONE);
-		mpw = new MyPopupWindow(contentView, false);
-		listView = (ListView) contentView.findViewById(R.id.listView1);
-		setProvince();
+
+		unameEt = (EditText) findViewById(R.id.uname_et);
 		backButton = (Button) findViewById(R.id.button2);
 		backButton.setOnClickListener(this);
-		saveButton = (Button) findViewById(R.id.button1);
+		saveButton = (Button) findViewById(R.id.button_save);
 		saveButton.setText("保存");
 		saveButton.setOnClickListener(this);
+		provinceSpinner = (Spinner) findViewById(R.id.province_spinner);
+		citySpinner = (Spinner) findViewById(R.id.city_spinner);
+		provinceAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item);
+		provinceAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		provinceSpinner.setAdapter(provinceAdapter);
+		cityAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item);
+		cityAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		citySpinner.setAdapter(cityAdapter);
+		provinceSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
-		maleTv = findViewById(R.id.male_layout);
-		femaleTv = findViewById(R.id.female_layout);
-		otherTv = findViewById(R.id.other_layout);
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				cityList = provinceList.item(position).getChildNodes().item(15)
+						.getChildNodes();
+				cityAdapter.clear();
+				for (int i = 0; i < cityList.getLength(); i++) {
+					cityAdapter.add(cityList.item(i).getChildNodes().item(7)
+							.getTextContent());
+				}
+				cityAdapter.notifyDataSetChanged();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		maleTv = findViewById(R.id.male);
+		femaleTv = findViewById(R.id.female);
+		otherTv = findViewById(R.id.other);
 		maleTv.setOnClickListener(this);
 		femaleTv.setOnClickListener(this);
 		otherTv.setOnClickListener(this);
+		maleCheck = findViewById(R.id.male_check);
+		femaleCheck = findViewById(R.id.female_check);
+		otherCheck = findViewById(R.id.other_check);
+		telephoneEt = (EditText) findViewById(R.id.telephone_et);
+		setProvince();
 		if (User.sharedUser().uname != null) {
 			unameEt.setText(User.sharedUser().uname);
 		}
@@ -108,8 +137,9 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 			telephoneEt.setText(User.sharedUser().phoneNumber);
 		}
 		if (User.sharedUser().gender != 0) {
-			this.setSex(User.sharedUser().gender);
+			setSex(User.sharedUser().gender);
 		}
+
 	}
 
 	void setProvince() {
@@ -121,116 +151,45 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 			public void onTaskFinish(NodeList nodeList) {
 
 				provinceList = nodeList;
-				listView.setAdapter(new PopupwindowListAdapter(
-						ModifyUserInfoAct.this, provinceList));
-				// cityList = provinceList.item(3).getChildNodes().item(15)
-				// .getChildNodes();
-				// provinceName = provinceList.item(3).getChildNodes().item(7)
-				// .getTextContent();
-				// provinceId = provinceList.item(3).getChildNodes().item(3)
-				// .getTextContent();
-				// provinceTv.setText(provinceName);
+				ArrayList<String> array = new ArrayList<String>();
+				provinceAdapter.clear();
+				for (int i = 0; i < provinceList.getLength(); i++) {
+					array.add(provinceList.item(i).getChildNodes().item(7)
+							.getTextContent());
+				}
+				provinceAdapter.addAll(array);
+				provinceAdapter.notifyDataSetChanged();
+				if (User.sharedUser().province > 0) {
+					for (int i = 0; i < provinceList.getLength(); i++) {
+						Node node = provinceList.item(i);
+						if (node.getChildNodes().item(3).getTextContent()
+								.equals("" + User.sharedUser().province)) {
+							provinceSpinner.setSelection(i);
+							break;
+						}
+					}
+					cityList = provinceList
+							.item(provinceSpinner.getSelectedItemPosition())
+							.getChildNodes().item(15).getChildNodes();
+					cityAdapter.clear();
+					for (int i = 0; i < cityList.getLength(); i++) {
+						cityAdapter.add(cityList.item(i).getChildNodes()
+								.item(7).getTextContent());
+					}
+					if (User.sharedUser().city > 0) {
+						for (int i = 0; i < cityList.getLength(); i++) {
+							Node node = cityList.item(i);
+							if (node.getChildNodes().item(3).getTextContent()
+									.equals("" + User.sharedUser().city)) {
+								citySpinner.setSelection(i);
+								break;
+							}
+						}
+					}
+				}
+
 			}
 		}, ModifyUserInfoAct.this).execute("");
-	}
-
-	@OnClick(R.id.province_spinner)
-	public void onProvinceSpinnerClick(View arg0) {
-		final View shadow = findViewById(R.id.popwindow);
-		mpw.showAtLocation(shadow, Gravity.CENTER, 0, 0);
-		shadow.setVisibility(View.VISIBLE);
-		mpw.setOnDismissListener(new OnDismissListener() {
-
-			@Override
-			public void onDismiss() {
-				shadow.setVisibility(View.GONE);
-			}
-		});
-		if (provinceList == null)
-			new LoadProvinceListTask(
-
-			new LoadProvinceListTask.OnTaskFinishListener() {
-
-				@Override
-				public void onTaskFinish(NodeList nodeList) {
-
-					provinceList = nodeList;
-					listView.setAdapter(new PopupwindowListAdapter(
-							ModifyUserInfoAct.this, provinceList));
-				}
-			}, ModifyUserInfoAct.this).execute("");
-		else {
-			listView.setAdapter(new PopupwindowListAdapter(
-					ModifyUserInfoAct.this, provinceList));
-		}
-		listView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-				cityList = provinceList.item(arg2).getChildNodes().item(15)
-						.getChildNodes();
-				provinceName = provinceList.item(arg2).getChildNodes().item(7)
-						.getTextContent();
-				provinceId = provinceList.item(arg2).getChildNodes().item(3)
-						.getTextContent();
-				provinceTv.setText(provinceName);
-				initCityAndDistrict();
-				mpw.dismiss();
-			}
-
-			void initCityAndDistrict() {
-				cityId = null;
-				cityName = null;
-				cityTv.setText("未选择");
-				districtId = null;
-				districtName = null;
-				districtTv.setText("未选择");
-			}
-		});
-		mpw.update();
-	}
-
-	@OnClick(R.id.city_spinner)
-	public void onCitySpinerClick(View arg0) {
-		if (provinceName != null) {
-			final View shadow = findViewById(R.id.popwindow);
-			mpw.showAtLocation(shadow, Gravity.CENTER, 0, 0);
-			shadow.setVisibility(View.VISIBLE);
-			mpw.setOnDismissListener(new OnDismissListener() {
-
-				@Override
-				public void onDismiss() {
-					shadow.setVisibility(View.GONE);
-				}
-			});
-			listView.setAdapter(new PopupwindowListAdapter(
-					ModifyUserInfoAct.this, cityList));
-			listView.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1,
-						int arg2, long arg3) {
-					districtList = cityList.item(arg2).getChildNodes().item(15)
-							.getChildNodes();
-					cityName = cityList.item(arg2).getChildNodes().item(7)
-							.getTextContent();
-					cityId = cityList.item(arg2).getChildNodes().item(3)
-							.getTextContent();
-					cityTv.setText(cityName);
-					initDistrict();
-					mpw.dismiss();
-				}
-
-				void initDistrict() {
-					districtId = null;
-					districtName = null;
-					districtTv.setText("未选择");
-				}
-			});
-			mpw.update();
-		}
-
 	}
 
 	@OnClick(R.id.district_spinner)
@@ -246,22 +205,6 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 					shadow.setVisibility(View.GONE);
 				}
 			});
-			listView.setAdapter(new PopupwindowListAdapter(
-					ModifyUserInfoAct.this, districtList));
-			listView.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1,
-						int arg2, long arg3) {
-					districtName = districtList.item(arg2).getChildNodes()
-							.item(7).getTextContent();
-					districtId = districtList.item(arg2).getChildNodes()
-							.item(3).getTextContent();
-					districtTv.setText(districtName);
-					mpw.dismiss();
-				}
-			});
-			mpw.update();
 		}
 	}
 
@@ -289,6 +232,13 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 			User.sharedUser().phoneNumber = telephoneEt.getText().toString();
 		}
 		User.sharedUser().gender = sex;
+		Node node = provinceList
+				.item(provinceSpinner.getSelectedItemPosition());
+		User.sharedUser().province = Integer.valueOf(node.getChildNodes()
+				.item(3).getTextContent());
+		node = cityList.item(citySpinner.getSelectedItemPosition());
+		User.sharedUser().city = Integer.valueOf(node.getChildNodes().item(3)
+				.getTextContent());
 		User.sharedUser().save();
 	}
 
@@ -296,22 +246,19 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		this.sex = sex;
 
 		if (sex == 3)
-			femaleTv.setBackgroundColor(0xffeeeeee);
+			femaleCheck.setVisibility(View.VISIBLE);
 		else
-			femaleTv.setBackground(getResources().getDrawable(
-					R.drawable.rectangle_check));
+			femaleCheck.setVisibility(View.INVISIBLE);
 
 		if (sex == 1)
-			maleTv.setBackgroundColor(0xffeeeeee);
+			maleCheck.setVisibility(View.VISIBLE);
 		else {
-			maleTv.setBackground(getResources().getDrawable(
-					R.drawable.rectangle_check));
+			maleCheck.setVisibility(View.INVISIBLE);
 		}
 		if (sex == 2) {
-			otherTv.setBackgroundColor(0xffeeeeee);
+			otherCheck.setVisibility(View.VISIBLE);
 		} else {
-			otherTv.setBackground(getResources().getDrawable(
-					R.drawable.rectangle_check));
+			otherCheck.setVisibility(View.INVISIBLE);
 		}
 	}
 }
