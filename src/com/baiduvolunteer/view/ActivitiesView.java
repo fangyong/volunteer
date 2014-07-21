@@ -1,6 +1,7 @@
 package com.baiduvolunteer.view;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,8 +85,15 @@ public class ActivitiesView extends LinearLayout {
 							activityInfo.addedToFav = false;
 						activityInfo.publishType = activity
 								.getString("publishType");
+						activityInfo.startTime = new Date(Long
+								.parseLong(activity
+										.getString("serviceOpenTime")));
+						activityInfo.endTime = new Date(Long.parseLong(activity
+								.getString("serviceOverTime")));
 						activityInfo.publisher = activity
 								.getString("publisher");
+						activityInfo.iconUrl = activity.getString("logo");
+						activityInfo.distance = activity.getString("distance");
 						activityInfo.address = activity
 								.optString("serviceAdress");
 						activityInfoList.add(activityInfo);
@@ -110,6 +118,7 @@ public class ActivitiesView extends LinearLayout {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(getContext(),
 						ActivityInfoActivity.class);
+				intent.putExtra("activity", activityInfoList.get(pos));
 				getContext().startActivity(intent);
 			}
 		});
@@ -128,12 +137,12 @@ public class ActivitiesView extends LinearLayout {
 
 	public void onPause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void onResume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
