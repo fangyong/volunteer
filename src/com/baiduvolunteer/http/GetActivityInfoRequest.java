@@ -6,9 +6,9 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 public class GetActivityInfoRequest extends BaseRequest {
 
-	private long activityId;
+	private String activityId;
 
-	public GetActivityInfoRequest setActivityId(long activityId) {
+	public GetActivityInfoRequest setActivityId(String activityId) {
 		this.activityId = activityId;
 		return this;
 	}
@@ -27,7 +27,7 @@ public class GetActivityInfoRequest extends BaseRequest {
 
 	@Override
 	protected void generateParams(HashMap<String, String> map) {
-		map.put("activityId", "" + activityId);
+		map.put("activityId",  activityId);
 
 	}
 

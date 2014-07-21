@@ -32,7 +32,8 @@
             android:text="V"
             android:textColor="#FFEE33"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <ImageView
