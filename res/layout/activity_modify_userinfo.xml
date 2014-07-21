@@ -77,7 +77,7 @@
                         android:orientation="vertical" >
 
                         <EditText
-                            android:id="@+id/street_et"
+                            android:id="@+id/uname_et"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:background="@drawable/et_bg"
@@ -127,7 +127,7 @@
                                     android:paddingTop="5dp" >
 
                                     <TextView
-                                        android:id="@+id/TextView02"
+                                        android:id="@+id/male"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="男"
@@ -167,7 +167,7 @@
                                     android:paddingTop="5dp" >
 
                                     <TextView
-                                        android:id="@+id/male"
+                                        android:id="@+id/other"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="其他"

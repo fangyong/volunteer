@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.baiduvolunteer.R;
+import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.view.ListViewCell;
 
 public class ActivityInfoActivity extends BaseActivity implements
@@ -25,6 +27,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		boolean joined = getIntent().getBooleanExtra("joined", false);
 		setContentView(R.layout.activity_info);
 		locationCell = (ListViewCell) findViewById(R.id.locationCell);
 		locationCell.iconView.setImageResource(R.drawable.icon_info_location);
@@ -42,6 +45,9 @@ public class ActivityInfoActivity extends BaseActivity implements
 		backButton.setOnClickListener(this);
 		attendButton = (Button) findViewById(R.id.joinButton);
 		attendButton.setOnClickListener(this);
+		if (joined) {
+			attendButton.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -83,31 +89,38 @@ public class ActivityInfoActivity extends BaseActivity implements
 		} else if (v == backButton) {
 			this.finish();
 		} else if (v == attendButton) {
-			new AlertDialog.Builder(this)
-					.setMessage("请先补完个人资料")
-					.setPositiveButton("取消",
-							new DialogInterface.OnClickListener() {
+			if (User.sharedUser().phoneNumber == null
+					|| User.sharedUser().phoneNumber.isEmpty()) {
+				new AlertDialog.Builder(this)
+						.setMessage("请先补完个人资料")
+						.setPositiveButton("取消",
+								new DialogInterface.OnClickListener() {
 
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									// TODO Auto-generated method stub
-									dialog.dismiss();
-								}
-							})
-					.setNeutralButton("设置",
-							new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										// TODO Auto-generated method stub
+										dialog.dismiss();
+									}
+								})
+						.setNeutralButton("设置",
+								new DialogInterface.OnClickListener() {
 
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									dialog.dismiss();
-									Intent intent = new Intent(
-											ActivityInfoActivity.this,
-											ModifyUserInfoAct.class);
-									startActivity(intent);
-								}
-							}).show();
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										dialog.dismiss();
+										Intent intent = new Intent(
+												ActivityInfoActivity.this,
+												ModifyUserInfoAct.class);
+										startActivity(intent);
+									}
+								}).show();
+			} else {
+				Toast.makeText(this, "已提交报名请求", Toast.LENGTH_LONG).show();
+				attendButton.setEnabled(false);
+			}
+
 		}
 	}
 }
