@@ -12,11 +12,11 @@ import com.baiduvolunteer.R;
 
 public class MoreView extends LinearLayout implements OnClickListener {
 
-	private TextView pushSettings;
-	private TextView feedBack;
-	private TextView about;
-	private TextView checkUpdate;
-	private Button logoutButton;
+	private SettingCell pushSettings;
+	private SettingCell feedBack;
+	private SettingCell about;
+	private SettingCell checkUpdate;
+	private LinearLayout logoutButton;
 
 	public MoreView(Context context) {
 		this(context, null);
@@ -36,29 +36,37 @@ public class MoreView extends LinearLayout implements OnClickListener {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		pushSettings = (TextView) findViewById(R.id.pushSettings);
-		feedBack = (TextView) findViewById(R.id.feedBack);
-		about = (TextView) findViewById(R.id.about);
-		checkUpdate = (TextView) findViewById(R.id.checkUpdate);
+		pushSettings = (SettingCell) findViewById(R.id.pushSettings);
+		feedBack = (SettingCell) findViewById(R.id.feedBack);
+		about = (SettingCell) findViewById(R.id.about);
+		checkUpdate = (SettingCell) findViewById(R.id.checkUpdate);
+		pushSettings.iconView.setImageResource(R.drawable.icon_setting_push);
+		feedBack.iconView.setImageResource(R.drawable.icon_setting_feedback);
+		about.iconView.setImageResource(R.drawable.icon_setting_about);
+		checkUpdate.iconView.setImageResource(R.drawable.icon_setting_update);
+		pushSettings.textLabel.setText("推送设置");
+		feedBack.textLabel.setText("意见反馈");
+		about.textLabel.setText("关于");
+		checkUpdate.textLabel.setText("检查更新");
 		pushSettings.setOnClickListener(this);
 		feedBack.setOnClickListener(this);
 		about.setOnClickListener(this);
 		checkUpdate.setOnClickListener(this);
-//		logoutButton = (Button) findViewById(R.id.logoutBtn);
-//		logoutButton.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//				Baidu baidu = MyApplication.getApplication().getBaidu();
-//				if (baidu != null) {
-//					baidu.clearAccessToken();
-//				}
-//				Intent intent = new Intent(getContext(), LoginAct.class);
-//				intent.putExtra("forceLogin", true);
-//				getContext().startActivity(intent);
-//			}
-//		});
+		// logoutButton = (Button) findViewById(R.id.logoutBtn);
+		// logoutButton.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// // TODO Auto-generated method stub
+		// Baidu baidu = MyApplication.getApplication().getBaidu();
+		// if (baidu != null) {
+		// baidu.clearAccessToken();
+		// }
+		// Intent intent = new Intent(getContext(), LoginAct.class);
+		// intent.putExtra("forceLogin", true);
+		// getContext().startActivity(intent);
+		// }
+		// });
 	}
 
 	@Override
@@ -77,11 +85,11 @@ public class MoreView extends LinearLayout implements OnClickListener {
 
 	public void onPause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void onResume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

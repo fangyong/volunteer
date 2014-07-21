@@ -21,6 +21,7 @@ import android.view.ViewParent;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.baiduvolunteer.R;
 import com.lidroid.xutils.BitmapUtils;
 
 public class ViewUtils {
@@ -39,8 +40,8 @@ public class ViewUtils {
 		density = dm.density;
 		bmUtils = new BitmapUtils(context);
 		bmUtils.configDiskCacheEnabled(true);
-//		bmUtils.configDefaultLoadingImage(R.drawable.bannerimg);
-//		bmUtils.configDefaultLoadFailedImage(R.drawable.bannerimg);
+		bmUtils.configDefaultLoadingImage(R.drawable.default_icon);
+		bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
 //		bmUtils.configDefaultBitmapConfig(Config.ARGB_8888);
 	}
 

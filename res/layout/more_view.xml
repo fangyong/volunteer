@@ -31,15 +31,13 @@
         </View>
     </RelativeLayout>
 
-    <TextView
+    <include
         android:id="@+id/pushSettings"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="48dp"
         android:layout_below="@+id/titleView"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="推送设置"
-        android:textColor="#ff000000" />
+        layout="@layout/settingcell" />
 
     <View
         android:layout_width="match_parent"
@@ -50,16 +48,14 @@
         android:background="#ffeeeeee" >
     </View>
 
-    <TextView
+    <include
         android:id="@+id/feedBack"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="48dp"
         android:layout_below="@+id/pushSettings"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="1dp"
-        android:gravity="center"
-        android:text="意见反馈"
-        android:textColor="#ff000000" />
+        layout="@layout/settingcell" />
 
     <View
         android:layout_width="match_parent"
@@ -70,16 +66,14 @@
         android:background="#ffeeeeee" >
     </View>
 
-    <TextView
+    <include
         android:id="@+id/about"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="48dp"
         android:layout_below="@+id/feedBack"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="1dp"
-        android:gravity="center"
-        android:text="关于"
-        android:textColor="#ff000000" />
+        layout="@layout/settingcell" />
 
     <View
         android:layout_width="match_parent"
@@ -90,16 +84,14 @@
         android:background="#ffeeeeee" >
     </View>
 
-    <TextView
+    <include
         android:id="@+id/checkUpdate"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="48dp"
         android:layout_below="@+id/about"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="1dp"
-        android:gravity="center"
-        android:text="检查更新"
-        android:textColor="#ff000000" />
+        layout="@layout/settingcell" />
 
     <View
         android:layout_width="match_parent"
@@ -110,16 +102,25 @@
         android:background="#ffeeeeee" >
     </View>
 
-    <Button
+    <LinearLayout
         android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="44dip"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="60dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/textfield_bg"
-        android:onClick="logout"
-        android:text="退出登录" />
+        android:layout_below="@+id/checkUpdate"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:background="#eaeaea"
+        android:gravity="center"
+        android:onClick="logout" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/icon_setting_logout"
+            android:gravity="center"
+            android:text="    退出登录" />
+    </LinearLayout>
 
 </RelativeLayout>

@@ -31,7 +31,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="消息"
-                android:textColor="#000000" android:visibility="invisible"/>
+                android:textColor="#000000"
+                android:visibility="invisible" />
         </RelativeLayout>
 
         <ScrollView
@@ -75,7 +76,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:background="#dddddd"
-                                android:src="@drawable/ic_launcher" />
+                                android:src="@drawable/applogo" />
                         </RelativeLayout>
 
                         <LinearLayout
@@ -122,9 +123,10 @@
                     </LinearLayout>
 
                     <RelativeLayout
+                        android:id="@+id/joinedCell"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp" android:id="@+id/joinedCell">
+                        android:layout_marginTop="5dp" >
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -135,7 +137,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:background="@drawable/ic_launcher"
+                                android:background="@drawable/attended"
                                 android:orientation="vertical" >
                             </LinearLayout>
 
@@ -193,7 +195,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:background="@drawable/ic_launcher"
+                                android:background="@drawable/icon_fav_sel"
                                 android:orientation="vertical" >
                             </LinearLayout>
 
@@ -243,7 +245,8 @@
                     android:layout_marginTop="15dp"
                     android:orientation="vertical"
                     android:paddingLeft="5dp"
-                    android:paddingRight="5dp" android:visibility="gone">
+                    android:paddingRight="5dp"
+                    android:visibility="gone" >
 
                     <LinearLayout
                         android:layout_width="match_parent"

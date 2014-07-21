@@ -85,6 +85,8 @@ public class ActivitiesView extends LinearLayout {
 							activityInfo.addedToFav = false;
 						activityInfo.publishType = activity
 								.getString("publishType");
+						activityInfo.contactPhone = activity
+								.optString("contactPhone");
 						activityInfo.startTime = new Date(Long
 								.parseLong(activity
 										.getString("serviceOpenTime")));
@@ -92,10 +94,18 @@ public class ActivitiesView extends LinearLayout {
 								.getString("serviceOverTime")));
 						activityInfo.publisher = activity
 								.getString("publisher");
+						activityInfo.description = activity
+								.optString("activityDes");
 						activityInfo.iconUrl = activity.getString("logo");
 						activityInfo.distance = activity.getString("distance");
 						activityInfo.address = activity
 								.optString("serviceAdress");
+						activityInfo.currentCount = activity.optInt("apply");
+						activityInfo.totalCount = activity
+								.optInt("recruitment");
+						activityInfo.description = activity
+								.optString("activityDes");
+						activityInfo.field = activity.optString("field");
 						activityInfoList.add(activityInfo);
 					}
 				} catch (JSONException e) {

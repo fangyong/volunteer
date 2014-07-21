@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.baiduvolunteer.view.SettingCell xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <ImageView
+        android:id="@+id/iconView"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dip"
+        android:layout_marginTop="10dp" />
+
+    <ImageView
+        android:id="@+id/detailIcon"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dip"
+        android:src="@drawable/icon_cell_detail" />
+
+    <TextView
+        android:id="@+id/textLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_toLeftOf="@+id/detailIcon"
+        android:layout_toRightOf="@+id/iconView"
+        android:gravity="center_vertical"
+        android:text="test"
+        android:textSize="14sp" >
+    </TextView>
+
+</com.baiduvolunteer.view.SettingCell>

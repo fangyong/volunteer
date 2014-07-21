@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="#ffffffff">
+    android:layout_height="match_parent"
+    android:background="#ffffffff" >
 
     <LinearLayout
         android:id="@+id/searchContainer"
@@ -17,7 +18,8 @@
             android:id="@+id/typeSelector"
             android:layout_width="100dip"
             android:layout_height="44dip"
-            android:spinnerMode="dialog" />
+            android:spinnerMode="dialog"
+            android:visibility="gone" />
 
         <EditText
             android:id="@+id/search"
@@ -27,6 +29,7 @@
             android:background="#00000000"
             android:drawableLeft="@drawable/icon_search"
             android:hint="请输入活动名称"
+            android:imeOptions="actionSearch"
             android:paddingBottom="4dp"
             android:paddingLeft="10dip"
             android:paddingRight="5dip"

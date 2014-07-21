@@ -63,7 +63,7 @@
                     android:layout_height="100dip"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/default_icon" />
+                    android:src="@drawable/ic_launcher" />
 
                 <TextView
                     android:id="@+id/activityTitle"
@@ -177,22 +177,21 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/activityTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="活动介绍"
-                android:textStyle="bold" >
+                android:text="活动介绍" android:textStyle="bold">
             </TextView>
 
             <TextView
                 android:id="@+id/activityIntro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="57dp"
                 android:layout_marginTop="10dp"
-                android:maxLines="100"
+                android:lines="100"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="测试测试测试测试测试测试测试测试测试测试测试测试测试" >
