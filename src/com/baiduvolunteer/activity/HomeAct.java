@@ -100,9 +100,9 @@ public class HomeAct extends Activity {
 								@Override
 								public void run() {
 									try {
-										Toast.makeText(HomeAct.this, arg0,
-												Toast.LENGTH_LONG).show();
-										;
+										// Toast.makeText(HomeAct.this, arg0,
+										// Toast.LENGTH_LONG).show();
+										// ;
 										JSONObject userinfo = new JSONObject(
 												arg0);
 										String uid = userinfo.optString("uid");

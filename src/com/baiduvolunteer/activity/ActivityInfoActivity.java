@@ -102,47 +102,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 									activity = activity.optJSONObject("result");
 									activity = activity
 											.optJSONObject("activity");
-									activityInfo.activityID = activity
-											.optString("activityId",
-													activityInfo.activityID);
-									activityInfo.title = activity
-											.getString("actName");
-									if (activity.optInt("isLine") == 1)
-										activityInfo.isLine = true;
-									else
-										activityInfo.isLine = false;
-									if (activity.optInt("collection") == 1)
-										activityInfo.addedToFav = true;
-									else
-										activityInfo.addedToFav = false;
-									activityInfo.publishType = activity
-											.getString("publishType");
-									activityInfo.contactPhone = activity
-											.optString("contactPhone");
-									activityInfo.startTime = new Date(
-											Long.parseLong(activity
-													.getString("serviceOpenTime")));
-									activityInfo.endTime = new Date(
-											Long.parseLong(activity
-													.getString("serviceOverTime")));
-									activityInfo.publisher = activity
-											.getString("publisher");
-									activityInfo.description = activity
-											.optString("activityDes");
-									activityInfo.iconUrl = activity
-											.getString("logo");
-									activityInfo.distance = activity
-											.optString("distance");
-									activityInfo.address = activity
-											.optString("serviceAdress");
-									activityInfo.currentCount = activity
-											.optInt("apply");
-									activityInfo.totalCount = activity
-											.optInt("recruitment");
-									activityInfo.description = activity
-											.optString("activityDes");
-									activityInfo.field = activity
-											.optString("field");
+									activityInfo.loadFromJson(activity);
 									locationCell.textLabel
 											.setText(activityInfo.address);
 									activityTime.setText(sdf
