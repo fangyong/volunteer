@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.BaseRequest;
+import com.baiduvolunteer.http.JointActivityRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetActivityInfoRequest;
 import com.baiduvolunteer.model.ActivityInfo;
@@ -203,7 +204,20 @@ public class ActivityInfoActivity extends BaseActivity implements
 									}
 								}).show();
 			} else {
+				new JointActivityRequest().setVuid(User.sharedUser().vuid)
+						.setActivityId(activityInfo.activityID)
+						.setHandler(new ResponseHandler() {
 
+							@Override
+							public void handleResponse(BaseRequest request,
+									int statusCode, String errorMsg,
+									String response) {
+//								Toast.makeText(ActivityInfoActivity.this,
+//										response, Toast.LENGTH_LONG).show();
+								Log.i("joint test request", response);
+							}
+						}).start();
+				;
 				Toast.makeText(this, "已提交报名请求", Toast.LENGTH_LONG).show();
 				attendButton.setEnabled(false);
 			}
