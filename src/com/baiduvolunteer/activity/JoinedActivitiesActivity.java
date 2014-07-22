@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.baiduvolunteer.R;
+import com.baiduvolunteer.adapter.JoinActivityAdapter;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.GetActivitiesListRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
@@ -51,41 +52,42 @@ public class JoinedActivitiesActivity extends BaseActivity {
 
 		eventsList = (ListView) findViewById(R.id.eventsList);
 
-		mAdapter = new ArrayAdapter<ActivityInfo>(this, 0) {
+		// mAdapter = new ArrayAdapter<ActivityInfo>(this, 0) {
+		// @Override
+		// public int getCount() {
+		// // TODO Auto-generated method stub
+		// return 1;
+		// }
+		//
+		// @Override
+		// public View getView(int position, View convertView, ViewGroup parent)
+		// {
+		// if (convertView == null) {
+		// ActivityListCellHolder holder = ActivityListCellHolder
+		// .create(getContext());
+		// convertView = holder.container;
+		// convertView.setTag(holder);
+		// }
+		// ActivityListCellHolder holder = (ActivityListCellHolder) convertView
+		// .getTag();
+		// holder.favIcon.setVisibility(View.INVISIBLE);
+		// return convertView;
+		// }
+		// };
+
+		// eventsList.setAdapter(mAdapter);
+		//
+		eventsList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public int getCount() {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				// TODO Auto-generated method stub
-				return 1;
+				Intent intent = new Intent(JoinedActivitiesActivity.this,
+						ActivityInfoActivity.class);
+				intent.putExtra("activity", activityInfoList.get(position));
+				startActivity(intent);
 			}
-
-			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				if (convertView == null) {
-					ActivityListCellHolder holder = ActivityListCellHolder
-							.create(getContext());
-					convertView = holder.container;
-					convertView.setTag(holder);
-				}
-				ActivityListCellHolder holder = (ActivityListCellHolder) convertView
-						.getTag();
-				holder.favIcon.setVisibility(View.INVISIBLE);
-				return convertView;
-			}
-		};
-
-//		eventsList.setAdapter(mAdapter);
-//
-//		eventsList.setOnItemClickListener(new OnItemClickListener() {
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view,
-//					int position, long id) {
-//				// TODO Auto-generated method stub
-//				Intent intent = new Intent(JoinedActivitiesActivity.this,
-//						ActivityInfoActivity.class);
-//				intent.putExtra("joined", true);
-//				startActivity(intent);
-//			}
-//		});
+		});
 
 		new getJoinedActivityListRequest().setvUid(User.sharedUser().vuid)
 				.setHandler(new ResponseHandler() {
@@ -145,6 +147,10 @@ public class JoinedActivitiesActivity extends BaseActivity {
 								activityInfo.field = activity
 										.optString("field");
 								activityInfoList.add(activityInfo);
+
+								eventsList.setAdapter(new JoinActivityAdapter(
+										JoinedActivitiesActivity.this,
+										activityInfoList));
 							}
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block

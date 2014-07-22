@@ -204,6 +204,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 									}
 								}).show();
 			} else {
+				attendButton.setEnabled(false);
 				new JointActivityRequest().setVuid(User.sharedUser().vuid)
 						.setActivityId(activityInfo.activityID)
 						.setHandler(new ResponseHandler() {
@@ -212,14 +213,16 @@ public class ActivityInfoActivity extends BaseActivity implements
 							public void handleResponse(BaseRequest request,
 									int statusCode, String errorMsg,
 									String response) {
-//								Toast.makeText(ActivityInfoActivity.this,
-//										response, Toast.LENGTH_LONG).show();
-								Log.i("joint test request", response);
+								// Toast.makeText(ActivityInfoActivity.this,
+								// response, Toast.LENGTH_LONG).show();
+								attendButton.setEnabled(true);
+								Toast.makeText(ActivityInfoActivity.this,
+										"已提交报名请求", Toast.LENGTH_LONG).show();
 							}
 						}).start();
 				;
-				Toast.makeText(this, "已提交报名请求", Toast.LENGTH_LONG).show();
-				attendButton.setEnabled(false);
+				// Toast.makeText(this, "已提交报名请求", Toast.LENGTH_LONG).show();
+
 			}
 
 		}
