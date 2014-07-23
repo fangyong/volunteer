@@ -52,19 +52,24 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/avatar_rl"
         android:layout_alignRight="@+id/rightIcon"
+        android:background="@drawable/gary_c_bg"
+        android:paddingBottom="1dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="1dp"
         android:text="&lt; 500m"
-        android:textSize="11sp" />
+        android:textColor="@color/gary"
+        android:textSize="@dimen/text_size_14" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/avatar_rl"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/avatar_rl"
         android:layout_marginBottom="-5dip"
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:layout_marginTop="-5dip"
-        android:layout_toLeftOf="@+id/rightIcon"
+        android:layout_toLeftOf="@+id/distLabel"
         android:layout_toRightOf="@+id/avatar_rl"
         android:orientation="vertical" >
 
@@ -72,16 +77,16 @@
             android:id="@+id/titleLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="西南小学教师志愿者活动"
-            android:textSize="14sp"
+            android:text="西南小学教师志愿者"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_20"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal" >
 
             <ImageView
@@ -94,16 +99,17 @@
                 android:id="@+id/timeLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
                 android:text="07-12 11:00 - 07-20 16:00"
-                android:textSize="12sp" >
+                android:textColor="@color/light_gary"
+                android:textSize="@dimen/text_size_14" >
             </TextView>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal" >
 
             <ImageView
@@ -116,9 +122,10 @@
                 android:id="@+id/locationLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
+                android:layout_gravity="center_vertical"
                 android:text="北京市海淀区海淀中街13号"
-                android:textSize="10sp" >
+                android:textColor="@color/light_gary"
+                android:textSize="@dimen/text_size_14" >
             </TextView>
         </LinearLayout>
     </LinearLayout>
