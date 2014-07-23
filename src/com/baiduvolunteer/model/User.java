@@ -60,7 +60,7 @@ public class User implements Serializable {
 					public void handleResponse(BaseRequest request,
 							int statusCode, String errorMsg, String response) {
 						// TODO Auto-generated method stub
-						Log.d("test", "all info:"+response);
+						Log.d("test", "all info:" + response);
 						try {
 							JSONObject resultObj = new JSONObject(response);
 							if (resultObj != null)
@@ -70,7 +70,12 @@ public class User implements Serializable {
 							phoneNumber = resultObj.optString("phone");
 							province = Integer.valueOf(resultObj
 									.optString("province"));
-							gender = Integer.valueOf(resultObj.optString("sex"));
+							try {
+								gender = Integer.valueOf(resultObj
+										.optString("sex"));
+							} catch (Exception e) {
+								//do something
+							}
 							save();
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
@@ -107,6 +112,6 @@ public class User implements Serializable {
 	public Date registerTime;// 注册时间
 	public String phoneNumber;// 手机号
 
-	public String buid;//百度用户id
+	public String buid;// 百度用户id
 
 }
