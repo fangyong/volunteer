@@ -2,6 +2,8 @@ package com.baiduvolunteer.model;
 
 import java.io.Serializable;
 
+import org.json.JSONObject;
+
 public class Publisher implements Serializable {
 
 	/**
@@ -24,6 +26,14 @@ public class Publisher implements Serializable {
 	public String linkPhone;// 联系方式
 
 	public String field;//
-	
-	public String pid;//id
+
+	public String pid;// id
+
+	public int numberOfActivities;
+
+	public int memberNumber;
+
+	public static Publisher createFromJson(JSONObject obj) {
+		return new Publisher();
+	}
 }

@@ -56,6 +56,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 						public void handleResponse(BaseRequest request,
 								int statusCode, String errorMsg, String response) {
 							// TODO Auto-generated method stub
+							Log.d("test","result: "+response);
 							if (statusCode == 200 && response != null) {
 								try {
 									JSONObject result = new JSONObject(response);

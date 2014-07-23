@@ -10,14 +10,21 @@
         android:layout_height="50dp"
         android:background="#cccccc" >
 
-        <Button
+        <RelativeLayout
             android:id="@+id/backBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:background="@drawable/icon_button_back" />
+             >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/icon_button_back" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/title"

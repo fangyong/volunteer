@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.model.ActivityInfo;
+import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -18,13 +19,11 @@ public class JoinActivityAdapter extends BaseAdapter {
 	private Activity activity;
 	private ArrayList<ActivityInfo> activityList;
 	private SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm");
-	private BitmapUtils bitmapUtils;
 
 	public JoinActivityAdapter(Activity activity,
 			ArrayList<ActivityInfo> activityList) {
 		this.activity = activity;
 		this.activityList = activityList;
-		bitmapUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
 	}
 
 	@Override
@@ -59,7 +58,7 @@ public class JoinActivityAdapter extends BaseAdapter {
 				+ sdf.format(activityInfo.endTime));
 		holder.distLabel.setText(activityInfo.distance + "m");
 		holder.favIcon.setTag(Integer.valueOf(position));
-		bitmapUtils.display(holder.imageView, activityInfo.iconUrl);
+		ViewUtils.bmUtils.display(holder.imageView, activityInfo.iconUrl);
 		holder.favIcon.setVisibility(View.INVISIBLE);
 		return convertView;
 	}

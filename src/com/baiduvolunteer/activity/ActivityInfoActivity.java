@@ -1,7 +1,6 @@
 package com.baiduvolunteer.activity;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,9 +20,9 @@ import android.widget.Toast;
 
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.BaseRequest;
-import com.baiduvolunteer.http.JointActivityRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetActivityInfoRequest;
+import com.baiduvolunteer.http.JointActivityRequest;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
@@ -45,7 +44,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm");
 
-	private Button backButton;
+	private View backButton;
 	private Button attendButton;
 
 	private ActivityInfo activityInfo;
@@ -62,16 +61,16 @@ public class ActivityInfoActivity extends BaseActivity implements
 		organizerCell = (ListViewCell) findViewById(R.id.organizerCell);
 		// infoCell = (ListViewCell) findViewById(R.id.infoContainer);
 		locationCell.iconView.setImageResource(R.drawable.icon_info_location);
-		organizerCell.textLabel.setText("北大青年志愿者协会");
+//		organizerCell.textLabel.setText("北大青年志愿者协会");
 		organizerCell.iconView
 				.setImageResource(R.drawable.icon_info_organization);
 		contactCell = (ListViewCell) findViewById(R.id.contactCell);
 		contactCell.iconView.setImageResource(R.drawable.icon_info_call);
-		contactCell.textLabel.setText("18201506318");
+//		contactCell.textLabel.setText("18201506318");
 
 		contactCell.setOnClickListener(this);
 		organizerCell.setOnClickListener(this);
-		backButton = (Button) findViewById(R.id.backBtn);
+		backButton = findViewById(R.id.backBtn);
 		backButton.setOnClickListener(this);
 		attendButton = (Button) findViewById(R.id.joinButton);
 		attendButton.setOnClickListener(this);
@@ -213,6 +212,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 							public void handleResponse(BaseRequest request,
 									int statusCode, String errorMsg,
 									String response) {
+								Log.d("test", "join response" + response);
 								// Toast.makeText(ActivityInfoActivity.this,
 								// response, Toast.LENGTH_LONG).show();
 								attendButton.setEnabled(true);

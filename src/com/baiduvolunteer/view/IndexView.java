@@ -87,6 +87,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		mLocationClient = new LocationClient(getContext());
 		mLocationClient.registerLocationListener(myListener);
 		LocationClientOption option = new LocationClientOption();
+		option.setNeedDeviceDirect(true);
 		option.setOpenGps(true);// 打开gps
 		option.setCoorType("bd09ll"); // 设置坐标类型
 		option.setScanSpan(1000);
@@ -106,10 +107,9 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			// map view 销毁后不在处理新接收的位置
 			if (location == null || mapView == null)
 				return;
-			mLocationClient.stop();
+			// mLocationClient.stop();
 			MyLocationData locData = new MyLocationData.Builder()
 					.accuracy(location.getRadius())
-					// 此处设置开发者获取到的方向信息，顺时针0-360
 					.direction(location.getDirection())
 					.latitude(location.getLatitude())
 					.longitude(location.getLongitude()).build();
@@ -120,10 +120,10 @@ public class IndexView extends LinearLayout implements OnClickListener {
 						location.getLongitude());
 				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
 				map.animateMapStatus(u);
-				OverlayOptions oo = new MarkerOptions().position(ll).icon(
-						BitmapDescriptorFactory
-								.fromResource(R.drawable.icon_marka));
-				map.addOverlay(oo);
+				// OverlayOptions oo = new MarkerOptions().position(ll).icon(
+				// BitmapDescriptorFactory
+				// .fromResource(R.drawable.icon_marka));
+				// map.addOverlay(oo);
 			}
 
 		}
@@ -134,13 +134,15 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	}
 
 	public void onResume() {
-		Log.d("test", "onResume");
+		if (mapView != null)
+			mapView.onResume();
 		if (mLocationClient != null)
 			mLocationClient.start();
 	}
 
 	public void onPause() {
-		Log.d("test", "onPause");
+		if (mapView != null)
+			mapView.onPause();
 		if (mLocationClient != null)
 			mLocationClient.stop();
 	}
@@ -246,11 +248,13 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		searchField = (EditText) findViewById(R.id.search);
 		searchField.setOnClickListener(this);
 		searchField.setOnEditorActionListener(new OnEditorActionListener() {
-			
+
 			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if(event.getKeyCode()==KeyEvent.KEYCODE_ENTER){
-					InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+					InputMethodManager imm = (InputMethodManager) getContext()
+							.getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 					return true;
 				}
@@ -278,9 +282,9 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-//		if(v == searchField){
-//			Intent intent = new Intent(getContext(), SearchActivity.class);
-//			getContext().startActivity(intent);
-//		}
+		// if(v == searchField){
+		// Intent intent = new Intent(getContext(), SearchActivity.class);
+		// getContext().startActivity(intent);
+		// }
 	}
 }

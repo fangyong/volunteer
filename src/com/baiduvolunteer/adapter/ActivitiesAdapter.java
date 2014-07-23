@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import android.app.Activity;
-import android.text.format.DateFormat;
+import android.app.ProgressDialog;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -13,7 +14,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.baiduvolunteer.R;
+import com.baiduvolunteer.http.AddFavRequest;
+import com.baiduvolunteer.http.AddFavRequest.AddFavType;
+import com.baiduvolunteer.http.BaseRequest;
+import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.model.ActivityInfo;
+import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -21,17 +27,18 @@ public class ActivitiesAdapter extends BaseAdapter {
 
 	private Activity activity;
 	private ArrayList<ActivityInfo> activitiesList;
-	private int[] favStates;
-	private SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm");
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.dd h:mm");
 	private BitmapUtils bitmapUtils;
+	private ProgressDialog mPd;
 
 	public ActivitiesAdapter(Activity activity, ArrayList<ActivityInfo> list) {
 		this.activity = activity;
 		this.activitiesList = list;
-		favStates = new int[list.size()];
 		bitmapUtils = new BitmapUtils(activity);
 		bitmapUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
-		Arrays.fill(favStates, 0);
+		mPd = new ProgressDialog(activity);
+		mPd.setCancelable(false);
+		mPd.setIndeterminate(true);
 	}
 
 	@Override
@@ -76,12 +83,43 @@ public class ActivitiesAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				Integer pos = (Integer) arg0.getTag();
-				favStates[pos] ^= 1;
-				((ImageView) arg0)
-						.setImageResource(favStates[pos] == 0 ? R.drawable.icon_fav
-								: R.drawable.icon_fav_sel);
+				final ActivityInfo info = activitiesList.get(pos);
+				mPd.show();
+				if (!info.addedToFav)
+					new AddFavRequest()
+							.setAddType(AddFavType.AddFavTypeActivity)
+							.setId(info.activityID)
+							.setHandler(new ResponseHandler() {
+
+								@Override
+								public void handleResponse(BaseRequest request,
+										int statusCode, String errorMsg,
+										String response) {
+									// TODO Auto-generated method stub
+									Log.d("test", "add fav result " + response);
+									if (statusCode == 200) {
+										info.addedToFav = true;
+										ViewUtils
+												.runInMainThread(new Runnable() {
+
+													@Override
+													public void run() {
+														mPd.dismiss();
+														// TODO Auto-generated
+														// method stub
+														notifyDataSetChanged();
+													}
+												});
+									}
+
+								}
+							}).start();
+				else {
+					// TODO add request and server api
+				}
 			}
 		});
 		return convertView;
 	}
+
 }

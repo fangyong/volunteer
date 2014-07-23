@@ -42,7 +42,7 @@ public class ViewUtils {
 		bmUtils.configDiskCacheEnabled(true);
 		bmUtils.configDefaultLoadingImage(R.drawable.default_icon);
 		bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
-//		bmUtils.configDefaultBitmapConfig(Config.ARGB_8888);
+		// bmUtils.configDefaultBitmapConfig(Config.ARGB_8888);
 	}
 
 	public static int rp(double d) {
@@ -202,12 +202,14 @@ public class ViewUtils {
 		}
 	}
 
-	public static void showToast(final CharSequence message, final int timeMillis) {
+	public static void showToast(final CharSequence message,
+			final int timeMillis) {
 		runInMainThread(new Runnable() {
 
 			@Override
 			public void run() {
-				Toast.makeText(mContext, message, timeMillis).show();;
+				Toast.makeText(mContext, message, timeMillis).show();
+				;
 			}
 		});
 	}
@@ -216,19 +218,34 @@ public class ViewUtils {
 		return mContext;
 	}
 
-//	public static void login() {
-//		if (mContext == null)
-//			return;
-//		Intent intent = new Intent(mContext, LoginActivity.class);
-//		intent.putExtra(BaseActivity.IntentKeyFragmentClass,
-//				LoginFragment.class);
-//		intent.putExtra(BaseActivity.IntentKeyHasTitle, true);
-//		intent.putExtra(BaseActivity.IntentKeyFullScreen, true);
-//		intent.putExtra(BaseActivity.IntentKeyBlockBackButton, true);
-//		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-//				| Intent.FLAG_ACTIVITY_CLEAR_TOP
-//				| Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//		mContext.startActivity(intent);
-//	}
+	// public static void login() {
+	// if (mContext == null)
+	// return;
+	// Intent intent = new Intent(mContext, LoginActivity.class);
+	// intent.putExtra(BaseActivity.IntentKeyFragmentClass,
+	// LoginFragment.class);
+	// intent.putExtra(BaseActivity.IntentKeyHasTitle, true);
+	// intent.putExtra(BaseActivity.IntentKeyFullScreen, true);
+	// intent.putExtra(BaseActivity.IntentKeyBlockBackButton, true);
+	// intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
+	// | Intent.FLAG_ACTIVITY_CLEAR_TOP
+	// | Intent.FLAG_ACTIVITY_NEW_TASK);
+	//
+	// mContext.startActivity(intent);
+	// }
+
+	public static String toUnicode(String str) {
+		char[] arChar = str.toCharArray();
+		int iValue = 0;
+		String uStr = "";
+		for (int i = 0; i < arChar.length; i++) {
+			iValue = (int) str.charAt(i);
+			if (iValue <= 256) {
+				uStr += "\\" + Integer.toHexString(iValue);
+			} else {
+				uStr += "\\u" + Integer.toHexString(iValue);
+			}
+		}
+		return uStr;
+	}
 }

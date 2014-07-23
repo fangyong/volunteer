@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dip"
-    android:background="#ffffffff" >
+    android:layout_height="wrap_content"
+    android:background="#ffffffff"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp" >
 
     <RelativeLayout
         android:id="@+id/avatar_rl"
@@ -10,9 +12,7 @@
         android:layout_height="70dip"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginBottom="15dip"
-        android:layout_marginLeft="15dip"
-        android:layout_marginTop="15dip" >
+        android:layout_marginLeft="15dip" >
 
         <ImageView
             android:id="@+id/imageView"
@@ -71,7 +71,7 @@
         <TextView
             android:id="@+id/titleLabel"
             android:layout_width="wrap_content"
-            android:layout_height="0dip"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="西南小学教师志愿者活动"
@@ -80,7 +80,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal" >
 
@@ -93,7 +93,7 @@
             <TextView
                 android:id="@+id/timeLabel"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="07-12 11:00 - 07-20 16:00"
                 android:textSize="12sp" >
@@ -102,7 +102,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal" >
 
@@ -115,7 +115,7 @@
             <TextView
                 android:id="@+id/locationLabel"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:text="北京市海淀区海淀中街13号"
                 android:textSize="10sp" >

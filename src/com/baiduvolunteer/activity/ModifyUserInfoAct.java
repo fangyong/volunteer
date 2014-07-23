@@ -1,26 +1,31 @@
 package com.baiduvolunteer.activity;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.baiduvolunteer.R;
-import com.baiduvolunteer.adapter.PopupwindowListAdapter;
+import com.baiduvolunteer.http.BaseRequest;
+import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
+import com.baiduvolunteer.http.UpdateUserInfoRequest;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.task.LoadProvinceListTask;
 import com.baiduvolunteer.view.MyPopupWindow;
@@ -43,14 +48,14 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 	private Spinner provinceSpinner;
 	private Spinner citySpinner;
 
-	private String id;
+	private String uname;
 	private String cityName;
 	private String districtName;
-	private String provinceId;
-	private String cityId;
+	private int provinceId;
+	private int cityId;
 	private String districtId;
 	private String street;
-	private String telephone;
+	private String phoneNumber;
 	private String addressee;
 	private String provinceName;
 	private int sex;
@@ -220,26 +225,63 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		} else if (otherTv == v) {
 			this.setSex(2);
 		} else if (saveButton == v) {
-			this.save();
-			this.finish();
+			if (validate()) {
+				this.save();
+				this.finish();
+			}
+
 		}
 	}
 
-	private void save() {
-		if (!unameEt.getText().toString().isEmpty())
-			User.sharedUser().uname = unameEt.getText().toString();
-		if (!telephoneEt.getText().toString().isEmpty()) {
-			User.sharedUser().phoneNumber = telephoneEt.getText().toString();
+	private boolean validate() {
+		if (unameEt.getText().toString().isEmpty()) {
+			Toast.makeText(this, "请输入用户名", Toast.LENGTH_LONG).show();
+			return false;
 		}
-		User.sharedUser().gender = sex;
+		Pattern p = Pattern.compile("^1\\d{10}$");
+		Matcher matcher = p.matcher(telephoneEt.getText().toString());
+
+		if (!matcher.matches()) {
+			Toast.makeText(this, "请输入11位手机号", Toast.LENGTH_LONG).show();
+			return false;
+		}
+		return true;
+
+	}
+
+	private void save() {
+
+		if (!unameEt.getText().toString().isEmpty())
+			uname = unameEt.getText().toString();
+		if (!telephoneEt.getText().toString().isEmpty()) {
+			phoneNumber = telephoneEt.getText().toString();
+		}
 		Node node = provinceList
 				.item(provinceSpinner.getSelectedItemPosition());
-		User.sharedUser().province = Integer.valueOf(node.getChildNodes()
-				.item(3).getTextContent());
-		node = cityList.item(citySpinner.getSelectedItemPosition());
-		User.sharedUser().city = Integer.valueOf(node.getChildNodes().item(3)
+		provinceId = Integer.valueOf(node.getChildNodes().item(3)
 				.getTextContent());
-		User.sharedUser().save();
+		node = cityList.item(citySpinner.getSelectedItemPosition());
+		cityId = Integer.valueOf(node.getChildNodes().item(3).getTextContent());
+		new UpdateUserInfoRequest().setCity("" + cityId)
+				.setProvince("" + provinceId)
+				.setNickName(unameEt.getText().toString())
+				.setPhone(phoneNumber).setSex(sex)
+				.setHandler(new ResponseHandler() {
+
+					@Override
+					public void handleResponse(BaseRequest request,
+							int statusCode, String errorMsg, String response) {
+						Log.d("test", "response:" + response);
+						// TODO Auto-generated method stub
+						User.sharedUser().city = cityId;
+						User.sharedUser().province = provinceId;
+						User.sharedUser().uname = uname;
+						User.sharedUser().phoneNumber = phoneNumber;
+						User.sharedUser().gender = sex;
+						User.sharedUser().save();
+					}
+				}).start();
+
 	}
 
 	private void setSex(int sex) {

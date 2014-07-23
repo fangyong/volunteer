@@ -1,11 +1,16 @@
 package com.baiduvolunteer.activity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import android.R.color;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -17,8 +22,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.baiduvolunteer.R;
+import com.baiduvolunteer.http.BaseRequest;
+import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
+import com.baiduvolunteer.http.GetActivityCollectionListRequest;
+import com.baiduvolunteer.http.GetPublisherCollectionsRequest;
+import com.baiduvolunteer.http.MD5;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.Publisher;
+import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
 import com.baiduvolunteer.view.PublisherListCellHolder;
 
@@ -30,8 +41,9 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 	private View indicator1;
 	private View indicator2;
 	private ListView favList;
-	private ArrayList<Publisher> publishers;
-	private ArrayList<ActivityInfo> activities;
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+	private ArrayList<Publisher> publishers = new ArrayList<Publisher>();
+	private ArrayList<ActivityInfo> activities = new ArrayList<ActivityInfo>();
 	private ArrayAdapter<Object> mAdapter;
 
 	private int selectIndex = 0;
@@ -60,22 +72,113 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 			@Override
 			public int getCount() {
 				// TODO Auto-generated method stub
-				return selectIndex == 0 ? 5 : 1;
+				return selectIndex == 0 ? activities.size() : publishers.size();
 			}
 
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				// TODO Auto-generated method stub
 				if (selectIndex == 0) {
+					ActivityInfo info = activities.get(position);
 					ActivityListCellHolder holder = ActivityListCellHolder
 							.create(getContext());
 					holder.favIcon.setVisibility(View.INVISIBLE);
+					holder.titleLabel.setText(info.title);
+					holder.timeLabel.setText(sdf.format(info.startTime) + "-"
+							+ sdf.format(info.endTime));
+					holder.locationLabel.setText(info.address);
 					return holder.container;
 				} else {
-					return PublisherListCellHolder.create(getContext()).container;
+					Publisher publisher = publishers.get(position);
+					PublisherListCellHolder holder = PublisherListCellHolder
+							.create(getContext());
+					holder.titleLabel.setText(publisher.publishName);
+					holder.activitiesLabel.setText(String.format("发起%d个活动",
+							publisher.numberOfActivities));
+					holder.membersLabel.setText(String.format("共%d个人参加",
+							publisher.memberNumber));
+					return holder.container;
 				}
 			}
 		};
+
+		new GetActivityCollectionListRequest().setHandler(
+				new ResponseHandler() {
+
+					@Override
+					public void handleResponse(BaseRequest request,
+							int statusCode, String errorMsg, String response) {
+						// TODO Auto-generated method stub
+						Log.d("test", "get fav list 1 :" + response);
+						try {
+							JSONObject resultObj = new JSONObject(response);
+							resultObj = resultObj.optJSONObject("result");
+							if (resultObj == null)
+								return;
+							JSONArray array = resultObj
+									.optJSONArray("activities");
+							activities.clear();
+							for (int i = 0; i < array.length(); i++) {
+								JSONObject obj = array.optJSONObject(i);
+								if (obj != null) {
+									ActivityInfo info = ActivityInfo
+											.createFromJson(obj);
+									activities.add(info);
+								}
+							}
+							ViewUtils.runInMainThread(new Runnable() {
+								
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									mAdapter.notifyDataSetChanged();
+								}
+							});
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}).start();
+		new GetPublisherCollectionsRequest().setHandler(new ResponseHandler() {
+
+			@Override
+			public void handleResponse(BaseRequest request, int statusCode,
+					String errorMsg, String response) {
+				// TODO Auto-generated method stub
+				Log.d("test", "get fav list 2: " + response);
+				try {
+					JSONObject resultObj = new JSONObject(response);
+					resultObj = resultObj.optJSONObject("result");
+					if (resultObj == null)
+						return;
+					JSONArray array = resultObj.optJSONArray("publishers");
+					if (array == null)
+						return;
+					publishers.clear();
+					for (int i = 0; i < array.length(); i++) {
+						JSONObject obj = array.optJSONObject(i);
+						if (obj == null)
+							continue;
+						Publisher publisher = Publisher.createFromJson(obj);
+						publishers.add(publisher);
+						ViewUtils.runInMainThread(new Runnable() {
+
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								mAdapter.notifyDataSetChanged();
+							}
+						});
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		}).start();
 		favList.setAdapter(mAdapter);
 		favList.setOnItemClickListener(new OnItemClickListener() {
 

@@ -27,6 +27,7 @@ import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetActivitiesListRequest;
 import com.baiduvolunteer.model.ActivityInfo;
+import com.baiduvolunteer.util.ViewUtils;
 
 public class ActivitiesView extends LinearLayout {
 
@@ -63,9 +64,7 @@ public class ActivitiesView extends LinearLayout {
 			public void handleResponse(BaseRequest request, int statusCode,
 					String errorMsg, String response) {
 				try {
-
-					Log.i("response test", response);
-
+					Log.d("test", "code" + statusCode + ",response " + response);
 					JSONObject ret = new JSONObject(response);
 					JSONArray activities = ret.optJSONObject("result")
 							.optJSONArray("activities");
@@ -107,6 +106,14 @@ public class ActivitiesView extends LinearLayout {
 								.optString("activityDes");
 						activityInfo.field = activity.optString("field");
 						activityInfoList.add(activityInfo);
+						ViewUtils.runInMainThread(new Runnable() {
+
+							@Override
+							public void run() {
+								// TODO Auto-generated method stub
+								mAdapter.notifyDataSetChanged();
+							}
+						});
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

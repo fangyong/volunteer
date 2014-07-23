@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
-import android.widget.Toast;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabWidget;
 import android.widget.TextView;
@@ -114,6 +113,7 @@ public class HomeAct extends Activity {
 											User.sharedUser().uname = uname;
 										}
 										User.sharedUser().save();
+
 										Log.d("test",
 												"user.name "
 														+ User.sharedUser().uname);
@@ -128,6 +128,7 @@ public class HomeAct extends Activity {
 															int statusCode,
 															String errorMsg,
 															String response) {
+														Log.d("test","getallinfo response "+response );
 														if (statusCode == 200) {
 															try {
 																JSONObject object = new JSONObject(
@@ -141,6 +142,8 @@ public class HomeAct extends Activity {
 																		User.sharedUser().vuid = uid;
 																		User.sharedUser()
 																				.save();
+																		User.sharedUser()
+																				.syncWithServer();
 																	}
 																}
 															} catch (JSONException e) {
