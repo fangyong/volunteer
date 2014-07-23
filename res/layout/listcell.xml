@@ -27,6 +27,8 @@
         android:layout_toLeftOf="@+id/detailIcon"
         android:layout_toRightOf="@+id/iconView"
         android:gravity="center_vertical"
+        android:textSize="@dimen/text_size_20"
+        android:textColor="@color/gary"
         android:text="test" >
     </TextView>
 
