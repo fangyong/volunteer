@@ -22,7 +22,7 @@ public class GetPublisherInfoRequest extends BaseRequest {
 	@Override
 	protected String method() {
 		// TODO Auto-generated method stub
-		return "getPublisher";
+		return "getGYXInstitution";
 	}
 
 	@Override

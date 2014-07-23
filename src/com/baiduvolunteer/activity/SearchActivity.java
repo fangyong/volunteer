@@ -196,6 +196,8 @@ public class SearchActivity extends Activity {
 				} else {
 					Intent intent = new Intent(SearchActivity.this,
 							PublisherAct.class);
+					Publisher publisher = publishers.get(position);
+					intent.putExtra("publisherId", publisher.pid);
 					startActivity(intent);
 				}
 			}

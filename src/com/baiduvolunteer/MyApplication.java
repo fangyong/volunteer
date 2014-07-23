@@ -1,6 +1,10 @@
 package com.baiduvolunteer;
 
+import java.lang.Thread.UncaughtExceptionHandler;
+
+import android.app.AlertDialog;
 import android.app.Application;
+import android.widget.Toast;
 
 import com.baidu.api.Baidu;
 import com.baidu.mapapi.SDKInitializer;
@@ -19,8 +23,17 @@ public class MyApplication extends Application {
 		ViewUtils.init(this);
 		instance = this;
 		User.sharedUser().load();
-		
-		
+		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+
+			@Override
+			public void uncaughtException(Thread thread, Throwable ex) {
+				// TODO Auto-generated method stub
+				Toast.makeText(instance, ex.getMessage(), Toast.LENGTH_LONG)
+						.show();
+
+			}
+		});
+
 	}
 
 	public void setBaidu(Baidu baidu) {

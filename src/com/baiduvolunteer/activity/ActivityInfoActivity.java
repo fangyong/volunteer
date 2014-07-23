@@ -61,12 +61,12 @@ public class ActivityInfoActivity extends BaseActivity implements
 		organizerCell = (ListViewCell) findViewById(R.id.organizerCell);
 		// infoCell = (ListViewCell) findViewById(R.id.infoContainer);
 		locationCell.iconView.setImageResource(R.drawable.icon_info_location);
-//		organizerCell.textLabel.setText("北大青年志愿者协会");
+		// organizerCell.textLabel.setText("北大青年志愿者协会");
 		organizerCell.iconView
 				.setImageResource(R.drawable.icon_info_organization);
 		contactCell = (ListViewCell) findViewById(R.id.contactCell);
 		contactCell.iconView.setImageResource(R.drawable.icon_info_call);
-//		contactCell.textLabel.setText("18201506318");
+		// contactCell.textLabel.setText("18201506318");
 
 		contactCell.setOnClickListener(this);
 		organizerCell.setOnClickListener(this);
@@ -170,7 +170,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 							}).show();
 		} else if (v == organizerCell) {
 			Intent intent = new Intent(this, PublisherAct.class);
-			intent.putExtra("publisherId", activityInfo.activityID);
+			intent.putExtra("publisherId", activityInfo.organizerID);
 			this.startActivity(intent);
 		} else if (v == backButton) {
 			this.finish();

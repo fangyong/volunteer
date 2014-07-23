@@ -42,7 +42,8 @@ public class PublisherAct extends Activity implements OnClickListener {
 		titleLabel = (TextView) findViewById(R.id.titleLabel);
 		sloganLabel = (TextView) findViewById(R.id.sloganLabel);
 		createTimeLabel = (TextView) findViewById(R.id.createTimeLabel);
-		membersLabel = (TextView) findViewById(R.id.locationLabel);
+		locationLabel = (TextView) findViewById(R.id.locationLabel);
+		membersLabel = (TextView) findViewById(R.id.membersLabel);
 		contactLabel = (TextView) findViewById(R.id.contactLabel);
 		phoneLabel = (TextView) findViewById(R.id.phoneLabel);
 		String publisherId = getIntent().getStringExtra("publisherId");
@@ -56,7 +57,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 						public void handleResponse(BaseRequest request,
 								int statusCode, String errorMsg, String response) {
 							// TODO Auto-generated method stub
-							Log.d("test","result: "+response);
+							Log.d("test", "result: " + response);
 							if (statusCode == 200 && response != null) {
 								try {
 									JSONObject result = new JSONObject(response);
@@ -64,26 +65,11 @@ public class PublisherAct extends Activity implements OnClickListener {
 											.optJSONObject("result");
 									if (publisherDict != null) {
 										publisherDict = publisherDict
-												.optJSONObject("publisher");
+												.optJSONObject("institution");
 									}
 									if (publisherDict != null) {
-										publisher = new Publisher();
-										publisher.publishName = publisherDict
-												.optString("publishName");
-										publisher.field = publisherDict
-												.optString("field");
-										publisher.linkPhone = publisherDict
-												.optString("linkPhone");
-										publisher.linkUser = publisherDict
-												.optString("linkUser");
-										publisher.logoUrl = publisherDict
-												.optString("logoUrl");
-										publisher.mission = publisherDict
-												.optString("mission");
-										publisher.setUpTime = publisherDict
-												.optString("setupTime");
-										publisher.size = publisherDict
-												.optString("size");
+										publisher = Publisher
+												.createFromJson(publisherDict);
 										updateInfo();
 									}
 								} catch (JSONException e) {
@@ -109,8 +95,8 @@ public class PublisherAct extends Activity implements OnClickListener {
 				titleLabel.setText(publisher.publishName);
 				sloganLabel.setText(publisher.mission);
 				createTimeLabel.setText(publisher.setUpTime);
-				membersLabel.setText(publisher.size);
-				// locationLabel.setText(publisher.);
+				membersLabel.setText("" + publisher.memberNumber);
+				locationLabel.setText(publisher.address);
 				contactLabel.setText(publisher.linkUser);
 				phoneLabel.setText(publisher.linkPhone);
 			}

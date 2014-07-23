@@ -68,12 +68,15 @@ public class UserCenterView extends LinearLayout {
 			public void handleResponse(BaseRequest request, int statusCode,
 					String errorMsg, final String response) {
 				// TODO Auto-generated method stub
-				Log.d("test", "getInfo request " + response);
+				Log.d("test", "getInfo request status " + statusCode
+						+ " response " + response);
 				ViewUtils.runInMainThread(new Runnable() {
 
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
+						if (response == null)
+							return;
 						try {
 							JSONObject obj = new JSONObject(response);
 							if (obj != null)

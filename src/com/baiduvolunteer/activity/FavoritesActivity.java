@@ -127,7 +127,7 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 								}
 							}
 							ViewUtils.runInMainThread(new Runnable() {
-								
+
 								@Override
 								public void run() {
 									// TODO Auto-generated method stub
@@ -186,12 +186,16 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if (selectIndex == 0) {
+					ActivityInfo info = activities.get(position);
 					Intent intent = new Intent(FavoritesActivity.this,
 							ActivityInfoActivity.class);
+					intent.putExtra("activity", info);
 					startActivity(intent);
 				} else {
+					Publisher publisher = publishers.get(position);
 					Intent intent = new Intent(FavoritesActivity.this,
 							PublisherAct.class);
+					intent.putExtra("publisherId", publisher.pid);
 					startActivity(intent);
 				}
 

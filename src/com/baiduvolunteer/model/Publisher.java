@@ -33,7 +33,44 @@ public class Publisher implements Serializable {
 
 	public int memberNumber;
 
+	public String address;
+
+	public int city;
+
+	public int province;
+
+	public void loadFromJson(JSONObject obj) {
+		address = obj.optString("adress");
+		try {
+			city = Integer.valueOf(obj.optString("city"));
+		} catch (Exception e) {
+			// TODO: handle exception
+			city = 0;
+		}
+		publishName = obj.optString("institutionsName");
+		logoUrl = "http://www.gongyixiang.com"
+				+ obj.optString("logourl", "/dend");
+		field = obj.optString("filed");
+		try {
+			province = Integer.valueOf(obj.optString("province"));
+		} catch (Exception e) {
+			province = 0;
+		}
+		mission = obj.optString("mission");
+		setUpTime = obj.optString("setUpTime");
+		try {
+			memberNumber = Integer.valueOf(obj.optString("size"));
+		} catch (Exception e) {
+			memberNumber = 0;
+		}
+		size = obj.optString("size");
+		linkPhone = obj.optString("contactPhone");
+		linkUser = obj.optString("publisherName");
+	}
+
 	public static Publisher createFromJson(JSONObject obj) {
-		return new Publisher();
+		Publisher publisher = new Publisher();
+		publisher.loadFromJson(obj);
+		return publisher;
 	}
 }

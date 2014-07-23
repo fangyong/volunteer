@@ -72,7 +72,7 @@ public class User implements Serializable {
 									.optString("province"));
 							gender = Integer.valueOf(resultObj.optString("sex"));
 							save();
-						} catch (JSONException e) {
+						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}

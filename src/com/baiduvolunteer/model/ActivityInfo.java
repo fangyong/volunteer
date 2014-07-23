@@ -56,19 +56,20 @@ public class ActivityInfo implements Serializable {
 				this.addedToFav = false;
 			this.publishType = activity.getString("publishType");
 			this.contactPhone = activity.optString("contactPhone");
-			this.startTime = new Date(Long.parseLong(activity
-					.getString("serviceOpenTime")));
-			this.endTime = new Date(Long.parseLong(activity
-					.getString("serviceOverTime")));
-			this.publisher = activity.getString("publisher");
+			this.publisher = activity.optString("publisher");
+			this.organizerID = activity.optString("publishId");
 			this.description = activity.optString("activityDes");
-			this.iconUrl = activity.getString("logo");
+			this.iconUrl = activity.optString("logo");
 			this.distance = activity.optString("distance");
 			this.address = activity.optString("serviceAdress");
 			this.currentCount = activity.optInt("apply");
 			this.totalCount = activity.optInt("recruitment");
 			this.description = activity.optString("activityDes");
 			this.field = activity.optString("field");
+			this.startTime = new Date(Long.parseLong(activity
+					.getString("serviceOpenTime")));
+			this.endTime = new Date(Long.parseLong(activity
+					.getString("serviceOverTime")));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -20,8 +20,7 @@
             android:gravity="center"
             android:text="更多"
             android:textColor="#ff000000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
 
         <View
             android:layout_width="match_parent"
@@ -120,7 +119,8 @@
             android:layout_gravity="center"
             android:drawableLeft="@drawable/icon_setting_logout"
             android:gravity="center"
-            android:text="    退出登录" />
+            android:text="    退出登录"
+            android:textColor="#000000" />
     </LinearLayout>
 
 </RelativeLayout>
