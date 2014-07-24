@@ -1,8 +1,10 @@
 package com.baiduvolunteer.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.baidu.api.Baidu;
 import com.baidu.api.BaiduDialog.BaiduDialogListener;
@@ -16,14 +18,14 @@ public class LoginAct extends Activity {
 
 	private Baidu baidu = null;
 
-	private boolean isForceLogin = false;
+	private boolean isForceLogin = true;
 
 	private boolean isConfirmLogin = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_login);
+		// setContentView(R.layout.activity_login);
 		isForceLogin = getIntent().getBooleanExtra("forceLogin", false);
 		baidu = new Baidu(clientId, LoginAct.this);
 		MyApplication.getApplication().setBaidu(baidu);
@@ -32,6 +34,7 @@ public class LoginAct extends Activity {
 
 					@Override
 					public void onComplete(Bundle values) {
+
 						Intent intent = new Intent(LoginAct.this, HomeAct.class);
 						intent.putExtra("baidu", baidu);
 						startActivity(intent);
@@ -50,18 +53,27 @@ public class LoginAct extends Activity {
 
 					@Override
 					public void onCancel() {
-						Intent intent = new Intent(LoginAct.this, HomeAct.class);
-						startActivity(intent);
-						finish();
+						// Intent intent = new Intent(LoginAct.this,
+						// HomeAct.class);
+						// startActivity(intent);
+						// finish();
 					}
 				});
-		
-		
 
 	}
 
 	@Override
 	public void onBackPressed() {
+
+	}
+	
+	class MyBaidu extends Baidu{
+
+		public MyBaidu(String clientId, Context context) {
+			super(clientId, context);
+			// TODO Auto-generated constructor stub
+		}
+		
 		
 	}
 }

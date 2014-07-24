@@ -9,6 +9,8 @@ public class GetActivitiesListRequest extends BaseRequest {
 	private String vUid;
 	private long startTimes;
 	private long endTimes;
+	private int size;
+	private long end;
 
 	public GetActivitiesListRequest setvUid(String vUid) {
 		this.vUid = vUid;
@@ -22,6 +24,16 @@ public class GetActivitiesListRequest extends BaseRequest {
 
 	public GetActivitiesListRequest setEndTimes(long endTimes) {
 		this.endTimes = endTimes;
+		return this;
+	}
+
+	public GetActivitiesListRequest setSize(int size) {
+		this.size = size;
+		return this;
+	}
+
+	public GetActivitiesListRequest setEnd(long end) {
+		this.end = end;
 		return this;
 	}
 
@@ -43,6 +55,8 @@ public class GetActivitiesListRequest extends BaseRequest {
 		if (vUid != null) {
 			map.put("vuid", vUid);
 		}
+		map.put("size", size + "");
+		map.put("end", end + "");
 		if (startTimes > 0)
 			map.put("starttimes", "" + startTimes);
 		if (endTimes > 0)

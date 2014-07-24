@@ -38,11 +38,11 @@
             android:paddingTop="4dp" />
     </LinearLayout>
 
-    <ListView
+    <com.baiduvolunteer.view.MyListView
         android:id="@+id/activityList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/searchFieldContainer" >
-    </ListView>
+    </com.baiduvolunteer.view.MyListView>
 
 </RelativeLayout>

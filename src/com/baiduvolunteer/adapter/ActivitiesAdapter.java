@@ -120,6 +120,15 @@ public class ActivitiesAdapter extends BaseAdapter {
 			}
 		});
 		return convertView;
+
+	}
+
+	public ArrayList<ActivityInfo> getActivitiesList() {
+		return activitiesList;
+	}
+
+	public void setActivitiesList(ArrayList<ActivityInfo> activitiesList) {
+		this.activitiesList = activitiesList;
 	}
 
 }
