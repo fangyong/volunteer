@@ -117,9 +117,6 @@ public class MyListView extends ListView implements OnScrollListener {
 
 		state = DONE;
 		isRefreshable = false;
-		View footerView = ((Activity) context).getLayoutInflater().inflate(
-				R.layout.item_foot, null);
-		addFooterView(footerView);
 	}
 
 	public void onScroll(AbsListView arg0, int firstVisibleItem,

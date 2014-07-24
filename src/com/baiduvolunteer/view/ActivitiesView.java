@@ -39,6 +39,7 @@ public class ActivitiesView extends LinearLayout {
 	private ActivitiesAdapter mAdapter;
 	private EditText searchField;
 	private int psize = 10;
+	private View footerView;
 
 	public ActivitiesView(Context context) {
 		super(context);
@@ -69,13 +70,15 @@ public class ActivitiesView extends LinearLayout {
 				// TODO Auto-generated method stub
 				activityInfoList = new ArrayList<ActivityInfo>();
 				loadData(System.currentTimeMillis());
+				if (activityListView.getFooterViewsCount() == 0)
+					activityListView.addFooterView(footerView);
 			}
 		});
 		activityListView.setOnLoadListener(new OnLoadListener() {
 
 			@Override
 			public void onLoad() {
-				long time = activityInfoList.get(0).createTime;
+				long time = activityInfoList.get(activityInfoList.size() - 1).createTime;
 				loadData(time);
 			}
 		});
@@ -83,6 +86,10 @@ public class ActivitiesView extends LinearLayout {
 		Activity activity = (Activity) getContext();
 		mAdapter = new ActivitiesAdapter(activity, activityInfoList);
 		activityListView.setAdapter(mAdapter);
+		footerView = ((Activity) getContext()).getLayoutInflater().inflate(
+				R.layout.item_foot, null);
+		if (activityListView.getFooterViewsCount() == 0)
+			activityListView.addFooterView(footerView);
 		activityListView.setDivider(getResources().getDrawable(
 				R.drawable.listviewdivider));
 		activityListView.setDividerHeight(4);
@@ -189,6 +196,9 @@ public class ActivitiesView extends LinearLayout {
 							} else {
 								Toast.makeText(getContext(), "已经到底了！",
 										Toast.LENGTH_LONG).show();
+								if (activityListView.getFooterViewsCount() > 0)
+									activityListView
+											.removeFooterView(footerView);
 							}
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
