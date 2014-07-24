@@ -65,16 +65,25 @@ public class User implements Serializable {
 							JSONObject resultObj = new JSONObject(response);
 							if (resultObj != null)
 								resultObj = resultObj.optJSONObject("result");
-							city = Integer.valueOf(resultObj.optString("city"));
+							try {
+								city = Integer.valueOf(resultObj
+										.optString("city"));
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
 							uname = resultObj.optString("nickname");
 							phoneNumber = resultObj.optString("phone");
-							province = Integer.valueOf(resultObj
-									.optString("province"));
+							try {
+								province = Integer.valueOf(resultObj
+										.optString("province"));
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
 							try {
 								gender = Integer.valueOf(resultObj
 										.optString("sex"));
 							} catch (Exception e) {
-								//do something
+								// do something
 							}
 							save();
 						} catch (Exception e) {

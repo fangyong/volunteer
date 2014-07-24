@@ -1,0 +1,1224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<citys name="地区">
+
+	<city value="0" name="不限" />
+
+	<city value="1" name="北京">
+		<pro value="0" name="北京" />
+		<pro value="1" name="东城" />
+		<pro value="2" name="西城" />
+		<pro value="3" name="朝阳" />
+		<pro value="4" name="丰台" />
+		<pro value="5" name="石景山" />
+		<pro value="6" name="海淀" />
+		<pro value="7" name="门头沟" />
+		<pro value="8" name="房山" />
+		<pro value="9" name="通州" />
+		<pro value="10" name="顺义" />
+		<pro value="11" name="昌平" />
+		<pro value="12" name="大兴" />
+		<pro value="13" name="怀柔" />
+		<pro value="14" name="平谷" />
+		<pro value="15" name="密云" />
+		<pro value="16" name="延庆" />
+		<pro value="99" name="其他" />
+	</city>
+
+	<city value="2" name="上海">
+
+		<pro value="0" name="上海" />
+
+		<pro value="1" name="黄浦" />
+
+		<pro value="2" name="卢湾" />
+
+		<pro value="3" name="徐汇" />
+
+		<pro value="4" name="长宁" />
+
+		<pro value="5" name="静安" />
+
+		<pro value="6" name="普陀" />
+
+		<pro value="7" name="闸北" />
+
+		<pro value="8" name="虹口" />
+
+		<pro value="9" name="杨浦" />
+
+		<pro value="10" name="宝山" />
+
+		<pro value="11" name="闵行" />
+
+		<pro value="12" name="嘉定" />
+
+		<pro value="13" name="浦东新区" />
+
+		<pro value="14" name="金山" />
+
+		<pro value="15" name="松江" />
+
+		<pro value="16" name="青浦" />
+
+		<pro value="17" name="南汇" />
+
+		<pro value="18" name="奉贤" />
+
+		<pro value="19" name="崇明" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="3" name="广东">
+
+		<pro value="0" name="广东" />
+
+		<pro value="1" name="广州" />
+
+		<pro value="2" name="深圳" />
+
+		<pro value="3" name="珠海" />
+
+		<pro value="4" name="汕头" />
+
+		<pro value="5" name="韶关" />
+
+		<pro value="6" name="佛山" />
+
+		<pro value="7" name="江门" />
+
+		<pro value="8" name="湛江" />
+
+		<pro value="9" name="茂名" />
+
+		<pro value="10" name="肇庆" />
+
+		<pro value="11" name="惠州" />
+
+		<pro value="12" name="梅州" />
+
+		<pro value="13" name="汕尾" />
+
+		<pro value="14" name="河源" />
+
+		<pro value="15" name="阳江" />
+
+		<pro value="16" name="清远" />
+
+		<pro value="17" name="东莞" />
+
+		<pro value="18" name="中山" />
+
+		<pro value="19" name="潮州" />
+
+		<pro value="20" name="揭阳" />
+
+		<pro value="21" name="云浮" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="4" name="江苏">
+
+		<pro value="0" name="江苏" />
+
+		<pro value="1" name="南京" />
+
+		<pro value="2" name="无锡" />
+
+		<pro value="3" name="徐州" />
+
+		<pro value="4" name="常州" />
+
+		<pro value="5" name="苏州" />
+
+		<pro value="6" name="南通" />
+
+		<pro value="7" name="连云港" />
+
+		<pro value="8" name="淮安" />
+
+		<pro value="9" name="盐城" />
+
+		<pro value="10" name="扬州" />
+
+		<pro value="11" name="镇江" />
+
+		<pro value="12" name="泰州" />
+
+		<pro value="13" name="宿迁" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="5" name="浙江">
+
+		<pro value="0" name="浙江" />
+
+		<pro value="1" name="杭州" />
+
+		<pro value="2" name="宁波" />
+
+		<pro value="3" name="温州" />
+
+		<pro value="4" name="嘉兴" />
+
+		<pro value="5" name="湖州" />
+
+		<pro value="6" name="绍兴" />
+
+		<pro value="7" name="金华" />
+
+		<pro value="8" name="衢州" />
+
+		<pro value="9" name="舟山" />
+
+		<pro value="10" name="台州" />
+
+		<pro value="11" name="丽水" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="6" name="四川">
+
+		<pro value="0" name="四川" />
+
+		<pro value="1" name="成都" />
+
+		<pro value="2" name="自贡" />
+
+		<pro value="3" name="攀枝花" />
+
+		<pro value="4" name="泸州" />
+
+		<pro value="5" name="德阳" />
+
+		<pro value="6" name="绵阳" />
+
+		<pro value="7" name="广元" />
+
+		<pro value="8" name="遂宁" />
+
+		<pro value="9" name="内江" />
+
+		<pro value="10" name="乐山" />
+
+		<pro value="11" name="南充" />
+
+		<pro value="12" name="宜宾" />
+
+		<pro value="13" name="广安" />
+
+		<pro value="14" name="达州" />
+
+		<pro value="15" name="眉山" />
+
+		<pro value="16" name="雅安" />
+
+		<pro value="17" name="巴中" />
+
+		<pro value="18" name="资阳" />
+
+		<pro value="19" name="阿坝" />
+
+		<pro value="20" name="甘孜" />
+
+		<pro value="21" name="凉山" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="7" name="云南">
+
+		<pro value="0" name="云南" />
+
+		<pro value="1" name="昆明" />
+
+		<pro value="2" name="曲靖" />
+
+		<pro value="3" name="玉溪" />
+
+		<pro value="4" name="保山" />
+
+		<pro value="5" name="昭通" />
+
+		<pro value="6" name="丽江" />
+
+		<pro value="7" name="思茅" />
+
+		<pro value="8" name="文山" />
+
+		<pro value="9" name="红河" />
+
+		<pro value="10" name="西双版纳" />
+
+		<pro value="11" name="楚雄" />
+
+		<pro value="12" name="大理" />
+
+		<pro value="13" name="德宏" />
+
+		<pro value="14" name="怒江" />
+
+		<pro value="15" name="迪庆" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="8" name="天津">
+
+		<pro value="0" name="天津" />
+
+		<pro value="1" name="和平" />
+
+		<pro value="2" name="河东" />
+
+		<pro value="3" name="河西" />
+
+		<pro value="4" name="南开" />
+
+		<pro value="5" name="河北" />
+
+		<pro value="6" name="红桥" />
+
+		<pro value="7" name="塘沽" />
+
+		<pro value="8" name="汉沽" />
+
+		<pro value="9" name="大港" />
+
+		<pro value="10" name="东丽" />
+
+		<pro value="11" name="西青" />
+
+		<pro value="12" name="津南" />
+
+		<pro value="13" name="北辰" />
+
+		<pro value="14" name="武清" />
+
+		<pro value="15" name="宝坻" />
+
+		<pro value="16" name="宁河" />
+
+		<pro value="17" name="静海" />
+
+		<pro value="18" name="蓟县" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="9" name="重庆">
+
+		<pro value="0" name="重庆" />
+
+		<pro value="1" name="渝中" />
+
+		<pro value="2" name="大渡口" />
+
+		<pro value="3" name="江北" />
+
+		<pro value="4" name="沙坪坝" />
+
+		<pro value="5" name="九龙坡" />
+
+		<pro value="6" name="南岸" />
+
+		<pro value="7" name="北碚" />
+
+		<pro value="8" name="万盛" />
+
+		<pro value="9" name="双桥" />
+
+		<pro value="10" name="渝北" />
+
+		<pro value="11" name="巴南" />
+
+		<pro value="12" name="万州" />
+
+		<pro value="13" name="涪陵" />
+
+		<pro value="14" name="黔江" />
+
+		<pro value="15" name="长寿" />
+
+		<pro value="16" name="江津" />
+
+		<pro value="17" name="永川" />
+
+		<pro value="18" name="合川" />
+
+		<pro value="19" name="南川" />
+
+		<pro value="20" name="綦江" />
+
+		<pro value="21" name="潼南" />
+
+		<pro value="22" name="荣昌" />
+
+		<pro value="23" name="璧山" />
+
+		<pro value="24" name="大足" />
+
+		<pro value="25" name="铜梁" />
+
+		<pro value="26" name="梁平" />
+
+		<pro value="27" name="城口" />
+
+		<pro value="28" name="垫江" />
+
+		<pro value="29" name="武隆" />
+
+		<pro value="30" name="丰都" />
+
+		<pro value="31" name="奉节" />
+
+		<pro value="32" name="开县" />
+
+		<pro value="33" name="云阳" />
+
+		<pro value="34" name="忠县" />
+
+		<pro value="35" name="巫溪" />
+
+		<pro value="36" name="巫山" />
+
+		<pro value="37" name="石柱" />
+
+		<pro value="38" name="乔山" />
+
+		<pro value="39" name="酉阳" />
+
+		<pro value="40" name="彭水" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="10" name="湖南">
+
+		<pro value="0" name="湖南" />
+
+		<pro value="1" name="长沙" />
+
+		<pro value="2" name="株洲" />
+
+		<pro value="3" name="湘潭" />
+
+		<pro value="4" name="衡阳" />
+
+		<pro value="5" name="邵阳" />
+
+		<pro value="6" name="岳阳" />
+
+		<pro value="7" name="常德" />
+
+		<pro value="8" name="张家界" />
+
+		<pro value="9" name="益阳" />
+
+		<pro value="10" name="郴州市" />
+
+		<pro value="11" name="永州" />
+
+		<pro value="12" name="怀化" />
+
+		<pro value="13" name="娄底" />
+
+		<pro value="14" name="湘西州" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="11" name="陕西">
+
+		<pro value="0" name="陕西" />
+
+		<pro value="1" name="西安" />
+
+		<pro value="2" name="铜川" />
+
+		<pro value="3" name="宝鸡" />
+
+		<pro value="4" name="咸阳" />
+
+		<pro value="5" name="渭南" />
+
+		<pro value="6" name="延安" />
+
+		<pro value="7" name="汉中" />
+
+		<pro value="8" name="榆林" />
+
+		<pro value="9" name="安康" />
+
+		<pro value="10" name="商洛" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="12" name="河南">
+
+		<pro value="0" name="河南" />
+
+		<pro value="1" name="开封市" />
+
+		<pro value="2" name="洛阳" />
+
+		<pro value="3" name="平顶山" />
+
+		<pro value="4" name="焦作" />
+
+		<pro value="5" name="鹤壁" />
+
+		<pro value="6" name="新乡" />
+
+		<pro value="7" name="安阳" />
+
+		<pro value="8" name="濮阳" />
+
+		<pro value="9" name="许昌" />
+
+		<pro value="10" name="漯河" />
+
+		<pro value="11" name="三门峡" />
+
+		<pro value="12" name="南阳" />
+
+		<pro value="13" name="商丘" />
+
+		<pro value="14" name="信阳" />
+
+		<pro value="15" name="周口" />
+
+		<pro value="16" name="驻马店" />
+
+		<pro value="17" name="济源" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="13" name="河北">
+
+		<pro value="0" name="河北" />
+
+		<pro value="1" name="石家庄" />
+
+		<pro value="2" name="唐山" />
+
+		<pro value="3" name="秦皇岛" />
+
+		<pro value="4" name="邯郸" />
+
+		<pro value="5" name="邢台" />
+
+		<pro value="6" name="保定" />
+
+		<pro value="7" name="张家口" />
+
+		<pro value="8" name="承德" />
+
+		<pro value="9" name="沧州" />
+
+		<pro value="10" name="廊坊" />
+
+		<pro value="11" name="衡水" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="14" name="山西">
+
+		<pro value="0" name="山西" />
+
+		<pro value="1" name="太原" />
+
+		<pro value="2" name="大同" />
+
+		<pro value="3" name="阳泉" />
+
+		<pro value="4" name="长治" />
+
+		<pro value="5" name="晋城" />
+
+		<pro value="6" name="朔州" />
+
+		<pro value="7" name="晋中" />
+
+		<pro value="8" name="运城" />
+
+		<pro value="9" name="忻州" />
+
+		<pro value="10" name="临汾" />
+
+		<pro value="11" name="吕梁" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="15" name="内蒙古">
+
+		<pro value="0" name="内蒙古" />
+
+		<pro value="1" name="呼和浩特" />
+
+		<pro value="2" name="包头" />
+
+		<pro value="3" name="乌海" />
+
+		<pro value="4" name="赤峰" />
+
+		<pro value="5" name="通辽" />
+
+		<pro value="6" name="鄂尔多斯" />
+
+		<pro value="7" name="呼伦贝尔" />
+
+		<pro value="8" name="巴彦淖尔" />
+
+		<pro value="9" name="乌兰察布" />
+
+		<pro value="10" name="兴安" />
+
+		<pro value="11" name="锡林郭勒" />
+
+		<pro value="12" name="阿拉善" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="16" name="辽宁">
+
+		<pro value="0" name="辽宁" />
+
+		<pro value="1" name="沈阳" />
+
+		<pro value="2" name="大连" />
+
+		<pro value="3" name="鞍山" />
+
+		<pro value="4" name="抚顺" />
+
+		<pro value="5" name="本溪" />
+
+		<pro value="6" name="丹东" />
+
+		<pro value="7" name="锦州" />
+
+		<pro value="8" name="葫芦岛" />
+
+		<pro value="9" name="营口" />
+
+		<pro value="10" name="盘锦" />
+
+		<pro value="11" name="阜新" />
+
+		<pro value="12" name="辽阳" />
+
+		<pro value="13" name="铁岭" />
+
+		<pro value="14" name="朝阳" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="17" name="吉林">
+
+		<pro value="0" name="吉林" />
+
+		<pro value="1" name="长春" />
+
+		<pro value="2" name="吉林" />
+
+		<pro value="3" name="四平" />
+
+		<pro value="4" name="辽源" />
+
+		<pro value="5" name="通化" />
+
+		<pro value="6" name="白山" />
+
+		<pro value="7" name="松原" />
+
+		<pro value="8" name="延边州" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="18" name="黑龙江">
+
+		<pro value="0" name="黑龙江" />
+
+		<pro value="1" name="哈尔滨" />
+
+		<pro value="2" name="齐齐哈尔" />
+
+		<pro value="3" name="鹤岗" />
+
+		<pro value="4" name="双鸭山" />
+
+		<pro value="5" name="鸡西" />
+
+		<pro value="6" name="大庆" />
+
+		<pro value="7" name="伊春" />
+
+		<pro value="8" name="牡丹江" />
+
+		<pro value="9" name="佳木斯" />
+
+		<pro value="10" name="七台河" />
+
+		<pro value="11" name="黑河" />
+
+		<pro value="12" name="绥化" />
+
+		<pro value="13" name="大兴安岭" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="19" name="安徽">
+
+		<pro value="0" name="安徽" />
+
+		<pro value="1" name="合肥" />
+
+		<pro value="2" name="芜湖" />
+
+		<pro value="3" name="蚌埠" />
+
+		<pro value="4" name="淮南" />
+
+		<pro value="5" name="马鞍山" />
+
+		<pro value="6" name="淮北" />
+
+		<pro value="7" name="铜陵" />
+
+		<pro value="8" name="安庆" />
+
+		<pro value="9" name="黄山" />
+
+		<pro value="10" name="滁州" />
+
+		<pro value="11" name="阜阳" />
+
+		<pro value="12" name="宿州" />
+
+		<pro value="13" name="巢湖" />
+
+		<pro value="14" name="六安" />
+
+		<pro value="15" name="亳州" />
+
+		<pro value="16" name="池州" />
+
+		<pro value="17" name="宣城" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="20" name="福建">
+
+		<pro value="0" name="福建" />
+
+		<pro value="1" name="福州" />
+
+		<pro value="2" name="厦门" />
+
+		<pro value="3" name="莆田" />
+
+		<pro value="4" name="三明" />
+
+		<pro value="5" name="泉州" />
+
+		<pro value="6" name="漳州" />
+
+		<pro value="7" name="南平" />
+
+		<pro value="8" name="龙岩" />
+
+		<pro value="9" name="宁德" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="21" name="江西">
+
+		<pro value="0" name="江西" />
+
+		<pro value="1" name="南昌" />
+
+		<pro value="2" name="景德镇" />
+
+		<pro value="3" name="萍乡" />
+
+		<pro value="4" name="新余" />
+
+		<pro value="5" name="九江" />
+
+		<pro value="6" name="鹰潭" />
+
+		<pro value="7" name="赣州" />
+
+		<pro value="8" name="吉安" />
+
+		<pro value="9" name="宜春" />
+
+		<pro value="10" name="抚州" />
+
+		<pro value="11" name="上饶" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="22" name="山东">
+
+		<pro value="0" name="山东" />
+
+		<pro value="1" name="济南" />
+
+		<pro value="2" name="青岛" />
+
+		<pro value="3" name="淄博" />
+
+		<pro value="4" name="枣庄" />
+
+		<pro value="5" name="东营" />
+
+		<pro value="6" name="潍坊" />
+
+		<pro value="7" name="烟台" />
+
+		<pro value="8" name="威海" />
+
+		<pro value="9" name="济宁" />
+
+		<pro value="10" name="泰安" />
+
+		<pro value="11" name="日照" />
+
+		<pro value="12" name="莱芜" />
+
+		<pro value="13" name="德州" />
+
+		<pro value="14" name="临沂" />
+
+		<pro value="15" name="滨州" />
+
+		<pro value="16" name="菏泽" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="23" name="湖北">
+
+		<pro value="0" name="湖北" />
+
+		<pro value="1" name="武汉" />
+
+		<pro value="2" name="黄石" />
+
+		<pro value="3" name="襄樊" />
+
+		<pro value="4" name="十堰" />
+
+		<pro value="5" name="荆州" />
+
+		<pro value="6" name="宜昌" />
+
+		<pro value="7" name="荆门" />
+
+		<pro value="8" name="鄂州" />
+
+		<pro value="9" name="孝感" />
+
+		<pro value="10" name="黄冈" />
+
+		<pro value="11" name="咸宁" />
+
+		<pro value="12" name="随州" />
+
+		<pro value="13" name="仙桃" />
+
+		<pro value="14" name="潜江" />
+
+		<pro value="15" name="天门" />
+
+		<pro value="16" name="神农架" />
+
+		<pro value="17" name="恩施" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="24" name="广西">
+
+		<pro value="0" name="广西" />
+
+		<pro value="1" name="南宁" />
+
+		<pro value="2" name="柳州" />
+
+		<pro value="3" name="桂林" />
+
+		<pro value="4" name="梧州" />
+
+		<pro value="5" name="北海" />
+
+		<pro value="6" name="防城港" />
+
+		<pro value="7" name="钦州" />
+
+		<pro value="8" name="贵港" />
+
+		<pro value="9" name="玉林" />
+
+		<pro value="10" name="百色" />
+
+		<pro value="11" name="贺州" />
+
+		<pro value="12" name="河池" />
+
+		<pro value="13" name="来宾" />
+
+		<pro value="14" name="崇左" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="25" name="海南">
+
+		<pro value="0" name="海南" />
+
+		<pro value="1" name="海口" />
+
+		<pro value="2" name="三亚" />
+
+		<pro value="3" name="五指山" />
+
+		<pro value="4" name="琼海" />
+
+		<pro value="5" name="儋州" />
+
+		<pro value="6" name="文昌" />
+
+		<pro value="7" name="万宁" />
+
+		<pro value="8" name="东方" />
+
+		<pro value="9" name="定安" />
+
+		<pro value="10" name="屯昌" />
+
+		<pro value="11" name="澄迈" />
+
+		<pro value="12" name="临高" />
+
+		<pro value="13" name="白沙" />
+
+		<pro value="14" name="三沙" />
+
+		<pro value="15" name="昌江" />
+
+		<pro value="16" name="乐东" />
+
+		<pro value="17" name="陵水" />
+
+		<pro value="18" name="保亭" />
+
+		<pro value="19" name="琼中" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="26" name="贵州">
+
+		<pro value="0" name="贵州" />
+
+		<pro value="1" name="贵阳" />
+
+		<pro value="2" name="六盘水" />
+
+		<pro value="3" name="遵义" />
+
+		<pro value="4" name="安顺" />
+
+		<pro value="5" name="铜仁" />
+
+		<pro value="6" name="毕节" />
+
+		<pro value="7" name="黔西南" />
+
+		<pro value="8" name="黔东南" />
+
+		<pro value="9" name="黔南" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="27" name="西藏">
+
+		<pro value="0" name="西藏" />
+
+		<pro value="1" name="拉萨" />
+
+		<pro value="2" name="昌都" />
+
+		<pro value="3" name="山南" />
+
+		<pro value="4" name="日喀则" />
+
+		<pro value="5" name="那曲" />
+
+		<pro value="6" name="阿里" />
+
+		<pro value="7" name="林芝" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="28" name="甘肃">
+
+		<pro value="0" name="甘肃" />
+
+		<pro value="1" name="兰州" />
+
+		<pro value="2" name="金昌" />
+
+		<pro value="3" name="白银" />
+
+		<pro value="4" name="天水" />
+
+		<pro value="5" name="嘉峪关" />
+
+		<pro value="6" name="武威" />
+
+		<pro value="7" name="张掖" />
+
+		<pro value="8" name="平凉" />
+
+		<pro value="9" name="酒泉" />
+
+		<pro value="10" name="庆阳" />
+
+		<pro value="11" name="定西" />
+
+		<pro value="12" name="陇南" />
+
+		<pro value="13" name="临夏" />
+
+		<pro value="14" name="甘南" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="29" name="青海">
+
+		<pro value="0" name="青海" />
+
+		<pro value="1" name="西宁" />
+
+		<pro value="2" name="海东" />
+
+		<pro value="3" name="海北" />
+
+		<pro value="4" name="黄南" />
+
+		<pro value="5" name="海南" />
+
+		<pro value="6" name="果洛" />
+
+		<pro value="7" name="玉树" />
+
+		<pro value="8" name="海西" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="30" name="宁夏">
+
+		<pro value="0" name="宁夏" />
+
+		<pro value="1" name="银川" />
+
+		<pro value="2" name="中卫" />
+
+		<pro value="3" name="石嘴山" />
+
+		<pro value="4" name="吴忠" />
+
+		<pro value="5" name="固原" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="31" name="新疆">
+
+		<pro value="0" name="新疆" />
+
+		<pro value="1" name="乌鲁木齐" />
+
+		<pro value="2" name="克拉玛依" />
+
+		<pro value="3" name="吐鲁番" />
+
+		<pro value="4" name="哈密" />
+
+		<pro value="5" name="和田" />
+
+		<pro value="6" name="阿克苏" />
+
+		<pro value="7" name="喀什" />
+
+		<pro value="8" name="克孜勒苏柯尔" />
+
+		<pro value="9" name="巴音郭楞" />
+
+		<pro value="10" name="昌吉" />
+
+		<pro value="11" name="博尔塔拉" />
+
+		<pro value="12" name="伊犁" />
+
+		<pro value="13" name="塔城" />
+
+		<pro value="14" name="阿勒泰" />
+
+		<pro value="15" name="石河子" />
+
+		<pro value="16" name="阿拉尔" />
+
+		<pro value="17" name="图木舒克" />
+
+		<pro value="18" name="五家渠" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="32" name="香港">
+
+		<pro value="0" name="香港" />
+
+		<pro value="1" name="中西" />
+
+		<pro value="2" name="东区" />
+
+		<pro value="3" name="九龙城" />
+
+		<pro value="4" name="观塘" />
+
+		<pro value="5" name="南区" />
+
+		<pro value="6" name="深水埗" />
+
+		<pro value="7" name="黄大仙" />
+
+		<pro value="8" name="湾仔" />
+
+		<pro value="9" name="油尖旺" />
+
+		<pro value="10" name="离岛" />
+
+		<pro value="11" name="葵青" />
+
+		<pro value="12" name="北区" />
+
+		<pro value="13" name="西贡" />
+
+		<pro value="14" name="沙田" />
+
+		<pro value="15" name="屯门" />
+
+		<pro value="16" name="大埔" />
+
+		<pro value="17" name="荃湾" />
+
+		<pro value="18" name="元朗" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="33" name="澳门">
+
+		<pro value="0" name="澳门" />
+
+		<pro value="1" name="花地玛堂" />
+
+		<pro value="2" name="花王堂" />
+
+		<pro value="3" name="望德堂" />
+
+		<pro value="4" name="大堂" />
+
+		<pro value="5" name="风顺堂" />
+
+		<pro value="6" name="嘉模堂" />
+
+		<pro value="7" name="路氹填海" />
+
+		<pro value="8" name="圣方济各堂" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="34" name="台湾">
+
+		<pro value="0" name="台湾" />
+
+		<pro value="1" name="台北" />
+
+		<pro value="2" name="高雄" />
+
+		<pro value="3" name="基隆" />
+
+		<pro value="4" name="台中" />
+
+		<pro value="5" name="台南" />
+
+		<pro value="6" name="新竹" />
+
+		<pro value="7" name="嘉义" />
+
+		<pro value="99" name="其他" />
+
+	</city>
+
+	<city value="99" name="其他" />
+
+</citys>
+

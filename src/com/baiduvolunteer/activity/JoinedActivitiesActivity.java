@@ -30,7 +30,7 @@ import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.view.ActivityListCellHolder;
 
 public class JoinedActivitiesActivity extends BaseActivity {
-	private Button backButton;
+	private View backButton;
 	private ListView eventsList;
 	private ArrayAdapter<ActivityInfo> mAdapter;
 	private ArrayList<ActivityInfo> activityInfoList = new ArrayList<ActivityInfo>();
@@ -40,7 +40,7 @@ public class JoinedActivitiesActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_joinedevents);
-		backButton = (Button) findViewById(R.id.backButton);
+		backButton = findViewById(R.id.backButton);
 		backButton.setOnClickListener(new OnClickListener() {
 
 			@Override

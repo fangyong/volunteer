@@ -2,8 +2,8 @@ package com.baiduvolunteer.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.baiduvolunteer.R;
@@ -18,12 +18,11 @@ public class ActivityListCellHolder {
 	public TextView distLabel;
 	public TextView timeLabel;
 	public TextView locationLabel;
-	public RelativeLayout container;
+	public View container;
 
 	public static ActivityListCellHolder create(Context ctx) {
 		LayoutInflater inflater = LayoutInflater.from(ctx);
-		RelativeLayout rl = (RelativeLayout) inflater.inflate(
-				R.layout.activity_listitem, null);
+		View rl = inflater.inflate(R.layout.activity_listitem, null);
 		ActivityListCellHolder holder = new ActivityListCellHolder();
 		holder.container = rl;
 		holder.imageView = (ImageView) rl.findViewById(R.id.imageView);

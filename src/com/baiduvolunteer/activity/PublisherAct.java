@@ -13,15 +13,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baiduvolunteer.R;
+import com.baiduvolunteer.config.Config;
+import com.baiduvolunteer.config.Config.CityInfo;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetPublisherInfoRequest;
 import com.baiduvolunteer.model.Publisher;
+import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 
 public class PublisherAct extends Activity implements OnClickListener {
 
-	private Button backButton;
+	private View backButton;
 	private Publisher publisher;
 
 	private ImageView publisherIcon;
@@ -80,7 +83,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 						}
 					}).start();
 		}
-		backButton = (Button) findViewById(R.id.backButton);
+		backButton = findViewById(R.id.backButton);
 		backButton.setOnClickListener(this);
 	}
 
@@ -96,7 +99,27 @@ public class PublisherAct extends Activity implements OnClickListener {
 				sloganLabel.setText(publisher.mission);
 				createTimeLabel.setText(publisher.setUpTime);
 				membersLabel.setText("" + publisher.memberNumber);
-				locationLabel.setText(publisher.address);
+
+				if (publisher.province > 0) {
+					CityInfo province = Config.sharedConfig().provinceList
+							.get("" + publisher.province);
+					Log.d("test", "get province: " + province.name + "id:"
+							+ province.id);
+					CityInfo city = null;
+					if (province != null && province.subCityList != null) {
+						for (CityInfo cityinfo : province.subCityList) {
+							if (cityinfo.id == publisher.city) {
+								city = cityinfo;
+								break;
+							}
+						}
+					}
+					locationLabel.setText(province.name
+							+ (city == null ? "" : city.name));
+				} else {
+					locationLabel.setText(null);
+				}
+
 				contactLabel.setText(publisher.linkUser);
 				phoneLabel.setText(publisher.linkPhone);
 			}

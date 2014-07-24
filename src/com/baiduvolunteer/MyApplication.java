@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.baidu.api.Baidu;
 import com.baidu.mapapi.SDKInitializer;
+import com.baiduvolunteer.config.Config;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 
@@ -22,6 +23,7 @@ public class MyApplication extends Application {
 		SDKInitializer.initialize(this);
 		ViewUtils.init(this);
 		instance = this;
+		Config.sharedConfig().init();
 		User.sharedUser().load();
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 

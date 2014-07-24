@@ -1,10 +1,11 @@
 package com.baiduvolunteer.activity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import android.app.Activity;
@@ -23,18 +24,19 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.baiduvolunteer.R;
+import com.baiduvolunteer.config.Config;
+import com.baiduvolunteer.config.Config.CityInfo;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.UpdateUserInfoRequest;
 import com.baiduvolunteer.model.User;
-import com.baiduvolunteer.task.LoadProvinceListTask;
 import com.baiduvolunteer.view.MyPopupWindow;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 public class ModifyUserInfoAct extends Activity implements OnClickListener {
 
-	private Button backButton;
+	private View backButton;
 
 	private Button saveButton;
 
@@ -50,21 +52,17 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 
 	private String uname;
 	private String cityName;
-	private String districtName;
-	private int provinceId;
-	private int cityId;
-	private String districtId;
-	private String street;
 	private String phoneNumber;
-	private String addressee;
-	private String provinceName;
+
+	private CityInfo province;
+	private CityInfo city;
 	private int sex;
 
 	private ArrayAdapter<String> provinceAdapter;
 	private ArrayAdapter<String> cityAdapter;
 
-	private NodeList provinceList;
-	private NodeList cityList;
+	private ArrayList<CityInfo> provinceList;
+	private ArrayList<CityInfo> cityList;
 	private NodeList districtList;
 
 	private View maleCheck;
@@ -84,7 +82,7 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		ViewUtils.inject(this);
 
 		unameEt = (EditText) findViewById(R.id.uname_et);
-		backButton = (Button) findViewById(R.id.button2);
+		backButton = findViewById(R.id.button2);
 		backButton.setOnClickListener(this);
 		saveButton = (Button) findViewById(R.id.button_save);
 		saveButton.setText("保存");
@@ -107,13 +105,13 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				cityList = provinceList.item(position).getChildNodes().item(15)
-						.getChildNodes();
+				province = provinceList.get(position);
+				cityList = provinceList.get(position).subCityList;
 				cityAdapter.clear();
-				for (int i = 0; i < cityList.getLength(); i++) {
-					cityAdapter.add(cityList.item(i).getChildNodes().item(7)
-							.getTextContent());
-				}
+				if (cityList != null)
+					for (int i = 0; i < cityList.size(); i++) {
+						cityAdapter.add(cityList.get(i).name);
+					}
 				cityAdapter.notifyDataSetChanged();
 			}
 
@@ -148,53 +146,47 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 	}
 
 	void setProvince() {
-		new LoadProvinceListTask(
-
-		new LoadProvinceListTask.OnTaskFinishListener() {
+		if (Config.sharedConfig().isInitializing())
+			return;
+		provinceList = new ArrayList<Config.CityInfo>(
+				Config.sharedConfig().provinceList.values());
+		Collections.sort(provinceList, new Comparator<CityInfo>() {
 
 			@Override
-			public void onTaskFinish(NodeList nodeList) {
-
-				provinceList = nodeList;
-				ArrayList<String> array = new ArrayList<String>();
-				provinceAdapter.clear();
-				for (int i = 0; i < provinceList.getLength(); i++) {
-					array.add(provinceList.item(i).getChildNodes().item(7)
-							.getTextContent());
-				}
-				provinceAdapter.addAll(array);
-				provinceAdapter.notifyDataSetChanged();
-				if (User.sharedUser().province > 0) {
-					for (int i = 0; i < provinceList.getLength(); i++) {
-						Node node = provinceList.item(i);
-						if (node.getChildNodes().item(3).getTextContent()
-								.equals("" + User.sharedUser().province)) {
-							provinceSpinner.setSelection(i);
-							break;
-						}
-					}
-					cityList = provinceList
-							.item(provinceSpinner.getSelectedItemPosition())
-							.getChildNodes().item(15).getChildNodes();
-					cityAdapter.clear();
-					for (int i = 0; i < cityList.getLength(); i++) {
-						cityAdapter.add(cityList.item(i).getChildNodes()
-								.item(7).getTextContent());
-					}
-					if (User.sharedUser().city > 0) {
-						for (int i = 0; i < cityList.getLength(); i++) {
-							Node node = cityList.item(i);
-							if (node.getChildNodes().item(3).getTextContent()
-									.equals("" + User.sharedUser().city)) {
-								citySpinner.setSelection(i);
-								break;
-							}
-						}
-					}
-				}
-
+			public int compare(CityInfo lhs, CityInfo rhs) {
+				// TODO Auto-generated method stub
+				return lhs.id - rhs.id;
 			}
-		}, ModifyUserInfoAct.this).execute("");
+		});
+		provinceAdapter.clear();
+		for (CityInfo info : provinceList) {
+			provinceAdapter.add(info.name);
+		}
+		provinceAdapter.notifyDataSetChanged();
+		if (User.sharedUser().province >= 0) {
+			province = Config.sharedConfig().provinceList.get(""
+					+ User.sharedUser().province);
+			int i = provinceList.indexOf(province);
+			provinceSpinner.setSelection(i);
+		}
+		cityList = provinceList.get(provinceSpinner.getSelectedItemPosition()).subCityList;
+		cityAdapter.clear();
+		if (cityList != null)
+			for (CityInfo info : cityList) {
+				cityAdapter.add(info.name);
+			}
+		if (User.sharedUser().city >= 0) {
+			int index = 0;
+			if (cityList != null)
+				for (int i = 0; i < cityList.size(); i++) {
+					if (cityList.get(i).id == User.sharedUser().city) {
+						index = i;
+						break;
+					}
+				}
+			citySpinner.setSelection(index);
+		}
+
 	}
 
 	@OnClick(R.id.district_spinner)
@@ -256,14 +248,11 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		if (!telephoneEt.getText().toString().isEmpty()) {
 			phoneNumber = telephoneEt.getText().toString();
 		}
-		Node node = provinceList
-				.item(provinceSpinner.getSelectedItemPosition());
-		provinceId = Integer.valueOf(node.getChildNodes().item(3)
-				.getTextContent());
-		node = cityList.item(citySpinner.getSelectedItemPosition());
-		cityId = Integer.valueOf(node.getChildNodes().item(3).getTextContent());
-		new UpdateUserInfoRequest().setCity("" + cityId)
-				.setProvince("" + provinceId)
+		province = provinceList.get(provinceSpinner.getSelectedItemPosition());
+		city = cityList != null ? cityList.get(citySpinner
+				.getSelectedItemPosition()) : null;
+		new UpdateUserInfoRequest().setCity("" + (city == null ? 0 : city.id))
+				.setProvince("" + province.id)
 				.setNickName(unameEt.getText().toString())
 				.setPhone(phoneNumber).setSex(sex)
 				.setHandler(new ResponseHandler() {
@@ -273,8 +262,8 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 							int statusCode, String errorMsg, String response) {
 						Log.d("test", "response:" + response);
 						// TODO Auto-generated method stub
-						User.sharedUser().city = cityId;
-						User.sharedUser().province = provinceId;
+						User.sharedUser().city = city == null ? 0 : city.id;
+						User.sharedUser().province = province.id;
 						User.sharedUser().uname = uname;
 						User.sharedUser().phoneNumber = phoneNumber;
 						User.sharedUser().gender = sex;

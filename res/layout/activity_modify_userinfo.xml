@@ -21,16 +21,20 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <Button
+        <RelativeLayout
             android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/icon_button_back"
-            android:minHeight="0dp"
-            android:minWidth="0dp" />
+            android:layout_marginLeft="20dp" >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/icon_back_white" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <LinearLayout

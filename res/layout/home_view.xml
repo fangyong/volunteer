@@ -11,6 +11,16 @@
         android:layout_height="fill_parent"
         android:clickable="true" />
 
+    <Button
+        android:id="@+id/locationButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/bdmapView"
+        android:layout_alignLeft="@+id/bdmapView"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/map_location" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dip"

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -56,6 +57,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	private boolean firstLoc = true;
 	private LinearLayout infoView;
 	private Marker marker = null;
+	private Button locationButton;
 
 	private EditText searchField;
 
@@ -246,6 +248,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			}
 		});
 		searchField = (EditText) findViewById(R.id.search);
+		locationButton = (Button) findViewById(R.id.locationButton);
+		locationButton.setOnClickListener(this);
 		searchField.setOnClickListener(this);
 		searchField.setOnEditorActionListener(new OnEditorActionListener() {
 
@@ -286,5 +290,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		// Intent intent = new Intent(getContext(), SearchActivity.class);
 		// getContext().startActivity(intent);
 		// }
+		if (v == locationButton) {
+			this.firstLoc = true;
+		}
 	}
 }

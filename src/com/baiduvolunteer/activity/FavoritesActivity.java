@@ -35,7 +35,7 @@ import com.baiduvolunteer.view.PublisherListCellHolder;
 
 public class FavoritesActivity extends Activity implements OnClickListener {
 
-	private Button backButton;
+	private View backButton;
 	private TextView tab1;
 	private TextView tab2;
 	private View indicator1;
@@ -53,7 +53,7 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_favorites);
-		backButton = (Button) findViewById(R.id.backButton);
+		backButton = findViewById(R.id.backButton);
 		tab1 = (TextView) findViewById(R.id.title1);
 		tab2 = (TextView) findViewById(R.id.title2);
 		indicator1 = findViewById(R.id.indicator1);
