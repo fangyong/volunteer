@@ -27,7 +27,7 @@ public class ActivityInfo implements Serializable {
 	public boolean addedToFav;// 是否加入收藏
 	public boolean isLine;// 下线
 	public String description;// 事件描述
-	public Date createTime;// 创建时间
+	public long createTime;// 创建时间
 	public Date startTime;// 起始时间
 	public Date endTime;// 终止时间
 	public String iconUrl;// 事件图标地址

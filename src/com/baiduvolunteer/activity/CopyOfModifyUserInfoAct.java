@@ -33,7 +33,8 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupWindow.OnDismissListener;
 
-public class CopyOfModifyUserInfoAct extends Activity implements OnClickListener {
+public class CopyOfModifyUserInfoAct extends Activity implements
+		OnClickListener {
 
 	@ViewInject(R.id.textView3)
 	private TextView provinceTv;
@@ -298,20 +299,17 @@ public class CopyOfModifyUserInfoAct extends Activity implements OnClickListener
 		if (sex == 3)
 			femaleTv.setBackgroundColor(0xffeeeeee);
 		else
-			femaleTv.setBackground(getResources().getDrawable(
-					R.drawable.rectangle_check));
+			femaleTv.setBackgroundResource(R.drawable.rectangle_check);
 
 		if (sex == 1)
 			maleTv.setBackgroundColor(0xffeeeeee);
 		else {
-			maleTv.setBackground(getResources().getDrawable(
-					R.drawable.rectangle_check));
+			maleTv.setBackgroundResource(R.drawable.rectangle_check);
 		}
 		if (sex == 2) {
 			otherTv.setBackgroundColor(0xffeeeeee);
 		} else {
-			otherTv.setBackground(getResources().getDrawable(
-					R.drawable.rectangle_check));
+			otherTv.setBackgroundResource(R.drawable.rectangle_check);
 		}
 	}
 }
