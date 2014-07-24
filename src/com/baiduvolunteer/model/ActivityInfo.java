@@ -67,9 +67,10 @@ public class ActivityInfo implements Serializable {
 			this.description = activity.optString("activityDes");
 			this.field = activity.optString("field");
 			this.startTime = new Date(Long.parseLong(activity
-					.getString("serviceOpenTime")));
+					.getString("serviceOpenTime"))*1000);
 			this.endTime = new Date(Long.parseLong(activity
-					.getString("serviceOverTime")));
+					.getString("serviceOverTime"))*1000);
+			this.createTime = new Date(Long.parseLong(activity.getString("createTime")));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

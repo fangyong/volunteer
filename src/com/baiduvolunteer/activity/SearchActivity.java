@@ -31,9 +31,11 @@ import android.widget.TextView.OnEditorActionListener;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.AddFavRequest;
 import com.baiduvolunteer.http.BaseRequest;
+import com.baiduvolunteer.http.RemoveFavRequest;
 import com.baiduvolunteer.http.AddFavRequest.AddFavType;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.SearchRequest;
+import com.baiduvolunteer.http.RemoveFavRequest.RemoveFavType;
 import com.baiduvolunteer.http.SearchRequest.SearchType;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.Publisher;
@@ -133,8 +135,9 @@ public class SearchActivity extends Activity {
 						public void onClick(View arg0) {
 							Integer pos = (Integer) arg0.getTag();
 							final ActivityInfo info = activities.get(pos);
-							mPd.show();
-							if (!info.addedToFav)
+
+							if (!info.addedToFav) {
+								mPd.show();
 								new AddFavRequest()
 										.setAddType(
 												AddFavType.AddFavTypeActivity)
@@ -149,10 +152,47 @@ public class SearchActivity extends Activity {
 													String response) {
 												// TODO Auto-generated method
 												// stub
+												mPd.dismiss();
 												Log.d("test", "add fav result "
 														+ response);
 												if (statusCode == 200) {
 													info.addedToFav = true;
+													ViewUtils
+															.runInMainThread(new Runnable() {
+
+																@Override
+																public void run() {
+
+																	// TODO
+																	// Auto-generated
+																	// method
+																	// stub
+																	notifyDataSetChanged();
+																}
+															});
+												}
+
+											}
+										}).start();
+							} else {
+								new RemoveFavRequest()
+										.setId(info.activityID)
+										.setRemoveType(
+												RemoveFavType.RemoveFavTypeActivity)
+										.setHandler(new ResponseHandler() {
+
+											@Override
+											public void handleResponse(
+													BaseRequest request,
+													int statusCode,
+													String errorMsg,
+													String response) {
+												Log.d("test",
+														"remove fav result "
+																+ response);
+												mPd.dismiss();
+												if (statusCode == 200) {
+													info.addedToFav = false;
 													ViewUtils
 															.runInMainThread(new Runnable() {
 
@@ -167,11 +207,8 @@ public class SearchActivity extends Activity {
 																}
 															});
 												}
-
 											}
 										}).start();
-							else {
-								// TODO add request and server api
 							}
 						}
 					});

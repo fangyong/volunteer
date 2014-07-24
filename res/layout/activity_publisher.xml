@@ -58,7 +58,7 @@
                 android:id="@+id/titleContainer"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
-                android:background="#107cfd"
+                android:background="@drawable/publisher_bg"
                 android:orientation="vertical" >
 
                 <RelativeLayout
@@ -98,18 +98,20 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
                     android:text="北大青年志愿者协会"
-                    android:textColor="#ffffff"
+                    android:textColor="#000000"
                     android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/sloganLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:textAlignment="center"
                     android:layout_below="@+id/titleLabel"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
                     android:text="用我智慧奉献爱"
-                    android:textColor="#ffffff"
+                    android:textColor="#000000"
                     android:textSize="16sp" />
             </RelativeLayout>
 
