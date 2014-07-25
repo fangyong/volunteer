@@ -73,7 +73,7 @@ public class ActivitiesAdapter extends BaseAdapter {
 						: R.drawable.icon_fav);
 		holder.titleLabel.setText(activityInfo.title);
 		holder.locationLabel.setText(activityInfo.address);
-		holder.timeLabel.setText(sdf.format(activityInfo.startTime) + "-"
+		holder.timeLabel.setText(sdf.format(activityInfo.startTime) + "\n--"
 				+ sdf.format(activityInfo.endTime));
 		holder.distLabel.setText(activityInfo.distance + "m");
 		holder.favIcon.setTag(Integer.valueOf(position));

@@ -1,10 +1,17 @@
 package com.baiduvolunteer.view;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Point;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -46,6 +54,13 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.activity.ActivityInfoActivity;
+import com.baiduvolunteer.activity.PublisherAct;
+import com.baiduvolunteer.http.BaseRequest;
+import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
+import com.baiduvolunteer.http.SearchRequest;
+import com.baiduvolunteer.http.SearchRequest.SearchType;
+import com.baiduvolunteer.model.Publisher;
+import com.baiduvolunteer.util.ViewUtils;
 
 public class IndexView extends LinearLayout implements OnClickListener {
 
@@ -58,6 +73,15 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	private LinearLayout infoView;
 	private Marker marker = null;
 	private Button locationButton;
+	private Publisher currentPublisher;
+
+	private int ids[] = { R.drawable.icon_marka, R.drawable.icon_markb,
+			R.drawable.icon_markc, R.drawable.icon_markd,
+			R.drawable.icon_marke, R.drawable.icon_markf,
+			R.drawable.icon_markg, R.drawable.icon_markh,
+			R.drawable.icon_marki, R.drawable.icon_markj, };
+
+	private ArrayList<Publisher> publishers = new ArrayList<Publisher>();
 
 	private EditText searchField;
 
@@ -136,10 +160,14 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	}
 
 	public void onResume() {
+		Log.d("test", "indexView onresume");
 		if (mapView != null)
 			mapView.onResume();
 		if (mLocationClient != null)
 			mLocationClient.start();
+		if (map != null && map.getMapStatus() != null && publishers.size() == 0) {
+			startSearch();
+		}
 	}
 
 	public void onPause() {
@@ -167,6 +195,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 		infoView = (LinearLayout) LayoutInflater.from(getContext()).inflate(
 				R.layout.map_infowindow, null);
+
 		ViewGroup.LayoutParams lp = new LayoutParams(560, 160);
 		infoView.setLayoutParams(lp);
 		map.setOnMapClickListener(new OnMapClickListener() {
@@ -200,6 +229,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				Point p = map.getProjection().toScreenLocation(
 						marker.getPosition());
 				p.y -= 47;
+
 				LatLng llInfo = map.getProjection().fromScreenLocation(p);
 				InfoWindow window = new InfoWindow(infoView, llInfo,
 						new OnInfoWindowClickListener() {
@@ -208,7 +238,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 							public void onInfoWindowClick() {
 								// TODO Auto-generated method stub
 								Intent intent = new Intent(getContext(),
-										ActivityInfoActivity.class);
+										PublisherAct.class);
+								intent.putExtra("publisherId", currentPublisher.pid);
 								getContext().startActivity(intent);
 							}
 						});
@@ -228,9 +259,19 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				// TODO Auto-generated method stub
 				map.hideInfoWindow();
 				marker = arg0;
+				int index = marker.getExtraInfo().getInt("index");
+				currentPublisher = publishers.get(index);
 				Point p = map.getProjection().toScreenLocation(
 						marker.getPosition());
 				p.y -= 47;
+				Log.d("test", "current: " + currentPublisher.address + ","
+						+ currentPublisher.publishName);
+				((ImageView) infoView.findViewById(R.id.placeMarker))
+						.setImageResource(ids[index]);
+				((TextView) infoView.findViewById(R.id.titleLabel))
+						.setText(currentPublisher.publishName);
+				((TextView) infoView.findViewById(R.id.addressLabel))
+						.setText(currentPublisher.address);
 				LatLng llInfo = map.getProjection().fromScreenLocation(p);
 				InfoWindow window = new InfoWindow(infoView, llInfo,
 						new OnInfoWindowClickListener() {
@@ -239,7 +280,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 							public void onInfoWindowClick() {
 								// TODO Auto-generated method stub
 								Intent intent = new Intent(getContext(),
-										ActivityInfoActivity.class);
+										PublisherAct.class);
+								intent.putExtra("publisherId", currentPublisher.pid);
 								getContext().startActivity(intent);
 							}
 						});
@@ -250,7 +292,6 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		searchField = (EditText) findViewById(R.id.search);
 		locationButton = (Button) findViewById(R.id.locationButton);
 		locationButton.setOnClickListener(this);
-		searchField.setOnClickListener(this);
 		searchField.setOnEditorActionListener(new OnEditorActionListener() {
 
 			@Override
@@ -260,11 +301,77 @@ public class IndexView extends LinearLayout implements OnClickListener {
 					InputMethodManager imm = (InputMethodManager) getContext()
 							.getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+					startSearch();
 					return true;
 				}
 				return false;
 			}
 		});
+	}
+
+	private void startSearch() {
+		// TODO
+		LatLng ll = map.getMapStatus().target;
+		new SearchRequest().setLat(ll.latitude).setLng(ll.longitude)
+				.setKey(searchField.getText().toString())
+				.setSearchType(SearchType.SearchTypePublisher)
+				.setHandler(new ResponseHandler() {
+
+					@Override
+					public void handleResponse(BaseRequest request,
+							int statusCode, String errorMsg, String response) {
+						// TODO Auto-generated method stub
+						Log.d("test", "search response "+ statusCode+":" + response);
+						try {
+							JSONObject obj = new JSONObject(response);
+							obj = obj.optJSONObject("result");
+							if (obj != null) {
+								JSONArray array = obj
+										.optJSONArray("publishers");
+								if (array != null) {
+									publishers.clear();
+									for (int i = 0; i < array.length(); i++) {
+										Publisher info = Publisher
+												.createFromJson(array
+														.getJSONObject(i));
+										publishers.add(info);
+									}
+								}
+
+							}
+							ViewUtils.runInMainThread(new Runnable() {
+
+								@Override
+								public void run() {
+									updateMap();
+								}
+							});
+
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}).start();
+	}
+
+	public void updateMap() {
+		map.clear();
+		int count = Math.min(10, publishers.size());
+		Log.d("test", "count: " + count);
+		for (int i = 0; i < count; i++) {
+			Publisher publisher = publishers.get(i);
+			LatLng ll = new LatLng(publisher.latitude, publisher.longtitude);
+			Log.d("test", "publisher:" + publisher.latitude + ","
+					+ publisher.longtitude);
+			int id = ids[i];
+			Bundle bundle = new Bundle();
+			bundle.putInt("index", i);
+			OverlayOptions oo = new MarkerOptions().extraInfo(bundle)
+					.position(ll)
+					.icon(BitmapDescriptorFactory.fromResource(id));
+			map.addOverlay(oo);
+		}
 	}
 
 	public class SDKReceiver extends BroadcastReceiver {
@@ -292,6 +399,10 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		// }
 		if (v == locationButton) {
 			this.firstLoc = true;
+
+			publishers.clear();
+			map.clear();
+			startSearch();
 		}
 	}
 }

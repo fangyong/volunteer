@@ -15,8 +15,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp" >
+            android:layout_centerVertical="true" >
 
             <ImageView
                 android:layout_width="30dp"
@@ -234,11 +233,23 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
+    <RelativeLayout
         android:id="@+id/joinButton"
         android:layout_width="match_parent"
         android:layout_height="57dip"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/btn_attend" />
+        android:background="#107cfd" >
+
+        <TextView
+            android:id="@+id/btnText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableLeft="@drawable/btn_attend"
+            android:gravity="center"
+            android:text="  我要报名"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+    </RelativeLayout>
 
 </RelativeLayout>

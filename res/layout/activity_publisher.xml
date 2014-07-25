@@ -24,8 +24,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp" >
+            android:layout_centerVertical="true" >
 
             <ImageView
                 android:layout_width="30dp"
@@ -33,6 +32,16 @@
                 android:layout_centerInParent="true"
                 android:background="@drawable/icon_back_white" />
         </RelativeLayout>
+
+        <Button
+            android:id="@+id/favButton"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/icon_fav" >
+        </Button>
 
         <View
             android:layout_width="match_parent"
@@ -63,8 +72,8 @@
 
                 <RelativeLayout
                     android:id="@+id/iconContainer"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="40dp"
                     android:background="#ffffff" >
@@ -87,7 +96,8 @@
                         android:textAlignment="center"
                         android:textColor="#FFEE33"
                         android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
                 <TextView
@@ -96,28 +106,32 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/iconContainer"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:text="北大青年志愿者协会"
                     android:textColor="#000000"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/sloganLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxLines="2"
-                    android:textAlignment="center"
                     android:layout_below="@+id/titleLabel"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:maxLines="2"
                     android:text="用我智慧奉献爱"
+                    android:textAlignment="center"
                     android:textColor="#000000"
                     android:textSize="16sp" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" >
 
@@ -152,7 +166,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" >
 
@@ -187,7 +201,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" >
 
@@ -222,7 +236,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" >
 
@@ -257,7 +271,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" >
 

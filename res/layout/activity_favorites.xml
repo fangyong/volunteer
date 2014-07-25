@@ -26,8 +26,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp" >
+            android:layout_centerVertical="true" >
 
             <ImageView
                 android:layout_width="30dp"
@@ -49,7 +48,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="志愿者活动"
+            android:text="活动"
             android:textColor="#5190fc" >
         </TextView>
 
@@ -59,7 +58,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="志愿者组织"
+            android:text="组织者"
             android:textColor="#000000" >
         </TextView>
     </LinearLayout>
@@ -71,7 +70,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="1px"
             android:layout_alignParentBottom="true"
             android:background="#ffaaaaaa" />
 
@@ -83,14 +82,14 @@
             <View
                 android:id="@+id/indicator1"
                 android:layout_width="0dp"
-                android:layout_height="2dp"
+                android:layout_height="3dp"
                 android:layout_weight="1"
                 android:background="#107cfd" />
 
             <View
                 android:id="@+id/indicator2"
                 android:layout_width="0dp"
-                android:layout_height="2dp"
+                android:layout_height="3dp"
                 android:layout_weight="1" />
         </LinearLayout>
     </RelativeLayout>

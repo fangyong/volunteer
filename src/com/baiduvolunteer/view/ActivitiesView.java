@@ -106,7 +106,6 @@ public class ActivitiesView extends LinearLayout {
 			}
 		});
 
-		loadData(System.currentTimeMillis());
 		searchField = (EditText) findViewById(R.id.search);
 		searchField.setOnClickListener(new OnClickListener() {
 
@@ -126,7 +125,7 @@ public class ActivitiesView extends LinearLayout {
 
 	public void onResume() {
 		// TODO Auto-generated method stub
-
+		loadData(System.currentTimeMillis());
 	}
 
 	public void loadData(long end) {
@@ -136,6 +135,7 @@ public class ActivitiesView extends LinearLayout {
 					@Override
 					public void handleResponse(BaseRequest request,
 							int statusCode, String errorMsg, String response) {
+						Log.d("test", "getActivities response:" + response);
 						try {
 							JSONObject ret = new JSONObject(response);
 							JSONArray activities = ret.optJSONObject("result")
@@ -144,49 +144,8 @@ public class ActivitiesView extends LinearLayout {
 								for (int i = 0; i < activities.length(); i++) {
 									JSONObject activity = activities
 											.optJSONObject(i);
-									ActivityInfo activityInfo = new ActivityInfo();
-									activityInfo.activityID = activity
-											.getString("activityId");
-									activityInfo.title = activity
-											.getString("actName");
-									if (activity.optInt("isLine") == 1)
-										activityInfo.isLine = true;
-									else
-										activityInfo.isLine = false;
-									if (activity.optInt("collection") == 1)
-										activityInfo.addedToFav = true;
-									else
-										activityInfo.addedToFav = false;
-									activityInfo.publishType = activity
-											.getString("publishType");
-									activityInfo.contactPhone = activity
-											.optString("contactPhone");
-									activityInfo.startTime = new Date(
-											Long.parseLong(activity
-													.getString("serviceOpenTime")));
-									activityInfo.endTime = new Date(
-											Long.parseLong(activity
-													.getString("serviceOverTime")));
-									activityInfo.createTime = activity
-											.optLong("createTime");
-									activityInfo.publisher = activity
-											.getString("publisher");
-									activityInfo.description = activity
-											.optString("activityDes");
-									activityInfo.iconUrl = activity
-											.getString("logo");
-									activityInfo.distance = activity
-											.getString("distance");
-									activityInfo.address = activity
-											.optString("serviceAdress");
-									activityInfo.currentCount = activity
-											.optInt("apply");
-									activityInfo.totalCount = activity
-											.optInt("recruitment");
-									activityInfo.description = activity
-											.optString("activityDes");
-									activityInfo.field = activity
-											.optString("field");
+									ActivityInfo activityInfo = ActivityInfo
+											.createFromJson(activity);
 									activityInfoList.add(activityInfo);
 
 								}

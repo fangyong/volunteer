@@ -12,7 +12,19 @@ public class SearchRequest extends BaseRequest {
 	private SearchType searchType;
 	private String key;
 	private long end;
-	private int size;
+	private int size=10;
+	private double lat = 361;
+	private double lng = 361;
+
+	public SearchRequest setLat(double lat) {
+		this.lat = lat;
+		return this;
+	}
+
+	public SearchRequest setLng(double lng) {
+		this.lng = lng;
+		return this;
+	}
 
 	public SearchRequest setSize(int size) {
 		this.size = size;
@@ -55,7 +67,13 @@ public class SearchRequest extends BaseRequest {
 			map.put("size", size + "");
 		if (end > 0)
 			map.put("end", "" + end);
-		map.put("key", key);
+		if (key != null && !key.isEmpty())
+			map.put("key", key);
+		if (lat != 361)
+			map.put("lat", "" + lat);
+		if (lng != 361)
+			map.put("lng", "" + lng);
+
 	}
 
 	@Override

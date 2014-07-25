@@ -1,5 +1,7 @@
 package com.baiduvolunteer.activity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -21,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -47,6 +50,7 @@ public class SearchActivity extends Activity {
 	private Spinner typeSelector;
 	private EditText searchField;
 	private ListView resultList;
+	private Button searchButton;
 	private ArrayAdapter<Object> resultAdapter;
 	private ArrayList<ActivityInfo> activities = new ArrayList<ActivityInfo>();
 	private ArrayList<Publisher> publishers = new ArrayList<Publisher>();
@@ -63,6 +67,17 @@ public class SearchActivity extends Activity {
 		mPd = new ProgressDialog(this);
 		mPd.setCancelable(false);
 		mPd.setIndeterminate(true);
+		searchButton = (Button) findViewById(R.id.searchButton);
+		searchButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+				startSearch();
+			}
+		});
 		typeSelector = (Spinner) findViewById(R.id.typeSelector);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, types);
@@ -98,7 +113,7 @@ public class SearchActivity extends Activity {
 					v.clearFocus();
 					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-					startSearch();
+					// startSearch();
 					return true;
 				}
 				return false;
@@ -247,7 +262,7 @@ public class SearchActivity extends Activity {
 			resultAdapter.notifyDataSetChanged();
 		}
 		new SearchRequest().setSearchType(SearchType.SearchTypeActivity)
-				.setKey(ViewUtils.toUnicode(searchField.getText().toString()))
+				.setKey(searchField.getText().toString())
 				.setHandler(new ResponseHandler() {
 
 					@Override

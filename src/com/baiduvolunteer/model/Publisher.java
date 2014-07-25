@@ -4,12 +4,18 @@ import java.io.Serializable;
 
 import org.json.JSONObject;
 
+import com.baiduvolunteer.http.AddFavRequest.PublisherType;
+
+import android.util.Log;
+
 public class Publisher implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+	public PublisherType publisherType;
 
 	public String publishName;// String,活动发布者
 
@@ -39,6 +45,10 @@ public class Publisher implements Serializable {
 
 	public int province;
 
+	public double latitude;
+
+	public double longtitude;
+
 	public void loadFromJson(JSONObject obj) {
 		address = obj.optString("adress");
 		try {
@@ -48,6 +58,12 @@ public class Publisher implements Serializable {
 			city = 0;
 		}
 		publishName = obj.optString("institutionsName");
+		if (publishName == null || publishName.isEmpty())
+			publishName = obj.optString("publisherName");
+		Log.d("test", "publisherName:" + publishName);
+		pid = obj.optString("publisherId");
+		if(pid==null||pid.isEmpty())
+			pid = obj.optString("institutionsId");
 		logoUrl = "http://www.gongyixiang.com"
 				+ obj.optString("logourl", "/dend");
 		field = obj.optString("filed");
@@ -63,6 +79,9 @@ public class Publisher implements Serializable {
 		} catch (Exception e) {
 			memberNumber = 0;
 		}
+
+		latitude = obj.optDouble("latitude", 0);
+		longtitude = obj.optDouble("longitude", 0);
 		size = obj.optString("size");
 		linkPhone = obj.optString("contactPhone");
 		linkUser = obj.optString("publisherName");

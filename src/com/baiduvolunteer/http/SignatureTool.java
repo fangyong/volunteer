@@ -41,12 +41,19 @@ public class SignatureTool {
 			// Log.d("test","sorted Key:"+key);
 //			sb.append(key);
 //			sb.append("=");
-			String value = signParams.get(key);
+			String value;
+			try {
+				value = URLEncoder.encode(signParams.get(key),"utf-8");
+				sb.append(value);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// try {
 			// String encodeValue = URLEncoder.encode(
 			// String.format("%s", value), "utf-8").replace("+",
 			// "%20");
-			sb.append(value);
+			
 			// } catch (UnsupportedEncodingException e) {
 			// // TODO Auto-generated catch block
 			// e.printStackTrace();

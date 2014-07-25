@@ -12,7 +12,7 @@
         android:layout_height="70dip"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dip" >
+        android:layout_marginLeft="10dip" >
 
         <ImageView
             android:id="@+id/imageView"
@@ -41,27 +41,13 @@
         android:layout_width="30dip"
         android:layout_height="30dip"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/avatar_rl"
+        android:layout_alignTop="@+id/container"
         android:layout_marginRight="15dip"
         android:src="@drawable/icon_fav" >
     </ImageView>
 
-    <TextView
-        android:id="@+id/distLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/avatar_rl"
-        android:layout_alignRight="@+id/rightIcon"
-        android:background="@drawable/gary_c_bg"
-        android:paddingBottom="1dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="1dp"
-        android:text="&lt; 500m"
-        android:textColor="@color/gary"
-        android:textSize="@dimen/text_size_14" />
-
     <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/avatar_rl"
@@ -69,14 +55,14 @@
         android:layout_marginLeft="10dip"
         android:layout_marginRight="10dip"
         android:layout_marginTop="-4dip"
-        android:layout_toLeftOf="@+id/distLabel"
         android:layout_toRightOf="@+id/avatar_rl"
         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/titleLabel"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginRight="55dp"
             android:gravity="center_vertical"
             android:text="西南小学教师志愿者"
             android:textColor="@color/black"
@@ -116,17 +102,33 @@
                 android:id="@+id/locIcon"
                 android:layout_width="20dip"
                 android:layout_height="20dip"
+                android:layout_weight="0"
                 android:src="@drawable/icon_loc" />
 
             <TextView
                 android:id="@+id/locationLabel"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:text="北京市海淀区海淀中街13号"
                 android:textColor="@color/light_gary"
                 android:textSize="@dimen/text_size_14" >
             </TextView>
+
+            <TextView
+                android:id="@+id/distLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@drawable/gary_c_bg"
+                android:paddingBottom="1dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="1dp"
+                android:text="&lt; 500m"
+                android:textColor="@color/gary"
+                android:textSize="@dimen/text_size_14" />
         </LinearLayout>
     </LinearLayout>
 
