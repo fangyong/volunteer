@@ -31,8 +31,9 @@
         android:layout_toLeftOf="@+id/detailIcon"
         android:layout_toRightOf="@+id/iconView"
         android:gravity="center_vertical"
+        android:textColor="@color/black"
         android:text="test"
-        android:textSize="16sp" >
+        android:textSize="@dimen/text_size_22" >
     </TextView>
 
 </com.baiduvolunteer.view.SettingCell>
