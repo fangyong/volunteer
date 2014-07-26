@@ -1,7 +1,6 @@
 package com.baiduvolunteer.view;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 import org.json.JSONArray;
@@ -51,12 +50,6 @@ public class ActivitiesView extends LinearLayout {
 		// TODO Auto-generated constructor stub
 
 	}
-
-	// public ActivitiesView(Context context, AttributeSet attrs, int defStyle)
-	// {
-	// super(context, attrs, defStyle);
-	// // TODO Auto-generated constructor stub
-	// }
 
 	@Override
 	protected void onFinishInflate() {
@@ -159,7 +152,7 @@ public class ActivitiesView extends LinearLayout {
 								mAdapter.notifyDataSetChanged();
 							} else {
 								Toast.makeText(getContext(), "已经到底了！",
-										Toast.LENGTH_LONG).show();
+										Toast.LENGTH_SHORT).show();
 								if (activityListView.getFooterViewsCount() > 0)
 									activityListView
 											.removeFooterView(footerView);

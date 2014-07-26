@@ -13,7 +13,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#cccccc" >
+            android:background="#eeeeee" >
 
             <TextView
                 android:id="@+id/title"
@@ -21,8 +21,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="我的主页"
-                android:textColor="#000"
-                android:textSize="17sp" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_24" />
 
             <Button
                 android:id="@+id/msg_bt"
@@ -97,8 +97,9 @@
                                     android:layout_height="wrap_content"
                                     android:maxEms="100"
                                     android:text="王晓明"
+                                    android:textStyle="bold"
                                     android:textColor="#ffffff"
-                                    android:textSize="19sp" />
+                                    android:textSize="@dimen/text_size_28" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -106,9 +107,10 @@
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="40dp"
                                     android:layout_toRightOf="@+id/userNameLabel"
-                                    android:gravity="center_vertical" android:textScaleX=".8"
+                                    android:gravity="center_vertical"
                                     android:text=">"
                                     android:textColor="#ffffff"
+                                    android:textScaleX=".8"
                                     android:textSize="20sp" >
                                 </TextView>
                             </RelativeLayout>
@@ -120,7 +122,7 @@
                                 android:layout_marginTop="5dp"
                                 android:text="已注册33天"
                                 android:textColor="#ffffff"
-                                android:textSize="15sp" />
+                                android:textSize="@dimen/text_size_16" />
                         </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
@@ -152,8 +154,8 @@
                             android:orientation="horizontal" >
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
                                 android:background="@drawable/attended"
                                 android:orientation="vertical" >
@@ -165,7 +167,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="我参与的活动"
-                                android:textColor="#000000" />
+                                android:textColor="#000000"
+                                android:textSize="@dimen/text_size_22" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -185,7 +188,8 @@
                                 android:paddingRight="10dp"
                                 android:paddingTop="1dp"
                                 android:text="6"
-                                android:textColor="#000000" />
+                                android:textColor="#000000"
+                                android:textSize="@dimen/text_size_18" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -224,8 +228,8 @@
                             android:orientation="horizontal" >
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
                                 android:background="@drawable/icon_fav_sel"
                                 android:orientation="vertical" >
@@ -237,7 +241,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="我的收藏"
-                                android:textColor="#000000" />
+                                android:textColor="#000000"
+                                android:textSize="@dimen/text_size_22" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -257,7 +262,8 @@
                                 android:paddingRight="10dp"
                                 android:paddingTop="1dp"
                                 android:text="12"
-                                android:textColor="#000000" />
+                                android:textColor="#000000"
+                                android:textSize="@dimen/text_size_18" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"

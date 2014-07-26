@@ -168,7 +168,7 @@ public class JoinedActivitiesActivity extends BaseActivity {
 								mAdapter.notifyDataSetChanged();
 								if (activities.length() < size) {
 									Toast.makeText(JoinedActivitiesActivity.this,
-											"已经到底了！", Toast.LENGTH_LONG).show();
+											"已经到底了！", Toast.LENGTH_SHORT).show();
 									if (eventsList.getFooterViewsCount() > 0)
 										eventsList
 												.removeFooterView(footerView);
