@@ -24,9 +24,14 @@ import com.lidroid.xutils.http.client.util.URIBuilder;
 
 public abstract class BaseRequest {
 
-	public static interface ResponseHandler {
-		public void handleResponse(BaseRequest request, int statusCode,
-				String errorMsg, String response);
+	public static abstract class ResponseHandler {
+		public abstract void handleResponse(BaseRequest request,
+				int statusCode, String errorMsg, String response);
+
+		public void handleError(BaseRequest request, int statusCode,
+				String errorMsg) {
+			Log.e("test", "connection error on request " + request.method());
+		}
 	}
 
 	private HashMap<String, String> params = new HashMap<String, String>();
@@ -87,7 +92,8 @@ public abstract class BaseRequest {
 		String sig = SignatureTool.getSignature(params);
 		for (String key : params.keySet()) {
 			try {
-				requestParams.addQueryStringParameter(key,URLEncoder.encode(params.get(key),"utf-8"));
+				requestParams.addQueryStringParameter(key,
+						URLEncoder.encode(params.get(key), "utf-8"));
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -136,8 +142,8 @@ public abstract class BaseRequest {
 					public void onFailure(HttpException arg0, String arg1) {
 						// TODO Auto-generated method stub
 						if (handler != null) {
-							handler.handleResponse(BaseRequest.this,
-									arg0.getExceptionCode(), null, null);
+							handler.handleError(BaseRequest.this,
+									arg0.getExceptionCode(), null);
 						}
 						Log.d("test", "error: code " + arg0.getExceptionCode());
 					}

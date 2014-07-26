@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 import org.json.JSONObject;
 
-import com.baiduvolunteer.http.AddFavRequest.PublisherType;
-
 import android.util.Log;
 
 public class Publisher implements Serializable {
-
+	public static enum PublisherType {
+		PublisherTypeAPP, PublisherTypeGYX
+	}
 	/**
 	 * 
 	 */
@@ -47,10 +47,18 @@ public class Publisher implements Serializable {
 
 	public double latitude;
 
-	public double longtitude;
+	public double longitude;
+	
+	public boolean isCollection;
+	
+	public int activityNum;//发布活动数
+	public int activityJoinNum;//活动参加人数
 
 	public void loadFromJson(JSONObject obj) {
 		address = obj.optString("adress");
+		if(address==null||address.isEmpty()){
+			address = obj.optString("address");
+		}
 		try {
 			city = Integer.valueOf(obj.optString("city"));
 		} catch (Exception e) {
@@ -81,10 +89,13 @@ public class Publisher implements Serializable {
 		}
 
 		latitude = obj.optDouble("latitude", 0);
-		longtitude = obj.optDouble("longitude", 0);
+		longitude = obj.optDouble("longitude", 0);
 		size = obj.optString("size");
 		linkPhone = obj.optString("contactPhone");
 		linkUser = obj.optString("publisherName");
+		isCollection  =obj.optBoolean("collection",false);
+		activityNum = obj.optInt("publishActivityNum",0);
+		activityJoinNum = obj.optInt("publishActivityJoinNum",0);
 	}
 
 	public static Publisher createFromJson(JSONObject obj) {

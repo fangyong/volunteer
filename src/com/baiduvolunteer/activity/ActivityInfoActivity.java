@@ -46,6 +46,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 
 	private View backButton;
 	private View attendButton;
+	private TextView attendBtnText;
 
 	private ActivityInfo activityInfo;
 
@@ -80,9 +81,13 @@ public class ActivityInfoActivity extends BaseActivity implements
 		activityCategory = (TextView) findViewById(R.id.activityCategory);
 		activityEnrollNumber = (TextView) findViewById(R.id.activityEnrollNumber);
 		activityIntro = (TextView) findViewById(R.id.activityIntro);
-		organizerCell.detailIconView.setImageResource(R.drawable.icon_cell_detail);
-		contactCell.detailIconView.setImageResource(R.drawable.icon_cell_detail);
-		locationCell.detailIconView.setImageResource(R.drawable.icon_cell_detail);
+		organizerCell.detailIconView
+				.setImageResource(R.drawable.icon_cell_detail);
+		contactCell.detailIconView
+				.setImageResource(R.drawable.icon_cell_detail);
+		locationCell.detailIconView
+				.setImageResource(R.drawable.icon_cell_detail);
+		attendBtnText = (TextView) findViewById(R.id.btnText);
 		if (joined) {
 			attendButton.setVisibility(View.GONE);
 		}
@@ -106,6 +111,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 									activity = activity
 											.optJSONObject("activity");
 									activityInfo.loadFromJson(activity);
+									Log.d("test", "isattend"
+											+ activityInfo.isAttend);
 									locationCell.textLabel
 											.setText(activityInfo.address);
 									activityTime.setText(sdf
@@ -132,9 +139,13 @@ public class ActivityInfoActivity extends BaseActivity implements
 									if (activityInfo.isAttend) {
 										attendButton
 												.setBackgroundColor(0xffe7e7e7);
-									} else
+										attendBtnText.setText("  已报名");
+									} else {
 										attendButton
 												.setBackgroundColor(0xff107cfd);
+										attendBtnText.setText("  我要报名");
+									}
+
 								} catch (JSONException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -185,6 +196,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 		} else if (v == backButton) {
 			this.finish();
 		} else if (v == attendButton) {
+			if (activityInfo.isAttend)
+				return;
 			if (User.sharedUser().phoneNumber == null
 					|| User.sharedUser().phoneNumber.isEmpty()) {
 				new AlertDialog.Builder(this)
@@ -226,13 +239,14 @@ public class ActivityInfoActivity extends BaseActivity implements
 								// Toast.makeText(ActivityInfoActivity.this,
 								// response, Toast.LENGTH_LONG).show();
 								attendButton.setBackgroundColor(0xffe7e7e7);
-
+								activityInfo.isAttend = true;
 								Toast.makeText(ActivityInfoActivity.this,
 										"已提交报名请求", Toast.LENGTH_LONG).show();
 							}
 						}).start();
 				;
-				// Toast.makeText(this, "已提交报名请求", Toast.LENGTH_LONG).show();
+				// Toast.makeText(this, "已提交报名请求",
+				// Toast.LENGTH_LONG).show();
 
 			}
 

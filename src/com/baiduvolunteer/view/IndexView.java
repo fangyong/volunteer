@@ -1,11 +1,13 @@
 package com.baiduvolunteer.view;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -52,6 +54,8 @@ import com.baidu.mapapi.map.MyLocationConfigeration.LocationMode;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.activity.ActivityInfoActivity;
 import com.baiduvolunteer.activity.PublisherAct;
@@ -59,6 +63,7 @@ import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.SearchRequest;
 import com.baiduvolunteer.http.SearchRequest.SearchType;
+import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.Publisher;
 import com.baiduvolunteer.util.ViewUtils;
 
@@ -66,6 +71,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 
 	private MapView mapView;
 	private BaiduMap map;
+	private ProgressDialog mpd;
 	private LocationClient mLocationClient;
 	private MyLocationListenner myListener;
 	private SDKReceiver myReceiver;
@@ -73,7 +79,10 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	private LinearLayout infoView;
 	private Marker marker = null;
 	private Button locationButton;
-	private Publisher currentPublisher;
+	private Object currentData;
+	private int searchCount = 0;
+
+	private LatLng currentLatLng;
 
 	private int ids[] = { R.drawable.icon_marka, R.drawable.icon_markb,
 			R.drawable.icon_markc, R.drawable.icon_markd,
@@ -81,7 +90,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			R.drawable.icon_markg, R.drawable.icon_markh,
 			R.drawable.icon_marki, R.drawable.icon_markj, };
 
-	private ArrayList<Publisher> publishers = new ArrayList<Publisher>();
+	private ArrayList<Object> markerArray = new ArrayList<Object>();
 
 	private EditText searchField;
 
@@ -94,11 +103,17 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	public IndexView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
+		mpd = new ProgressDialog(getContext());
+		mpd.setCancelable(false);
+		mpd.setIndeterminate(true);
 	}
 
 	public IndexView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
+		mpd = new ProgressDialog(getContext());
+		mpd.setCancelable(false);
+		mpd.setIndeterminate(true);
 	}
 
 	@Override
@@ -165,7 +180,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			mapView.onResume();
 		if (mLocationClient != null)
 			mLocationClient.start();
-		if (map != null && map.getMapStatus() != null && publishers.size() == 0) {
+		if (map != null && map.getMapStatus() != null
+				&& markerArray.size() == 0) {
 			startSearch();
 		}
 	}
@@ -218,12 +234,22 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			@Override
 			public void onMapStatusChangeStart(MapStatus arg0) {
 				// TODO Auto-generated method stub
-
+				// map.hideInfoWindow();
 			}
 
 			@Override
 			public void onMapStatusChangeFinish(MapStatus arg0) {
 				// TODO Auto-generated method stub
+				LatLng newlatlng = arg0.target;
+				if (currentLatLng == null
+						|| DistanceUtil.getDistance(currentLatLng, newlatlng) > 500) {
+					map.clear();
+					markerArray.clear();
+					startSearch();
+					currentLatLng = newlatlng;
+					return;
+				}
+				currentLatLng = newlatlng;
 				if (marker == null)
 					return;
 				Point p = map.getProjection().toScreenLocation(
@@ -237,13 +263,24 @@ public class IndexView extends LinearLayout implements OnClickListener {
 							@Override
 							public void onInfoWindowClick() {
 								// TODO Auto-generated method stub
-								Intent intent = new Intent(getContext(),
-										PublisherAct.class);
-								intent.putExtra("publisherId", currentPublisher.pid);
-								getContext().startActivity(intent);
+								if (currentData instanceof Publisher) {
+									Publisher publisher = (Publisher) currentData;
+									Intent intent = new Intent(getContext(),
+											PublisherAct.class);
+									intent.putExtra("publisherId",
+											publisher.pid);
+									getContext().startActivity(intent);
+								} else {
+									ActivityInfo info = (ActivityInfo) currentData;
+									Intent intent = new Intent(getContext(),
+											ActivityInfo.class);
+									intent.putExtra("activity", info);
+									getContext().startActivity(intent);
+								}
 							}
 						});
 				map.showInfoWindow(window);
+
 			}
 
 			@Override
@@ -260,18 +297,29 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				map.hideInfoWindow();
 				marker = arg0;
 				int index = marker.getExtraInfo().getInt("index");
-				currentPublisher = publishers.get(index);
+
+				currentData = markerArray.get(index);
 				Point p = map.getProjection().toScreenLocation(
 						marker.getPosition());
 				p.y -= 47;
-				Log.d("test", "current: " + currentPublisher.address + ","
-						+ currentPublisher.publishName);
+				Publisher currentPublisher = null;
+				ActivityInfo info = null;
+				if (currentData instanceof Publisher) {
+					currentPublisher = (Publisher) currentData;
+					Log.d("test", "current: " + currentPublisher.address + ","
+							+ currentPublisher.publishName);
+				} else {
+					info = (ActivityInfo) currentData;
+				}
+
 				((ImageView) infoView.findViewById(R.id.placeMarker))
 						.setImageResource(ids[index]);
 				((TextView) infoView.findViewById(R.id.titleLabel))
-						.setText(currentPublisher.publishName);
+						.setText(currentPublisher != null ? currentPublisher.publishName
+								: info.title);
 				((TextView) infoView.findViewById(R.id.addressLabel))
-						.setText(currentPublisher.address);
+						.setText(currentPublisher != null ? currentPublisher.address
+								: info.address);
 				LatLng llInfo = map.getProjection().fromScreenLocation(p);
 				InfoWindow window = new InfoWindow(infoView, llInfo,
 						new OnInfoWindowClickListener() {
@@ -279,10 +327,21 @@ public class IndexView extends LinearLayout implements OnClickListener {
 							@Override
 							public void onInfoWindowClick() {
 								// TODO Auto-generated method stub
-								Intent intent = new Intent(getContext(),
-										PublisherAct.class);
-								intent.putExtra("publisherId", currentPublisher.pid);
-								getContext().startActivity(intent);
+								if (currentData instanceof Publisher) {
+									Publisher publisher = (Publisher) currentData;
+									Intent intent = new Intent(getContext(),
+											PublisherAct.class);
+									intent.putExtra("publisherId",
+											publisher.pid);
+									getContext().startActivity(intent);
+								} else {
+									ActivityInfo info = (ActivityInfo) currentData;
+									Intent intent = new Intent(getContext(),
+											ActivityInfo.class);
+									intent.putExtra("activity", info);
+									getContext().startActivity(intent);
+								}
+
 							}
 						});
 				map.showInfoWindow(window);
@@ -311,6 +370,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 
 	private void startSearch() {
 		// TODO
+		markerArray.clear();
 		LatLng ll = map.getMapStatus().target;
 		new SearchRequest().setLat(ll.latitude).setLng(ll.longitude)
 				.setKey(searchField.getText().toString())
@@ -321,7 +381,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 					public void handleResponse(BaseRequest request,
 							int statusCode, String errorMsg, String response) {
 						// TODO Auto-generated method stub
-						Log.d("test", "search response "+ statusCode+":" + response);
+						Log.d("test", "search response " + statusCode + ":"
+								+ response);
 						try {
 							JSONObject obj = new JSONObject(response);
 							obj = obj.optJSONObject("result");
@@ -329,15 +390,13 @@ public class IndexView extends LinearLayout implements OnClickListener {
 								JSONArray array = obj
 										.optJSONArray("publishers");
 								if (array != null) {
-									publishers.clear();
 									for (int i = 0; i < array.length(); i++) {
 										Publisher info = Publisher
 												.createFromJson(array
 														.getJSONObject(i));
-										publishers.add(info);
+										markerArray.add(info);
 									}
 								}
-
 							}
 							ViewUtils.runInMainThread(new Runnable() {
 
@@ -357,20 +416,56 @@ public class IndexView extends LinearLayout implements OnClickListener {
 
 	public void updateMap() {
 		map.clear();
-		int count = Math.min(10, publishers.size());
-		Log.d("test", "count: " + count);
+		Point lt = new Point(0, 0);
+		LatLng ltll = map.getProjection().fromScreenLocation(lt);
+		lt = new Point(mapView.getWidth(), mapView.getHeight());
+		LatLng rdll = map.getProjection().fromScreenLocation(lt);
+		int count = Math.min(10, markerArray.size());
+		Log.d("test", "lt: " + ltll.longitude + ",rd:" + rdll.longitude);
+		int cnt = 0;
 		for (int i = 0; i < count; i++) {
-			Publisher publisher = publishers.get(i);
-			LatLng ll = new LatLng(publisher.latitude, publisher.longtitude);
-			Log.d("test", "publisher:" + publisher.latitude + ","
-					+ publisher.longtitude);
-			int id = ids[i];
-			Bundle bundle = new Bundle();
-			bundle.putInt("index", i);
-			OverlayOptions oo = new MarkerOptions().extraInfo(bundle)
-					.position(ll)
-					.icon(BitmapDescriptorFactory.fromResource(id));
-			map.addOverlay(oo);
+			Object obj = markerArray.get(i);
+			if (obj instanceof Publisher) {
+				Publisher publisher = (Publisher) obj;
+				LatLng ll = new LatLng(publisher.latitude, publisher.longitude);
+				Log.d("test", "publisher:" + publisher.latitude + ","
+						+ publisher.longitude);
+				if (ll.latitude < ltll.latitude && ll.latitude > rdll.latitude
+						&& ll.longitude > ltll.longitude
+						&& ll.longitude < rdll.longitude) {
+
+					int id = ids[cnt];
+					cnt++;
+					Bundle bundle = new Bundle();
+					bundle.putInt("index", i);
+					bundle.putSerializable("object", publisher);
+					OverlayOptions oo = new MarkerOptions().extraInfo(bundle)
+							.position(ll)
+							.icon(BitmapDescriptorFactory.fromResource(id));
+					map.addOverlay(oo);
+				}
+
+			} else if (obj instanceof ActivityInfo) {
+				ActivityInfo info = (ActivityInfo) obj;
+				LatLng ll = new LatLng(info.latitude, info.longitude);
+				Log.d("test", "activity:" + info.latitude + ","
+						+ info.longitude);
+				if (ll.latitude < ltll.latitude && ll.latitude > rdll.latitude
+						&& ll.longitude > ltll.longitude
+						&& ll.longitude > rdll.longitude) {
+					
+
+					int id = ids[cnt];
+					cnt++;
+					Bundle bundle = new Bundle();
+					bundle.putInt("index", i);
+					bundle.putSerializable("object", info);
+					OverlayOptions oo = new MarkerOptions().extraInfo(bundle)
+							.position(ll)
+							.icon(BitmapDescriptorFactory.fromResource(id));
+				}
+			}
+
 		}
 	}
 
@@ -400,9 +495,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		if (v == locationButton) {
 			this.firstLoc = true;
 
-			publishers.clear();
+			markerArray.clear();
 			map.clear();
-			startSearch();
 		}
 	}
 }

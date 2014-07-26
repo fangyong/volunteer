@@ -35,7 +35,9 @@ public class ActivityInfo implements Serializable {
 	public String shareUrl;// 可选
 	public String publishType;// 发布类型
 	public String publisher;// 发布者
-	public boolean isAttend;
+	public boolean isAttend;// 是否报名
+	public double latitude;// 纬度
+	public double longitude;//经度
 
 	public static ActivityInfo createFromJson(JSONObject activity) {
 		ActivityInfo activityInfo = new ActivityInfo();
@@ -55,6 +57,8 @@ public class ActivityInfo implements Serializable {
 				this.addedToFav = true;
 			else
 				this.addedToFav = false;
+			this.latitude = activity.optDouble("latitude");
+			this.longitude = activity.optDouble("longitude");
 			this.publishType = activity.getString("publishType");
 			this.contactPhone = activity.optString("contactPhone");
 			this.publisher = activity.optString("publisher");
@@ -67,12 +71,15 @@ public class ActivityInfo implements Serializable {
 			this.totalCount = activity.optInt("recruitment");
 			this.description = activity.optString("activityDes");
 			this.field = activity.optString("field");
+			this.isAttend = activity.optInt("apply", 0) == 1;
 			this.startTime = new Date(Long.parseLong(activity
 					.getString("serviceOpenTime")));
 			this.endTime = new Date(Long.parseLong(activity
 					.getString("serviceOverTime")));
-			this.createTime = Long.parseLong(activity.getString("createTime"));
-			this.isAttend = activity.optBoolean("isAttend", false);
+
+			this.createTime = Long.parseLong(activity.optString("createTime",
+					"0"));
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
