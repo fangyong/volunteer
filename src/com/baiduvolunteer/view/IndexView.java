@@ -64,6 +64,7 @@ import com.baiduvolunteer.http.SearchAllRequest;
 import com.baiduvolunteer.http.SearchAllRequest.SearchAllResponseHandler;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.Publisher;
+import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 
 public class IndexView extends LinearLayout implements OnClickListener {
@@ -241,6 +242,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			public void onMapStatusChangeFinish(MapStatus arg0) {
 				// TODO Auto-generated method stub
 				LatLng newlatlng = arg0.target;
+				User.sharedUser().lastLatlng = arg0.target;
 				if (currentLatLng == null
 						|| DistanceUtil.getDistance(currentLatLng, newlatlng) > 500) {
 					map.clear();
@@ -385,6 +387,41 @@ public class IndexView extends LinearLayout implements OnClickListener {
 						searchButton.startAnimation(ta);
 
 					}
+				} else {
+					if (searchButton.getVisibility() != View.GONE) {
+						Log.d("test", "anim");
+						TranslateAnimation ta = new TranslateAnimation(
+								Animation.RELATIVE_TO_SELF, 0,
+								Animation.RELATIVE_TO_SELF, 1,
+								Animation.RELATIVE_TO_SELF, 0,
+								Animation.RELATIVE_TO_SELF, 0);
+						ta.setDuration(200);
+						ta.setFillAfter(false);
+						ta.setAnimationListener(new AnimationListener() {
+
+							@Override
+							public void onAnimationStart(Animation animation) {
+								// TODO Auto-generated method stub
+
+							}
+
+							@Override
+							public void onAnimationRepeat(Animation animation) {
+								// TODO Auto-generated method stub
+
+							}
+
+							@Override
+							public void onAnimationEnd(Animation animation) {
+								// TODO Auto-generated method stub
+								searchButton.setVisibility(View.GONE);
+							}
+						});
+						searchButton.clearAnimation();
+						searchButton.startAnimation(ta);
+
+					}
+
 				}
 			}
 
@@ -413,44 +450,45 @@ public class IndexView extends LinearLayout implements OnClickListener {
 					if (searchField.getText() != null
 							&& !searchField.getText().toString().isEmpty()) {
 
-					} else if (searchField.getText() == null
-							|| searchField.getText().toString().isEmpty()) {
-						if (searchButton.getVisibility() != View.GONE) {
-							Log.d("test", "anim");
-							TranslateAnimation ta = new TranslateAnimation(
-									Animation.RELATIVE_TO_SELF, 0,
-									Animation.RELATIVE_TO_SELF, 1,
-									Animation.RELATIVE_TO_SELF, 0,
-									Animation.RELATIVE_TO_SELF, 0);
-							ta.setDuration(200);
-							ta.setFillAfter(false);
-							ta.setAnimationListener(new AnimationListener() {
-
-								@Override
-								public void onAnimationStart(Animation animation) {
-									// TODO Auto-generated method stub
-
-								}
-
-								@Override
-								public void onAnimationRepeat(
-										Animation animation) {
-									// TODO Auto-generated method stub
-
-								}
-
-								@Override
-								public void onAnimationEnd(Animation animation) {
-									// TODO Auto-generated method stub
-									searchButton.setVisibility(View.GONE);
-								}
-							});
-							searchButton.clearAnimation();
-							searchButton.startAnimation(ta);
-
-						}
-
 					}
+//					else if (searchField.getText() == null
+//							|| searchField.getText().toString().isEmpty()) {
+//						if (searchButton.getVisibility() != View.GONE) {
+//							Log.d("test", "anim");
+//							TranslateAnimation ta = new TranslateAnimation(
+//									Animation.RELATIVE_TO_SELF, 0,
+//									Animation.RELATIVE_TO_SELF, 1,
+//									Animation.RELATIVE_TO_SELF, 0,
+//									Animation.RELATIVE_TO_SELF, 0);
+//							ta.setDuration(200);
+//							ta.setFillAfter(false);
+//							ta.setAnimationListener(new AnimationListener() {
+//
+//								@Override
+//								public void onAnimationStart(Animation animation) {
+//									// TODO Auto-generated method stub
+//
+//								}
+//
+//								@Override
+//								public void onAnimationRepeat(
+//										Animation animation) {
+//									// TODO Auto-generated method stub
+//
+//								}
+//
+//								@Override
+//								public void onAnimationEnd(Animation animation) {
+//									// TODO Auto-generated method stub
+//									searchButton.setVisibility(View.GONE);
+//								}
+//							});
+//							searchButton.clearAnimation();
+//							searchButton.startAnimation(ta);
+//
+//						}
+//
+//					}
 					return true;
 				}
 				return false;

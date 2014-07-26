@@ -1,5 +1,6 @@
 package com.baiduvolunteer.activity;
 
+import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -44,6 +45,7 @@ import com.baiduvolunteer.http.SearchRequest;
 import com.baiduvolunteer.http.SearchRequest.SearchType;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.Publisher;
+import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
 import com.baiduvolunteer.view.PublisherListCellHolder;
@@ -130,6 +132,40 @@ public class SearchActivity extends Activity {
 						searchButton.startAnimation(ta);
 
 					}
+				} else if (searchField.getText() == null
+						|| searchField.getText().toString().isEmpty()) {
+					if (searchButton.getVisibility() != View.GONE) {
+						Log.d("test", "anim");
+						TranslateAnimation ta = new TranslateAnimation(
+								Animation.RELATIVE_TO_SELF, 0,
+								Animation.RELATIVE_TO_SELF, 1,
+								Animation.RELATIVE_TO_SELF, 0,
+								Animation.RELATIVE_TO_SELF, 0);
+						ta.setDuration(200);
+						ta.setFillAfter(false);
+						ta.setAnimationListener(new AnimationListener() {
+
+							@Override
+							public void onAnimationStart(Animation animation) {
+								// TODO Auto-generated method stub
+
+							}
+
+							@Override
+							public void onAnimationRepeat(Animation animation) {
+								// TODO Auto-generated method stub
+
+							}
+
+							@Override
+							public void onAnimationEnd(Animation animation) {
+								// TODO Auto-generated method stub
+								searchButton.setVisibility(View.GONE);
+							}
+						});
+						searchButton.clearAnimation();
+						searchButton.startAnimation(ta);
+					}
 				}
 			}
 
@@ -156,42 +192,7 @@ public class SearchActivity extends Activity {
 					v.clearFocus();
 
 					// startSearch();
-					if (searchField.getText() == null
-							|| searchField.getText().toString().isEmpty()) {
-						if (searchButton.getVisibility() != View.GONE) {
-							Log.d("test", "anim");
-							TranslateAnimation ta = new TranslateAnimation(
-									Animation.RELATIVE_TO_SELF, 0,
-									Animation.RELATIVE_TO_SELF, 1,
-									Animation.RELATIVE_TO_SELF, 0,
-									Animation.RELATIVE_TO_SELF, 0);
-							ta.setDuration(200);
-							ta.setFillAfter(false);
-							ta.setAnimationListener(new AnimationListener() {
 
-								@Override
-								public void onAnimationStart(Animation animation) {
-									// TODO Auto-generated method stub
-
-								}
-
-								@Override
-								public void onAnimationRepeat(
-										Animation animation) {
-									// TODO Auto-generated method stub
-
-								}
-
-								@Override
-								public void onAnimationEnd(Animation animation) {
-									// TODO Auto-generated method stub
-									searchButton.setVisibility(View.GONE);
-								}
-							});
-							searchButton.clearAnimation();
-							searchButton.startAnimation(ta);
-						}
-					}
 					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 					return true;
@@ -341,44 +342,47 @@ public class SearchActivity extends Activity {
 		// activities.clear();
 		// resultAdapter.notifyDataSetChanged();
 		// }
-		new SearchRequest().setSearchType(SearchType.SearchTypeActivity)
-				.setKey(searchField.getText().toString())
-				.setHandler(new ResponseHandler() {
+		SearchRequest sreq = new SearchRequest().setSearchType(
+				SearchType.SearchTypeActivity).setKey(
+				searchField.getText().toString());
+		if (User.sharedUser().lastLatlng != null) {
+			sreq.setLat(User.sharedUser().lastLatlng.latitude).setLng(
+					User.sharedUser().lastLatlng.longitude);
+		}
+		sreq.setHandler(new ResponseHandler() {
 
-					@Override
-					public void handleResponse(BaseRequest request,
-							int statusCode, String errorMsg, String response) {
-						Log.d("test", "search request " + response);
-						try {
-							JSONObject obj = new JSONObject(response);
-							obj = obj.optJSONObject("result");
-							if (obj != null) {
-								JSONArray array = obj
-										.optJSONArray("activities");
-								if (array != null) {
-									activities.clear();
-									for (int i = 0; i < array.length(); i++) {
-										ActivityInfo info = ActivityInfo
-												.createFromJson(array
-														.getJSONObject(i));
-										activities.add(info);
-									}
-								}
-
+			@Override
+			public void handleResponse(BaseRequest request, int statusCode,
+					String errorMsg, String response) {
+				Log.d("test", "search request " + response);
+				try {
+					JSONObject obj = new JSONObject(response);
+					obj = obj.optJSONObject("result");
+					if (obj != null) {
+						JSONArray array = obj.optJSONArray("activities");
+						if (array != null) {
+							activities.clear();
+							for (int i = 0; i < array.length(); i++) {
+								ActivityInfo info = ActivityInfo
+										.createFromJson(array.getJSONObject(i));
+								activities.add(info);
 							}
-							ViewUtils.runInMainThread(new Runnable() {
-
-								@Override
-								public void run() {
-									resultAdapter.notifyDataSetChanged();
-								}
-							});
-
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
 						}
+
 					}
-				}).start();
+					ViewUtils.runInMainThread(new Runnable() {
+
+						@Override
+						public void run() {
+							resultAdapter.notifyDataSetChanged();
+						}
+					});
+
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 }
