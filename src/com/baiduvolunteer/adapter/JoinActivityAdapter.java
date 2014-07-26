@@ -63,4 +63,14 @@ public class JoinActivityAdapter extends BaseAdapter {
 		return convertView;
 	}
 
+	public ArrayList<ActivityInfo> getActivityList() {
+		return activityList;
+	}
+
+	public void setActivityList(ArrayList<ActivityInfo> activityList) {
+		this.activityList = activityList;
+	}
+	
+	
+
 }

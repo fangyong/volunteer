@@ -28,12 +28,15 @@ import com.baiduvolunteer.http.getJoinedActivityListRequest;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.view.ActivityListCellHolder;
+import com.baiduvolunteer.view.MyListView;
+import com.baiduvolunteer.view.MyListView.OnRefreshListener;
 
 public class JoinedActivitiesActivity extends BaseActivity {
 	private View backButton;
-	private ListView eventsList;
-	private ArrayAdapter<ActivityInfo> mAdapter;
+	private MyListView eventsList;
+	private JoinActivityAdapter mAdapter;
 	private ArrayList<ActivityInfo> activityInfoList = new ArrayList<ActivityInfo>();
+	private int size = 10;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,33 +53,20 @@ public class JoinedActivitiesActivity extends BaseActivity {
 			}
 		});
 
-		eventsList = (ListView) findViewById(R.id.eventsList);
+		eventsList = (MyListView) findViewById(R.id.eventsList);
+		mAdapter = new JoinActivityAdapter(JoinedActivitiesActivity.this,
+				activityInfoList);
 
-		// mAdapter = new ArrayAdapter<ActivityInfo>(this, 0) {
-		// @Override
-		// public int getCount() {
-		// // TODO Auto-generated method stub
-		// return 1;
-		// }
-		//
-		// @Override
-		// public View getView(int position, View convertView, ViewGroup parent)
-		// {
-		// if (convertView == null) {
-		// ActivityListCellHolder holder = ActivityListCellHolder
-		// .create(getContext());
-		// convertView = holder.container;
-		// convertView.setTag(holder);
-		// }
-		// ActivityListCellHolder holder = (ActivityListCellHolder) convertView
-		// .getTag();
-		// holder.favIcon.setVisibility(View.INVISIBLE);
-		// return convertView;
-		// }
-		// };
+		eventsList.setAdapter(mAdapter);
+		eventsList.setonRefreshListener(new OnRefreshListener() {
 
-		// eventsList.setAdapter(mAdapter);
-		//
+			@Override
+			public void onRefresh() {
+				activityInfoList = new ArrayList<ActivityInfo>();
+				load(System.currentTimeMillis());
+			}
+		});
+
 		eventsList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -89,8 +79,13 @@ public class JoinedActivitiesActivity extends BaseActivity {
 			}
 		});
 
+		load(System.currentTimeMillis());
+
+	}
+
+	void load(long end) {
 		new getJoinedActivityListRequest().setvUid(User.sharedUser().vuid)
-				.setHandler(new ResponseHandler() {
+				.setSize(size).setEnd(end).setHandler(new ResponseHandler() {
 
 					@Override
 					public void handleResponse(BaseRequest request,
@@ -105,59 +100,59 @@ public class JoinedActivitiesActivity extends BaseActivity {
 							for (int i = 0; i < activities.length(); i++) {
 								JSONObject activity = activities
 										.optJSONObject(i);
-								ActivityInfo activityInfo = new ActivityInfo();
-								activityInfo.activityID = activity
-										.getString("activityId");
-								activityInfo.title = activity
-										.getString("actName");
-								if (activity.optInt("isLine") == 1)
-									activityInfo.isLine = true;
-								else
-									activityInfo.isLine = false;
-								if (activity.optInt("collection") == 1)
-									activityInfo.addedToFav = true;
-								else
-									activityInfo.addedToFav = false;
-								activityInfo.publishType = activity
-										.getString("publishType");
-								activityInfo.contactPhone = activity
-										.optString("contactPhone");
-								activityInfo.startTime = new Date(Long
-										.parseLong(activity
-												.getString("serviceOpenTime")));
-								activityInfo.endTime = new Date(Long
-										.parseLong(activity
-												.getString("serviceOverTime")));
-								activityInfo.publisher = activity
-										.getString("publisher");
-								activityInfo.description = activity
-										.optString("activityDes");
-								activityInfo.iconUrl = activity
-										.getString("logo");
-								activityInfo.distance = activity
-										.getString("distance");
-								activityInfo.address = activity
-										.optString("serviceAdress");
-								activityInfo.currentCount = activity
-										.optInt("apply");
-								activityInfo.totalCount = activity
-										.optInt("recruitment");
-								activityInfo.description = activity
-										.optString("activityDes");
-								activityInfo.field = activity
-										.optString("field");
+								ActivityInfo activityInfo = ActivityInfo
+										.createFromJson(activity);
+								// activityInfo.activityID = activity
+								// .getString("activityId");
+								// activityInfo.title = activity
+								// .getString("actName");
+								// if (activity.optInt("isLine") == 1)
+								// activityInfo.isLine = true;
+								// else
+								// activityInfo.isLine = false;
+								// if (activity.optInt("collection") == 1)
+								// activityInfo.addedToFav = true;
+								// else
+								// activityInfo.addedToFav = false;
+								// activityInfo.publishType = activity
+								// .getString("publishType");
+								// activityInfo.contactPhone = activity
+								// .optString("contactPhone");
+								// activityInfo.startTime = new Date(Long
+								// .parseLong(activity
+								// .getString("serviceOpenTime")));
+								// activityInfo.endTime = new Date(Long
+								// .parseLong(activity
+								// .getString("serviceOverTime")));
+								// activityInfo.publisher = activity
+								// .getString("publisher");
+								// activityInfo.description = activity
+								// .optString("activityDes");
+								// activityInfo.iconUrl = activity
+								// .getString("logo");
+								// activityInfo.distance = activity
+								// .getString("distance");
+								// activityInfo.address = activity
+								// .optString("serviceAdress");
+								// activityInfo.currentCount = activity
+								// .optInt("apply");
+								// activityInfo.totalCount = activity
+								// .optInt("recruitment");
+								// activityInfo.description = activity
+								// .optString("activityDes");
+								// activityInfo.field = activity
+								// .optString("field");
 								activityInfoList.add(activityInfo);
-
-								eventsList.setAdapter(new JoinActivityAdapter(
-										JoinedActivitiesActivity.this,
-										activityInfoList));
+								mAdapter.setActivityList(activityInfoList);
+								mAdapter.notifyDataSetChanged();
 							}
+							eventsList.onRefreshComplete();
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
 					}
 				}).start();
 	}
+
 }
