@@ -1,7 +1,5 @@
 package com.baiduvolunteer.activity;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -13,11 +11,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,7 +28,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,12 +35,12 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.AddFavRequest;
-import com.baiduvolunteer.http.BaseRequest;
-import com.baiduvolunteer.http.RemoveFavRequest;
 import com.baiduvolunteer.http.AddFavRequest.AddFavType;
+import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
-import com.baiduvolunteer.http.SearchRequest;
+import com.baiduvolunteer.http.RemoveFavRequest;
 import com.baiduvolunteer.http.RemoveFavRequest.RemoveFavType;
+import com.baiduvolunteer.http.SearchRequest;
 import com.baiduvolunteer.http.SearchRequest.SearchType;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.Publisher;
@@ -103,6 +105,47 @@ public class SearchActivity extends Activity {
 			}
 		});
 		searchField = (EditText) findViewById(R.id.search);
+		searchField.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				if (searchField.getText() != null
+						&& !searchField.getText().toString().isEmpty()) {
+					Log.d("test", "anim verify");
+					if (searchButton.getVisibility() == View.VISIBLE)
+						return;
+					else {
+						Log.d("test", "anim");
+						TranslateAnimation ta = new TranslateAnimation(
+								Animation.RELATIVE_TO_SELF, 1,
+								Animation.RELATIVE_TO_SELF, 0,
+								Animation.RELATIVE_TO_SELF, 0,
+								Animation.RELATIVE_TO_SELF, 0);
+						ta.setDuration(200);
+						ta.setFillAfter(true);
+						searchButton.clearAnimation();
+						searchButton.setVisibility(View.VISIBLE);
+						searchButton.startAnimation(ta);
+
+					}
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		searchField.setOnEditorActionListener(new OnEditorActionListener() {
 
 			@Override
@@ -111,9 +154,46 @@ public class SearchActivity extends Activity {
 				// TODO Auto-generated method stub
 				if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
 					v.clearFocus();
+
+					// startSearch();
+					if (searchField.getText() == null
+							|| searchField.getText().toString().isEmpty()) {
+						if (searchButton.getVisibility() != View.GONE) {
+							Log.d("test", "anim");
+							TranslateAnimation ta = new TranslateAnimation(
+									Animation.RELATIVE_TO_SELF, 0,
+									Animation.RELATIVE_TO_SELF, 1,
+									Animation.RELATIVE_TO_SELF, 0,
+									Animation.RELATIVE_TO_SELF, 0);
+							ta.setDuration(200);
+							ta.setFillAfter(false);
+							ta.setAnimationListener(new AnimationListener() {
+
+								@Override
+								public void onAnimationStart(Animation animation) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onAnimationRepeat(
+										Animation animation) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onAnimationEnd(Animation animation) {
+									// TODO Auto-generated method stub
+									searchButton.setVisibility(View.GONE);
+								}
+							});
+							searchButton.clearAnimation();
+							searchButton.startAnimation(ta);
+						}
+					}
 					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-					// startSearch();
 					return true;
 				}
 				return false;
@@ -257,10 +337,10 @@ public class SearchActivity extends Activity {
 	}
 
 	private void startSearch() {
-		if (searchField.getText().toString().isEmpty()) {
-			activities.clear();
-			resultAdapter.notifyDataSetChanged();
-		}
+		// if (searchField.getText().toString().isEmpty()) {
+		// activities.clear();
+		// resultAdapter.notifyDataSetChanged();
+		// }
 		new SearchRequest().setSearchType(SearchType.SearchTypeActivity)
 				.setKey(searchField.getText().toString())
 				.setHandler(new ResponseHandler() {

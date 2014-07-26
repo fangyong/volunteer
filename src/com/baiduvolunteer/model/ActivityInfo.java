@@ -3,7 +3,6 @@ package com.baiduvolunteer.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.baidu.mapapi.model.LatLng;
