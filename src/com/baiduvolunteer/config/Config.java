@@ -11,6 +11,7 @@ import com.baiduvolunteer.task.LoadCitiesTask.OnTaskFinishListener;
 
 public class Config implements Serializable {
 	public static final String baseURL = "http://115.28.0.232/VolunteerApp/";
+//	public static final String baseURL = "http://192.168.1.77:8080/VolunteerApp/";
 	public static final String USER_AGENT = "android_client";
 	public static final String APP_SECRET = "2d56df9a08100634d51940309237855d";
 

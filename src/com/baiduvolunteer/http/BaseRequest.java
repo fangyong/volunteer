@@ -1,7 +1,9 @@
 package com.baiduvolunteer.http;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +86,12 @@ public abstract class BaseRequest {
 			params.put("vuid", User.sharedUser().vuid);
 		String sig = SignatureTool.getSignature(params);
 		for (String key : params.keySet()) {
-			requestParams.addQueryStringParameter(key, params.get(key));
+			try {
+				requestParams.addQueryStringParameter(key,URLEncoder.encode(params.get(key),"utf-8"));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		requestParams.addQueryStringParameter("signature", sig);
 		List<NameValuePair> list = requestParams.getQueryStringParams();

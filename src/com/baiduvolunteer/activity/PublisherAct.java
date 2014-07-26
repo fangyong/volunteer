@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,9 @@ import android.widget.TextView;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.config.Config;
 import com.baiduvolunteer.config.Config.CityInfo;
+import com.baiduvolunteer.http.AddFavRequest;
+import com.baiduvolunteer.http.AddFavRequest.AddFavType;
+import com.baiduvolunteer.http.AddFavRequest.PublisherType;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetPublisherInfoRequest;
@@ -35,12 +39,17 @@ public class PublisherAct extends Activity implements OnClickListener {
 	private TextView locationLabel;
 	private TextView contactLabel;
 	private TextView phoneLabel;
+	private View addFavButton;
+	private ProgressDialog mPd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_publisher);
+		mPd = new ProgressDialog(this);
+		mPd.setCancelable(false);
+		mPd.setIndeterminate(true);
 		publisherIcon = (ImageView) findViewById(R.id.publisherIcon);
 		titleLabel = (TextView) findViewById(R.id.titleLabel);
 		sloganLabel = (TextView) findViewById(R.id.sloganLabel);
@@ -85,6 +94,8 @@ public class PublisherAct extends Activity implements OnClickListener {
 		}
 		backButton = findViewById(R.id.backButton);
 		backButton.setOnClickListener(this);
+		addFavButton = findViewById(R.id.favButton);
+		addFavButton.setOnClickListener(this);
 	}
 
 	private void updateInfo() {
@@ -131,6 +142,20 @@ public class PublisherAct extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		if (backButton == v) {
 			this.finish();
+		} else if (addFavButton == v) {
+			mPd.show();
+			new AddFavRequest().setAddType(AddFavType.AddFavTypePublisher)
+					.setPublisherType(PublisherType.PublisherTypeGYX)
+					.setId(publisher.pid).setHandler(new ResponseHandler() {
+
+						@Override
+						public void handleResponse(BaseRequest request,
+								int statusCode, String errorMsg, String response) {
+							// TODO Auto-generated method stub
+							Log.d("test","add fav publisher:"+response);
+							mPd.dismiss();
+						}
+					}).start();
 		}
 	}
 }

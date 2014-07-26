@@ -1,5 +1,7 @@
 package com.baiduvolunteer.activity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -21,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -31,9 +34,11 @@ import android.widget.TextView.OnEditorActionListener;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.AddFavRequest;
 import com.baiduvolunteer.http.BaseRequest;
+import com.baiduvolunteer.http.RemoveFavRequest;
 import com.baiduvolunteer.http.AddFavRequest.AddFavType;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.SearchRequest;
+import com.baiduvolunteer.http.RemoveFavRequest.RemoveFavType;
 import com.baiduvolunteer.http.SearchRequest.SearchType;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.Publisher;
@@ -45,6 +50,7 @@ public class SearchActivity extends Activity {
 	private Spinner typeSelector;
 	private EditText searchField;
 	private ListView resultList;
+	private Button searchButton;
 	private ArrayAdapter<Object> resultAdapter;
 	private ArrayList<ActivityInfo> activities = new ArrayList<ActivityInfo>();
 	private ArrayList<Publisher> publishers = new ArrayList<Publisher>();
@@ -61,6 +67,17 @@ public class SearchActivity extends Activity {
 		mPd = new ProgressDialog(this);
 		mPd.setCancelable(false);
 		mPd.setIndeterminate(true);
+		searchButton = (Button) findViewById(R.id.searchButton);
+		searchButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+				startSearch();
+			}
+		});
 		typeSelector = (Spinner) findViewById(R.id.typeSelector);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, types);
@@ -96,7 +113,7 @@ public class SearchActivity extends Activity {
 					v.clearFocus();
 					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-					startSearch();
+					// startSearch();
 					return true;
 				}
 				return false;
@@ -133,8 +150,9 @@ public class SearchActivity extends Activity {
 						public void onClick(View arg0) {
 							Integer pos = (Integer) arg0.getTag();
 							final ActivityInfo info = activities.get(pos);
-							mPd.show();
-							if (!info.addedToFav)
+
+							if (!info.addedToFav) {
+								mPd.show();
 								new AddFavRequest()
 										.setAddType(
 												AddFavType.AddFavTypeActivity)
@@ -149,10 +167,47 @@ public class SearchActivity extends Activity {
 													String response) {
 												// TODO Auto-generated method
 												// stub
+												mPd.dismiss();
 												Log.d("test", "add fav result "
 														+ response);
 												if (statusCode == 200) {
 													info.addedToFav = true;
+													ViewUtils
+															.runInMainThread(new Runnable() {
+
+																@Override
+																public void run() {
+
+																	// TODO
+																	// Auto-generated
+																	// method
+																	// stub
+																	notifyDataSetChanged();
+																}
+															});
+												}
+
+											}
+										}).start();
+							} else {
+								new RemoveFavRequest()
+										.setId(info.activityID)
+										.setRemoveType(
+												RemoveFavType.RemoveFavTypeActivity)
+										.setHandler(new ResponseHandler() {
+
+											@Override
+											public void handleResponse(
+													BaseRequest request,
+													int statusCode,
+													String errorMsg,
+													String response) {
+												Log.d("test",
+														"remove fav result "
+																+ response);
+												mPd.dismiss();
+												if (statusCode == 200) {
+													info.addedToFav = false;
 													ViewUtils
 															.runInMainThread(new Runnable() {
 
@@ -167,11 +222,8 @@ public class SearchActivity extends Activity {
 																}
 															});
 												}
-
 											}
 										}).start();
-							else {
-								// TODO add request and server api
 							}
 						}
 					});
@@ -210,7 +262,7 @@ public class SearchActivity extends Activity {
 			resultAdapter.notifyDataSetChanged();
 		}
 		new SearchRequest().setSearchType(SearchType.SearchTypeActivity)
-				.setKey(ViewUtils.toUnicode(searchField.getText().toString()))
+				.setKey(searchField.getText().toString())
 				.setHandler(new ResponseHandler() {
 
 					@Override

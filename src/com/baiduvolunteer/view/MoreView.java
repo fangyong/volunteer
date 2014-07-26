@@ -1,6 +1,7 @@
 package com.baiduvolunteer.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -9,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baiduvolunteer.R;
+import com.baiduvolunteer.activity.PushSettingsActivity;
 
 public class MoreView extends LinearLayout implements OnClickListener {
 
@@ -73,7 +75,9 @@ public class MoreView extends LinearLayout implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v == pushSettings) {
-
+			Intent intent = new Intent(getContext(),PushSettingsActivity.class);
+			getContext().startActivity(intent);
+			
 		} else if (v == feedBack) {
 
 		} else if (v == about) {

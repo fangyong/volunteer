@@ -85,14 +85,33 @@
                             android:layout_marginLeft="5dp"
                             android:orientation="vertical" >
 
-                            <TextView
-                                android:id="@+id/userNameLabel"
+                            <RelativeLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
-                                android:text="王晓明"
-                                android:textColor="#ffffff"
-                                android:textSize="19sp" />
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    android:id="@+id/userNameLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:maxEms="100"
+                                    android:text="王晓明"
+                                    android:textColor="#ffffff"
+                                    android:textSize="19sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="40dp"
+                                    android:layout_toRightOf="@+id/userNameLabel"
+                                    android:gravity="center_vertical" android:textScaleX=".8"
+                                    android:text=">"
+                                    android:textColor="#ffffff"
+                                    android:textSize="20sp" >
+                                </TextView>
+                            </RelativeLayout>
 
                             <TextView
                                 android:id="@+id/regDate"
@@ -153,12 +172,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true" >
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="40dp" >
 
                             <TextView
                                 android:id="@+id/joinedCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:background="@drawable/gary_c_bg"
+                                android:paddingBottom="1dp"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:paddingTop="1dp"
                                 android:text="6"
                                 android:textColor="#000000" />
 
@@ -169,6 +194,14 @@
                                 android:orientation="vertical" >
                             </LinearLayout>
                         </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/icon_cell_detail" />
                     </RelativeLayout>
 
                     <LinearLayout
@@ -211,12 +244,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true" >
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="40dp" >
 
                             <TextView
                                 android:id="@+id/favCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:background="@drawable/gary_c_bg"
+                                android:paddingBottom="1dp"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:paddingTop="1dp"
                                 android:text="12"
                                 android:textColor="#000000" />
 
@@ -227,6 +266,14 @@
                                 android:orientation="vertical" >
                             </LinearLayout>
                         </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/icon_cell_detail" />
                     </RelativeLayout>
 
                     <LinearLayout

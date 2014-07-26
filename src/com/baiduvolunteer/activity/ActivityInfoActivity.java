@@ -42,10 +42,10 @@ public class ActivityInfoActivity extends BaseActivity implements
 	private TextView activityEnrollNumber;
 	private TextView activityIntro;
 
-	private SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm");
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.d hh:mm");
 
 	private View backButton;
-	private Button attendButton;
+	private View attendButton;
 
 	private ActivityInfo activityInfo;
 
@@ -72,7 +72,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 		organizerCell.setOnClickListener(this);
 		backButton = findViewById(R.id.backBtn);
 		backButton.setOnClickListener(this);
-		attendButton = (Button) findViewById(R.id.joinButton);
+		attendButton = findViewById(R.id.joinButton);
 		attendButton.setOnClickListener(this);
 		activityTitle = (TextView) findViewById(R.id.activityTitle);
 		activityPic = (ImageView) findViewById(R.id.activityPic);
@@ -80,6 +80,9 @@ public class ActivityInfoActivity extends BaseActivity implements
 		activityCategory = (TextView) findViewById(R.id.activityCategory);
 		activityEnrollNumber = (TextView) findViewById(R.id.activityEnrollNumber);
 		activityIntro = (TextView) findViewById(R.id.activityIntro);
+		organizerCell.detailIconView.setImageResource(R.drawable.icon_cell_detail);
+		contactCell.detailIconView.setImageResource(R.drawable.icon_cell_detail);
+		locationCell.detailIconView.setImageResource(R.drawable.icon_cell_detail);
 		if (joined) {
 			attendButton.setVisibility(View.GONE);
 		}
@@ -111,20 +114,27 @@ public class ActivityInfoActivity extends BaseActivity implements
 											+ sdf.format(activityInfo.endTime));
 									activityTitle.setText(activityInfo.title);
 									activityEnrollNumber.setText(String.format(
-											"报名人数 %d/%d",
+											"报名人数： %d/%d",
 											activityInfo.currentCount,
 											activityInfo.totalCount));
-									activityCategory
-											.setText(activityInfo.field);
+									activityCategory.setText("领域："
+											+ activityInfo.field);
 									organizerCell.textLabel
 											.setText(activityInfo.publisher);
 									contactCell.textLabel
 											.setText(activityInfo.contactPhone);
 									activityIntro
 											.setText(activityInfo.description);
+									attendButton.setEnabled(true);
 									if (activityInfo.iconUrl != null)
 										ViewUtils.bmUtils.display(activityPic,
 												activityInfo.iconUrl);
+									if (activityInfo.isAttend) {
+										attendButton
+												.setBackgroundColor(0xffe7e7e7);
+									} else
+										attendButton
+												.setBackgroundColor(0xff107cfd);
 								} catch (JSONException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -215,7 +225,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 								Log.d("test", "join response" + response);
 								// Toast.makeText(ActivityInfoActivity.this,
 								// response, Toast.LENGTH_LONG).show();
-								attendButton.setEnabled(true);
+								attendButton.setBackgroundColor(0xffe7e7e7);
+
 								Toast.makeText(ActivityInfoActivity.this,
 										"已提交报名请求", Toast.LENGTH_LONG).show();
 							}

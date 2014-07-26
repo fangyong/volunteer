@@ -49,9 +49,9 @@ public class AddFavRequest extends BaseRequest {
 	protected void generateParams(HashMap<String, String> map) {
 		// TODO Auto-generated method stub
 		map.put("type", addType == AddFavType.AddFavTypeActivity ? "activity"
-				: "publish");
+				: "publisher");
 		if (addType == AddFavType.AddFavTypePublisher)
-			map.put("publisherType",
+			map.put("publishType",
 					publisherType == PublisherType.PublisherTypeAPP ? "volunteerapp"
 							: "gongyixiang");
 		map.put(addType == AddFavType.AddFavTypeActivity ? "activityId"

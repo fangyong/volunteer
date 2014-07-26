@@ -35,6 +35,7 @@ public class ActivityInfo implements Serializable {
 	public String shareUrl;// 可选
 	public String publishType;// 发布类型
 	public String publisher;// 发布者
+	public boolean isAttend;
 
 	public static ActivityInfo createFromJson(JSONObject activity) {
 		ActivityInfo activityInfo = new ActivityInfo();
@@ -70,7 +71,9 @@ public class ActivityInfo implements Serializable {
 					.getString("serviceOpenTime")));
 			this.endTime = new Date(Long.parseLong(activity
 					.getString("serviceOverTime")));
-		} catch (JSONException e) {
+			this.createTime = Long.parseLong(activity.getString("createTime"));
+			this.isAttend = activity.optBoolean("isAttend", false);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

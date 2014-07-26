@@ -92,6 +92,7 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 					Publisher publisher = publishers.get(position);
 					PublisherListCellHolder holder = PublisherListCellHolder
 							.create(getContext());
+					Log.d("test", "publisherName" + publisher.publishName);
 					holder.titleLabel.setText(publisher.publishName);
 					holder.activitiesLabel.setText(String.format("发起%d个活动",
 							publisher.numberOfActivities));
