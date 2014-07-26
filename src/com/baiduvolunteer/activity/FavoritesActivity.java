@@ -95,14 +95,65 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 					Log.d("test", "publisherName" + publisher.publishName);
 					holder.titleLabel.setText(publisher.publishName);
 					holder.activitiesLabel.setText(String.format("发起%d个活动",
-							publisher.numberOfActivities));
+							publisher.activityNum));
 					holder.membersLabel.setText(String.format("共%d个人参加",
-							publisher.memberNumber));
+							publisher.activityJoinNum));
+					ViewUtils.bmUtils.display(holder.imageView, publisher.logoUrl);
 					return holder.container;
 				}
 			}
 		};
 
+		favList.setAdapter(mAdapter);
+		favList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				if (selectIndex == 0) {
+					ActivityInfo info = activities.get(position);
+					Intent intent = new Intent(FavoritesActivity.this,
+							ActivityInfoActivity.class);
+					intent.putExtra("activity", info);
+					startActivity(intent);
+				} else {
+					Publisher publisher = publishers.get(position);
+					Intent intent = new Intent(FavoritesActivity.this,
+							PublisherAct.class);
+					intent.putExtra("publisherId", publisher.pid);
+					startActivity(intent);
+				}
+
+			}
+		});
+	}
+
+	public void setSelectIndex(int selectIndex) {
+		boolean changed = this.selectIndex != selectIndex;
+		this.selectIndex = selectIndex;
+		if (selectIndex == 0) {
+			tab1.setTextColor(0xff5190fc);
+			tab2.setTextColor(0xff000000);
+			indicator1.setBackgroundColor(0xff107cfd);
+			indicator2.setBackgroundColor(0x00000000);
+			tab1.setClickable(false);
+			tab2.setClickable(true);
+		} else {
+			tab2.setTextColor(0xff5190fc);
+			tab1.setTextColor(0xFF000000);
+			indicator2.setBackgroundColor(0xff107cfd);
+			indicator1.setBackgroundColor(0x00000000);
+			tab2.setClickable(false);
+			tab1.setClickable(true);
+		}
+		if (changed)
+			mAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 		new GetActivityCollectionListRequest().setHandler(
 				new ResponseHandler() {
 
@@ -180,50 +231,6 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 
 			}
 		}).start();
-		favList.setAdapter(mAdapter);
-		favList.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				if (selectIndex == 0) {
-					ActivityInfo info = activities.get(position);
-					Intent intent = new Intent(FavoritesActivity.this,
-							ActivityInfoActivity.class);
-					intent.putExtra("activity", info);
-					startActivity(intent);
-				} else {
-					Publisher publisher = publishers.get(position);
-					Intent intent = new Intent(FavoritesActivity.this,
-							PublisherAct.class);
-					intent.putExtra("publisherId", publisher.pid);
-					startActivity(intent);
-				}
-
-			}
-		});
-	}
-
-	public void setSelectIndex(int selectIndex) {
-		boolean changed = this.selectIndex != selectIndex;
-		this.selectIndex = selectIndex;
-		if (selectIndex == 0) {
-			tab1.setTextColor(0xff5190fc);
-			tab2.setTextColor(0xff000000);
-			indicator1.setBackgroundColor(0xff107cfd);
-			indicator2.setBackgroundColor(0x00000000);
-			tab1.setClickable(false);
-			tab2.setClickable(true);
-		} else {
-			tab2.setTextColor(0xff5190fc);
-			tab1.setTextColor(0xFF000000);
-			indicator2.setBackgroundColor(0xff107cfd);
-			indicator1.setBackgroundColor(0x00000000);
-			tab2.setClickable(false);
-			tab1.setClickable(true);
-		}
-		if (changed)
-			mAdapter.notifyDataSetChanged();
 	}
 
 	@Override

@@ -416,10 +416,21 @@ public class IndexView extends LinearLayout implements OnClickListener {
 
 	public void updateMap() {
 		map.clear();
-		Point lt = new Point(0, 0);
-		LatLng ltll = map.getProjection().fromScreenLocation(lt);
-		lt = new Point(mapView.getWidth(), mapView.getHeight());
-		LatLng rdll = map.getProjection().fromScreenLocation(lt);
+		Log.d("test", "sss");
+
+		LatLng ltll = null;
+		LatLng rdll = null;
+		try {
+			Point lt = new Point(0, 0);
+			if (map.getProjection() != null)
+				ltll = map.getProjection().fromScreenLocation(lt);
+			lt = new Point(mapView.getWidth(), mapView.getHeight());
+			if (map.getProjection() != null)
+				rdll = map.getProjection().fromScreenLocation(lt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		int count = Math.min(10, markerArray.size());
 		Log.d("test", "lt: " + ltll.longitude + ",rd:" + rdll.longitude);
 		int cnt = 0;
@@ -430,9 +441,11 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				LatLng ll = new LatLng(publisher.latitude, publisher.longitude);
 				Log.d("test", "publisher:" + publisher.latitude + ","
 						+ publisher.longitude);
-				if (ll.latitude < ltll.latitude && ll.latitude > rdll.latitude
-						&& ll.longitude > ltll.longitude
-						&& ll.longitude < rdll.longitude) {
+				if (ltll == null
+						|| rdll == null
+						|| (ll.latitude < ltll.latitude
+								&& ll.latitude > rdll.latitude
+								&& ll.longitude > ltll.longitude && ll.longitude < rdll.longitude)) {
 
 					int id = ids[cnt];
 					cnt++;
@@ -450,10 +463,11 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				LatLng ll = new LatLng(info.latitude, info.longitude);
 				Log.d("test", "activity:" + info.latitude + ","
 						+ info.longitude);
-				if (ll.latitude < ltll.latitude && ll.latitude > rdll.latitude
-						&& ll.longitude > ltll.longitude
-						&& ll.longitude > rdll.longitude) {
-					
+				if (ltll == null
+						|| rdll == null
+						|| (ll.latitude < ltll.latitude
+								&& ll.latitude > rdll.latitude
+								&& ll.longitude > ltll.longitude && ll.longitude > rdll.longitude)) {
 
 					int id = ids[cnt];
 					cnt++;
@@ -467,6 +481,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			}
 
 		}
+		Log.d("test", "sss out");
 	}
 
 	public class SDKReceiver extends BroadcastReceiver {

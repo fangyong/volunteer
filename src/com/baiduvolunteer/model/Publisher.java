@@ -10,6 +10,7 @@ public class Publisher implements Serializable {
 	public static enum PublisherType {
 		PublisherTypeAPP, PublisherTypeGYX
 	}
+
 	/**
 	 * 
 	 */
@@ -48,15 +49,15 @@ public class Publisher implements Serializable {
 	public double latitude;
 
 	public double longitude;
-	
+
 	public boolean isCollection;
-	
-	public int activityNum;//发布活动数
-	public int activityJoinNum;//活动参加人数
+
+	public int activityNum;// 发布活动数
+	public int activityJoinNum;// 活动参加人数
 
 	public void loadFromJson(JSONObject obj) {
 		address = obj.optString("adress");
-		if(address==null||address.isEmpty()){
+		if (address == null || address.isEmpty()) {
 			address = obj.optString("address");
 		}
 		try {
@@ -68,12 +69,16 @@ public class Publisher implements Serializable {
 		publishName = obj.optString("institutionsName");
 		if (publishName == null || publishName.isEmpty())
 			publishName = obj.optString("publisherName");
-		Log.d("test", "publisherName:" + publishName);
 		pid = obj.optString("publisherId");
-		if(pid==null||pid.isEmpty())
+		if (pid == null || pid.isEmpty())
 			pid = obj.optString("institutionsId");
-		logoUrl = "http://www.gongyixiang.com"
-				+ obj.optString("logourl", "/dend");
+		logoUrl = obj.optString("logourl");
+		if (logoUrl == null || logoUrl.isEmpty()) {
+			logoUrl = obj.optString("avatar");
+		}
+		if (logoUrl != null && !logoUrl.isEmpty()&&!logoUrl.startsWith("http")) {
+			logoUrl = "http://www.gongyixiang.com" + logoUrl;
+		}
 		field = obj.optString("filed");
 		try {
 			province = Integer.valueOf(obj.optString("province"));
@@ -93,9 +98,9 @@ public class Publisher implements Serializable {
 		size = obj.optString("size");
 		linkPhone = obj.optString("contactPhone");
 		linkUser = obj.optString("publisherName");
-		isCollection  =obj.optBoolean("collection",false);
-		activityNum = obj.optInt("publishActivityNum",0);
-		activityJoinNum = obj.optInt("publishActivityJoinNum",0);
+		isCollection = obj.optInt("collection", 0) != 0;
+		activityNum = obj.optInt("publishActivityNum", 0);
+		activityJoinNum = obj.optInt("publishActivityJoinNum", 0);
 	}
 
 	public static Publisher createFromJson(JSONObject obj) {
