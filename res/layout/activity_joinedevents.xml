@@ -36,10 +36,12 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <ListView
+    <com.baiduvolunteer.view.MyListView
         android:id="@+id/eventsList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-    </ListView>
+        android:layout_height="match_parent"
+        android:dividerHeight="2px"
+        android:divider="#dddddd" >
+    </com.baiduvolunteer.view.MyListView>
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.baiduvolunteer.view;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.baiduvolunteer.R;
@@ -28,7 +28,6 @@ import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetActivitiesListRequest;
 import com.baiduvolunteer.model.ActivityInfo;
-import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.MyListView.OnLoadListener;
 import com.baiduvolunteer.view.MyListView.OnRefreshListener;
 
@@ -40,6 +39,7 @@ public class ActivitiesView extends LinearLayout {
 	private EditText searchField;
 	private int psize = 10;
 	private View footerView;
+	private HashMap<String, ActivityInfo> hashData = new HashMap<String, ActivityInfo>();
 
 	public ActivitiesView(Context context) {
 		super(context);
@@ -69,6 +69,7 @@ public class ActivitiesView extends LinearLayout {
 			public void onRefresh() {
 				// TODO Auto-generated method stub
 				activityInfoList = new ArrayList<ActivityInfo>();
+				hashData = new HashMap<String, ActivityInfo>();
 				loadData(System.currentTimeMillis());
 				if (activityListView.getFooterViewsCount() == 0)
 					activityListView.addFooterView(footerView);
@@ -146,12 +147,16 @@ public class ActivitiesView extends LinearLayout {
 											.optJSONObject(i);
 									ActivityInfo activityInfo = ActivityInfo
 											.createFromJson(activity);
-									activityInfoList.add(activityInfo);
+									if (!isRepeat(hashData,
+											activityInfo.activityID)) {
+										activityInfoList.add(activityInfo);
+										hashData.put(activityInfo.activityID,
+												activityInfo);
+									}
 
 								}
 								mAdapter.setActivitiesList(activityInfoList);
 								mAdapter.notifyDataSetChanged();
-								activityListView.onRefreshComplete();
 							} else {
 								Toast.makeText(getContext(), "已经到底了！",
 										Toast.LENGTH_LONG).show();
@@ -159,6 +164,7 @@ public class ActivitiesView extends LinearLayout {
 									activityListView
 											.removeFooterView(footerView);
 							}
+							activityListView.onRefreshComplete();
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -168,4 +174,10 @@ public class ActivitiesView extends LinearLayout {
 				}).start();
 	}
 
+	boolean isRepeat(HashMap<String, ActivityInfo> hashData, String key) {
+		if (hashData.get(key) == null)
+			return false;
+		else
+			return true;
+	}
 }
