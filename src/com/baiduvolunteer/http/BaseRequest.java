@@ -32,7 +32,8 @@ public abstract class BaseRequest {
 
 		public void handleError(BaseRequest request, int statusCode,
 				String errorMsg) {
-			Log.e("test", "connection error on request " + request.method()+ "response:"+errorMsg);
+			Log.e("test", "connection error on request " + request.method()
+					+ "response:" + errorMsg);
 		}
 	}
 
@@ -152,26 +153,26 @@ public abstract class BaseRequest {
 								e.printStackTrace();
 							}
 						}
-						if (success && result != null && handler != null) {
-//							new Thread(new Runnable() {
-//
-//								@Override
-//								public void run() {
-									// TODO Auto-generated method stub
-									handler.handleResponse(BaseRequest.this,
-											info.statusCode, null, info.result);
-//								}
-//							}).start();
+						if (success && handler != null) {
+							// new Thread(new Runnable() {
+							//
+							// @Override
+							// public void run() {
+							// TODO Auto-generated method stub
+							handler.handleResponse(BaseRequest.this,
+									info.statusCode, null, info.result);
+							// }
+							// }).start();
 						} else if (handler != null) {
-//							new Thread(new Runnable() {
+							// new Thread(new Runnable() {
 
-//								@Override
-//								public void run() {
-									// TODO Auto-generated method stub
-									handler.handleError(BaseRequest.this,
-											info.statusCode, info.result);
-//								}
-//							}).start();
+							// @Override
+							// public void run() {
+							// TODO Auto-generated method stub
+							handler.handleError(BaseRequest.this,
+									info.statusCode, info.result);
+							// }
+							// }).start();
 						}
 
 					}
