@@ -34,6 +34,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.AddFavRequest;
 import com.baiduvolunteer.http.AddFavRequest.AddFavType;
@@ -223,7 +225,27 @@ public class SearchActivity extends Activity {
 					ViewUtils.bmUtils.display(holder.imageView, info.iconUrl);
 					holder.titleLabel.setText(info.title);
 					holder.locationLabel.setText(info.address);
-					holder.distLabel.setText("" + info.distance);
+				
+					// holder.distLabel.setText("" + info.distance);
+					if (User.sharedUser().lastLatlng != null
+							&& info.latitude != 0) {
+						double dist = DistanceUtil.getDistance(new LatLng(info.latitude,info.longitude),
+								User.sharedUser().lastLatlng);
+						if (dist < 500) {
+							holder.distLabel.setText(String.format("%.0fm",
+									dist));
+						} else if (dist < 1000) {
+							holder.distLabel.setText(String.format("%.0fm",
+									dist));
+						} else if (dist < 10000) {
+							holder.distLabel.setText(String.format("%.0fkm",
+									dist / 1000));
+						} else {
+							holder.distLabel.setText(">10km");
+						}
+					} else {
+						holder.distLabel.setText(info.distance + "m");
+					}
 					holder.favIcon.setTag(Integer.valueOf(position));
 					holder.favIcon.setOnClickListener(new OnClickListener() {
 

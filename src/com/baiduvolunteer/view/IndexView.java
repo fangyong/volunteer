@@ -1,5 +1,6 @@
 package com.baiduvolunteer.view;
 
+import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -84,6 +85,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	private Button searchButton;
 
 	private LatLng currentLatLng;
+	private float currentZoom;
 
 	private int ids[] = { R.drawable.icon_marka, R.drawable.icon_markb,
 			R.drawable.icon_markc, R.drawable.icon_markd,
@@ -208,6 +210,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		super.onFinishInflate();
 		mapView = (MapView) findViewById(R.id.bdmapView);
 		map = mapView.getMap();
+		Log.d("test", "map "+map);
 		map.setMyLocationEnabled(true);
 		map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 		infoView = (LinearLayout) LayoutInflater.from(getContext()).inflate(
@@ -239,14 +242,13 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			}
 
 			@Override
-			public void onMapStatusChangeFinish(MapStatus arg0) {
+			public void onMapStatusChangeFinish(MapStatus status) {
 				// TODO Auto-generated method stub
-				LatLng newlatlng = arg0.target;
-				User.sharedUser().lastLatlng = arg0.target;
+				LatLng newlatlng = status.target;
+				User.sharedUser().lastLatlng = status.target;
 				if (currentLatLng == null
 						|| DistanceUtil.getDistance(currentLatLng, newlatlng) > 500) {
-					map.clear();
-					markerArray.clear();
+
 					startSearch();
 					currentLatLng = newlatlng;
 					return;
@@ -254,38 +256,47 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				currentLatLng = newlatlng;
 				if (marker == null)
 					return;
-				Point p = map.getProjection().toScreenLocation(
-						marker.getPosition());
-				p.y -= 47;
 
-				LatLng llInfo = map.getProjection().fromScreenLocation(p);
-				InfoWindow window = new InfoWindow(infoView, llInfo,
-						new OnInfoWindowClickListener() {
+				if (currentZoom == 0) {
+					currentZoom = status.zoom;
+					return;
+				}
+				if (currentZoom != status.zoom) {
+					currentZoom = status.zoom;
+					Point p = map.getProjection().toScreenLocation(
+							marker.getPosition());
+					p.y -= 47;
 
-							@Override
-							public void onInfoWindowClick() {
-								// TODO Auto-generated method stub
-								Log.d("test", "currentData" + currentData);
-								if (currentData instanceof Publisher) {
-									Publisher publisher = (Publisher) currentData;
-									Intent intent = new Intent(getContext(),
-											PublisherAct.class);
-									intent.putExtra("publisherId",
-											publisher.pid);
-									getContext().startActivity(intent);
-								} else {
-									Log.d("test", "ddd");
-									ActivityInfo info = (ActivityInfo) currentData;
-									Log.d("test", "ddd " + info.activityID);
-									Intent intent = new Intent(getContext(),
-											ActivityInfoActivity.class);
-									intent.putExtra("activity", info);
-									getContext().startActivity(intent);
-									Log.d("test", "ddd out");
+					LatLng llInfo = map.getProjection().fromScreenLocation(p);
+					InfoWindow window = new InfoWindow(infoView, llInfo,
+							new OnInfoWindowClickListener() {
+
+								@Override
+								public void onInfoWindowClick() {
+									// TODO Auto-generated method stub
+									Log.d("test", "currentData" + currentData);
+									if (currentData instanceof Publisher) {
+										Publisher publisher = (Publisher) currentData;
+										Intent intent = new Intent(
+												getContext(),
+												PublisherAct.class);
+										intent.putExtra("publisherId",
+												publisher.pid);
+										getContext().startActivity(intent);
+									} else {
+										Log.d("test", "ddd");
+										ActivityInfo info = (ActivityInfo) currentData;
+										Log.d("test", "ddd " + info.activityID);
+										Intent intent = new Intent(
+												getContext(),
+												ActivityInfoActivity.class);
+										intent.putExtra("activity", info);
+										getContext().startActivity(intent);
+									}
 								}
-							}
-						});
-				map.showInfoWindow(window);
+							});
+					map.showInfoWindow(window);
+				}
 
 			}
 
@@ -451,44 +462,44 @@ public class IndexView extends LinearLayout implements OnClickListener {
 							&& !searchField.getText().toString().isEmpty()) {
 
 					}
-//					else if (searchField.getText() == null
-//							|| searchField.getText().toString().isEmpty()) {
-//						if (searchButton.getVisibility() != View.GONE) {
-//							Log.d("test", "anim");
-//							TranslateAnimation ta = new TranslateAnimation(
-//									Animation.RELATIVE_TO_SELF, 0,
-//									Animation.RELATIVE_TO_SELF, 1,
-//									Animation.RELATIVE_TO_SELF, 0,
-//									Animation.RELATIVE_TO_SELF, 0);
-//							ta.setDuration(200);
-//							ta.setFillAfter(false);
-//							ta.setAnimationListener(new AnimationListener() {
-//
-//								@Override
-//								public void onAnimationStart(Animation animation) {
-//									// TODO Auto-generated method stub
-//
-//								}
-//
-//								@Override
-//								public void onAnimationRepeat(
-//										Animation animation) {
-//									// TODO Auto-generated method stub
-//
-//								}
-//
-//								@Override
-//								public void onAnimationEnd(Animation animation) {
-//									// TODO Auto-generated method stub
-//									searchButton.setVisibility(View.GONE);
-//								}
-//							});
-//							searchButton.clearAnimation();
-//							searchButton.startAnimation(ta);
-//
-//						}
-//
-//					}
+					// else if (searchField.getText() == null
+					// || searchField.getText().toString().isEmpty()) {
+					// if (searchButton.getVisibility() != View.GONE) {
+					// Log.d("test", "anim");
+					// TranslateAnimation ta = new TranslateAnimation(
+					// Animation.RELATIVE_TO_SELF, 0,
+					// Animation.RELATIVE_TO_SELF, 1,
+					// Animation.RELATIVE_TO_SELF, 0,
+					// Animation.RELATIVE_TO_SELF, 0);
+					// ta.setDuration(200);
+					// ta.setFillAfter(false);
+					// ta.setAnimationListener(new AnimationListener() {
+					//
+					// @Override
+					// public void onAnimationStart(Animation animation) {
+					// // TODO Auto-generated method stub
+					//
+					// }
+					//
+					// @Override
+					// public void onAnimationRepeat(
+					// Animation animation) {
+					// // TODO Auto-generated method stub
+					//
+					// }
+					//
+					// @Override
+					// public void onAnimationEnd(Animation animation) {
+					// // TODO Auto-generated method stub
+					// searchButton.setVisibility(View.GONE);
+					// }
+					// });
+					// searchButton.clearAnimation();
+					// searchButton.startAnimation(ta);
+					//
+					// }
+					//
+					// }
 					return true;
 				}
 				return false;
@@ -545,6 +556,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 								return (dist < 0) ? -1 : (dist > 0) ? 1 : 0;
 							}
 						});
+						markerArray.clear();
 						markerArray.addAll(results);
 						ViewUtils.runInMainThread(new Runnable() {
 

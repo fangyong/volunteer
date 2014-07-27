@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
@@ -29,6 +31,7 @@ import com.baiduvolunteer.http.GetPublisherCollectionsRequest;
 import com.baiduvolunteer.http.MD5;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.Publisher;
+import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
 import com.baiduvolunteer.view.PublisherListCellHolder;
@@ -84,9 +87,30 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 							.create(getContext());
 					holder.favIcon.setVisibility(View.INVISIBLE);
 					holder.titleLabel.setText(info.title);
-					holder.timeLabel.setText(sdf.format(info.startTime) + "-"
-							+ sdf.format(info.endTime));
+					holder.timeLabel.setText(sdf.format(info.startTime)
+							+ "\n --" + sdf.format(info.endTime));
 					holder.locationLabel.setText(info.address);
+					ViewUtils.bmUtils.display(holder.imageView, info.iconUrl);
+					if (User.sharedUser().lastLatlng != null
+							&& info.latitude != 0) {
+						double dist = DistanceUtil.getDistance(new LatLng(
+								info.latitude, info.longitude), User
+								.sharedUser().lastLatlng);
+						if (dist < 500) {
+							holder.distLabel.setText(String.format("%.0fm",
+									dist));
+						} else if (dist < 1000) {
+							holder.distLabel.setText(String.format("%.0fm",
+									dist));
+						} else if (dist < 10000) {
+							holder.distLabel.setText(String.format("%.0fkm",
+									dist / 1000));
+						} else {
+							holder.distLabel.setText(">10km");
+						}
+					} else {
+						holder.distLabel.setText(info.distance + "m");
+					}
 					return holder.container;
 				} else {
 					Publisher publisher = publishers.get(position);
@@ -98,7 +122,8 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 							publisher.activityNum));
 					holder.membersLabel.setText(String.format("共%d个人参加",
 							publisher.activityJoinNum));
-					ViewUtils.bmUtils.display(holder.imageView, publisher.logoUrl);
+					ViewUtils.bmUtils.display(holder.imageView,
+							publisher.logoUrl);
 					return holder.container;
 				}
 			}
