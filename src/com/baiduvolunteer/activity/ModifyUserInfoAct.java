@@ -38,7 +38,7 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 
 	private View backButton;
 
-	private Button saveButton;
+	private View saveButton;
 
 	private EditText unameEt;
 	private EditText telephoneEt;
@@ -84,8 +84,8 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		unameEt = (EditText) findViewById(R.id.uname_et);
 		backButton = findViewById(R.id.button2);
 		backButton.setOnClickListener(this);
-		saveButton = (Button) findViewById(R.id.button_save);
-		saveButton.setText("保存");
+		saveButton = (View) findViewById(R.id.saveButton);
+//		saveButton.setText("保存");
 		saveButton.setOnClickListener(this);
 		provinceSpinner = (Spinner) findViewById(R.id.province_spinner);
 		citySpinner = (Spinner) findViewById(R.id.city_spinner);

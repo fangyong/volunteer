@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.baidu.mapapi.model.LatLng;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetAllUserInfoRequest;
@@ -121,6 +122,7 @@ public class User implements Serializable {
 	public Date registerTime;// 注册时间
 	public String phoneNumber;// 手机号
 
+	public LatLng lastLatlng;
 	public String buid;// 百度用户id
 
 }

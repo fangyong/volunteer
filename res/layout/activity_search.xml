@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:background="#ffffffff" >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/searchContainer"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:background="#eeeeee"
         android:orientation="horizontal" >
 
@@ -20,12 +20,15 @@
 
         <EditText
             android:id="@+id/search"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="44dip"
+            android:layout_alignParentLeft="true"
+            android:layout_alignWithParentIfMissing="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_weight="1"
+            android:layout_toLeftOf="@+id/searchButton"
             android:background="@drawable/textfield_bg"
             android:drawableLeft="@drawable/icon_search"
             android:hint="请输入活动名称"
@@ -39,12 +42,15 @@
             android:id="@+id/searchButton"
             android:layout_width="60dp"
             android:layout_height="44dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
             android:background="#107cfd"
             android:text="搜索"
-            android:textColor="#ffffff" />
-    </LinearLayout>
+            android:textColor="#ffffff"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/resultList"

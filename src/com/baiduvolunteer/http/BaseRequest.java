@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.util.Log;
 
@@ -24,9 +26,14 @@ import com.lidroid.xutils.http.client.util.URIBuilder;
 
 public abstract class BaseRequest {
 
-	public static interface ResponseHandler {
-		public void handleResponse(BaseRequest request, int statusCode,
-				String errorMsg, String response);
+	public static abstract class ResponseHandler {
+		public abstract void handleResponse(BaseRequest request,
+				int statusCode, String errorMsg, String response);
+
+		public void handleError(BaseRequest request, int statusCode,
+				String errorMsg) {
+			Log.e("test", "connection error on request " + request.method()+ "response:"+errorMsg);
+		}
 	}
 
 	private HashMap<String, String> params = new HashMap<String, String>();
@@ -77,6 +84,9 @@ public abstract class BaseRequest {
 		}
 	}
 
+	/**
+	 * that's how it really works
+	 */
 	public final void start() {
 		RequestParams requestParams = new RequestParams();
 		params.clear();
@@ -87,7 +97,8 @@ public abstract class BaseRequest {
 		String sig = SignatureTool.getSignature(params);
 		for (String key : params.keySet()) {
 			try {
-				requestParams.addQueryStringParameter(key,URLEncoder.encode(params.get(key),"utf-8"));
+				requestParams.addQueryStringParameter(key,
+						URLEncoder.encode(params.get(key), "utf-8"));
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -122,22 +133,63 @@ public abstract class BaseRequest {
 		HttpUtilsWrapper.sharedInstance().send(requestMethod(), url,
 				requestParams, new RequestCallBack<String>() {
 					@Override
-					public void onSuccess(ResponseInfo<String> info) {
+					public void onSuccess(final ResponseInfo<String> info) {
 						if (cached)
 							HttpUtils.sHttpCache.put(cacheURL(), info.result);
-						if (handler != null) {
-							handler.handleResponse(BaseRequest.this, 200, null,
-									info.result);
+						boolean success = false;
+						JSONObject result = null;
+						if (info.result != null) {
+							try {
+								JSONObject obj = new JSONObject(info.result);
+								JSONObject responseHead = obj
+										.optJSONObject("responseHead");
+								success = responseHead != null
+										&& responseHead.optString("success",
+												null) != null;
+								result = obj.optJSONObject("result");
+							} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						}
-						Log.d("test", "success: code " + info.statusCode);
+						if (success && result != null && handler != null) {
+//							new Thread(new Runnable() {
+//
+//								@Override
+//								public void run() {
+									// TODO Auto-generated method stub
+									handler.handleResponse(BaseRequest.this,
+											info.statusCode, null, info.result);
+//								}
+//							}).start();
+						} else if (handler != null) {
+//							new Thread(new Runnable() {
+
+//								@Override
+//								public void run() {
+									// TODO Auto-generated method stub
+									handler.handleError(BaseRequest.this,
+											info.statusCode, info.result);
+//								}
+//							}).start();
+						}
+
 					}
 
 					@Override
-					public void onFailure(HttpException arg0, String arg1) {
+					public void onFailure(final HttpException arg0,
+							final String arg1) {
 						// TODO Auto-generated method stub
 						if (handler != null) {
-							handler.handleResponse(BaseRequest.this,
-									arg0.getExceptionCode(), null, null);
+							new Thread(new Runnable() {
+
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									handler.handleError(BaseRequest.this,
+											arg0.getExceptionCode(), null);
+								}
+							}).start();
 						}
 						Log.d("test", "error: code " + arg0.getExceptionCode());
 					}

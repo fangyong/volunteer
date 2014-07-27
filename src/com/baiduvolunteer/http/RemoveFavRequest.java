@@ -2,8 +2,7 @@ package com.baiduvolunteer.http;
 
 import java.util.HashMap;
 
-import com.baiduvolunteer.http.AddFavRequest.AddFavType;
-import com.baiduvolunteer.http.AddFavRequest.PublisherType;
+import com.baiduvolunteer.model.Publisher.PublisherType;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 public class RemoveFavRequest extends BaseRequest {
@@ -48,9 +47,9 @@ public class RemoveFavRequest extends BaseRequest {
 		// TODO Auto-generated method stub
 		map.put("type",
 				removeType == RemoveFavType.RemoveFavTypeActivity ? "activity"
-						: "publish");
+						: "publisher");
 		if (removeType == RemoveFavType.RemoveFavTypePublisher)
-			map.put("publisherType",
+			map.put("publishType",
 					publisherType == PublisherType.PublisherTypeAPP ? "volunteerapp"
 							: "gongyixiang");
 		map.put(removeType == RemoveFavType.RemoveFavTypeActivity ? "activityId"

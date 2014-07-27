@@ -2,6 +2,7 @@ package com.baiduvolunteer.http;
 
 import java.util.HashMap;
 
+import com.baiduvolunteer.model.Publisher.PublisherType;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 public class AddFavRequest extends BaseRequest {
@@ -10,9 +11,7 @@ public class AddFavRequest extends BaseRequest {
 		AddFavTypeActivity, AddFavTypePublisher
 	}
 
-	public static enum PublisherType {
-		PublisherTypeAPP, PublisherTypeGYX
-	}
+	
 
 	private PublisherType publisherType;
 	private AddFavType addType;

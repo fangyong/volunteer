@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,12 +17,13 @@ import com.baiduvolunteer.config.Config;
 import com.baiduvolunteer.config.Config.CityInfo;
 import com.baiduvolunteer.http.AddFavRequest;
 import com.baiduvolunteer.http.AddFavRequest.AddFavType;
-import com.baiduvolunteer.http.AddFavRequest.PublisherType;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetPublisherInfoRequest;
+import com.baiduvolunteer.http.RemoveFavRequest;
+import com.baiduvolunteer.http.RemoveFavRequest.RemoveFavType;
 import com.baiduvolunteer.model.Publisher;
-import com.baiduvolunteer.model.User;
+import com.baiduvolunteer.model.Publisher.PublisherType;
 import com.baiduvolunteer.util.ViewUtils;
 
 public class PublisherAct extends Activity implements OnClickListener {
@@ -58,6 +58,15 @@ public class PublisherAct extends Activity implements OnClickListener {
 		membersLabel = (TextView) findViewById(R.id.membersLabel);
 		contactLabel = (TextView) findViewById(R.id.contactLabel);
 		phoneLabel = (TextView) findViewById(R.id.phoneLabel);
+
+		getInfoFromServer();
+		backButton = findViewById(R.id.backButton);
+		backButton.setOnClickListener(this);
+		addFavButton = findViewById(R.id.favButton);
+		addFavButton.setOnClickListener(this);
+	}
+
+	private void getInfoFromServer() {
 		String publisherId = getIntent().getStringExtra("publisherId");
 		if (publisherId != null) {
 			publisher = new Publisher();
@@ -92,10 +101,6 @@ public class PublisherAct extends Activity implements OnClickListener {
 						}
 					}).start();
 		}
-		backButton = findViewById(R.id.backButton);
-		backButton.setOnClickListener(this);
-		addFavButton = findViewById(R.id.favButton);
-		addFavButton.setOnClickListener(this);
 	}
 
 	private void updateInfo() {
@@ -130,7 +135,13 @@ public class PublisherAct extends Activity implements OnClickListener {
 				} else {
 					locationLabel.setText(null);
 				}
-
+				if (publisher.isCollection)
+					addFavButton.setBackground(getResources().getDrawable(
+							R.drawable.icon_fav_sel));
+				else {
+					addFavButton.setBackground(getResources().getDrawable(
+							R.drawable.icon_fav));
+				}
 				contactLabel.setText(publisher.linkUser);
 				phoneLabel.setText(publisher.linkPhone);
 			}
@@ -144,18 +155,54 @@ public class PublisherAct extends Activity implements OnClickListener {
 			this.finish();
 		} else if (addFavButton == v) {
 			mPd.show();
-			new AddFavRequest().setAddType(AddFavType.AddFavTypePublisher)
-					.setPublisherType(PublisherType.PublisherTypeGYX)
-					.setId(publisher.pid).setHandler(new ResponseHandler() {
+			if (!publisher.isCollection)
+				new AddFavRequest().setAddType(AddFavType.AddFavTypePublisher)
+						.setPublisherType(PublisherType.PublisherTypeGYX)
+						.setId(publisher.pid).setHandler(new ResponseHandler() {
 
-						@Override
-						public void handleResponse(BaseRequest request,
-								int statusCode, String errorMsg, String response) {
-							// TODO Auto-generated method stub
-							Log.d("test","add fav publisher:"+response);
-							mPd.dismiss();
-						}
-					}).start();
+							@Override
+							public void handleResponse(BaseRequest request,
+									int statusCode, String errorMsg,
+									String response) {
+								// TODO Auto-generated method stub
+								Log.d("test", "add fav publisher:" + response);
+								publisher.isCollection = true;
+								if (publisher.isCollection)
+									addFavButton.setBackground(getResources()
+											.getDrawable(
+													R.drawable.icon_fav_sel));
+								else {
+									addFavButton.setBackground(getResources()
+											.getDrawable(R.drawable.icon_fav));
+								}
+								mPd.dismiss();
+							}
+						}).start();
+			else {
+				new RemoveFavRequest().setId(publisher.pid)
+						.setPublisherType(publisher.publisherType)
+						.setRemoveType(RemoveFavType.RemoveFavTypePublisher)
+						.setHandler(new ResponseHandler() {
+
+							@Override
+							public void handleResponse(BaseRequest request,
+									int statusCode, String errorMsg,
+									String response) {
+								// TODO Auto-generated method stub
+								Log.d("test", "remove fav resp " + response);
+								mPd.dismiss();
+								publisher.isCollection = false;
+								if (publisher.isCollection)
+									addFavButton.setBackground(getResources()
+											.getDrawable(
+													R.drawable.icon_fav_sel));
+								else {
+									addFavButton.setBackground(getResources()
+											.getDrawable(R.drawable.icon_fav));
+								}
+							}
+						}).start();
+			}
 		}
 	}
 }
