@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.BaseRequest;
@@ -47,6 +48,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 	private View backButton;
 	private View attendButton;
 	private TextView attendBtnText;
+
+	private Button shareBtn;
 
 	private ActivityInfo activityInfo;
 
@@ -81,6 +84,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 		activityCategory = (TextView) findViewById(R.id.activityCategory);
 		activityEnrollNumber = (TextView) findViewById(R.id.activityEnrollNumber);
 		activityIntro = (TextView) findViewById(R.id.activityIntro);
+		shareBtn = (Button) findViewById(R.id.shareBtn);
 		organizerCell.detailIconView
 				.setImageResource(R.drawable.icon_cell_detail);
 		contactCell.detailIconView
@@ -91,6 +95,76 @@ public class ActivityInfoActivity extends BaseActivity implements
 		if (joined) {
 			attendButton.setVisibility(View.GONE);
 		}
+
+		shareBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				OnekeyShare oks = new OnekeyShare();
+				// oks.setNotification(R.drawable.ic_launcher,
+				// getString(R.string.app_name));
+				oks.setAddress("12345678901");
+				oks.setTitle(getString(R.string.evenote_title));
+				oks.setTitleUrl("http://sharesdk.cn");
+				oks.setText(getString(R.string.share_content));
+				// if (captureView) {
+				// oks.setViewToShare(getPage());
+				// } else {
+				// oks.setImagePath(MainActivity.TEST_IMAGE);
+				// oks.setImageUrl(MainActivity.TEST_IMAGE_URL);
+				// }
+				oks.setUrl("http://www.sharesdk.cn");
+				// oks.setFilePath(MainActivity.TEST_IMAGE);
+				oks.setComment(getString(R.string.share));
+				oks.setSite(getString(R.string.app_name));
+				oks.setSiteUrl("http://sharesdk.cn");
+				oks.setVenueName("ShareSDK");
+				oks.setVenueDescription("This is a beautiful place!");
+				oks.setLatitude(23.056081f);
+				oks.setLongitude(113.385708f);
+				// oks.setSilent(silent);
+				// if (platform != null) {
+				// oks.setPlatform(platform);
+				// }
+
+				// 令编辑页面显示为Dialog模式
+				oks.setDialogMode();
+
+				// 在自动授权时可以禁用SSO方式
+				oks.disableSSOWhenAuthorize();
+
+				// 去除注释，则快捷分享的操作结果将通过OneKeyShareCallback回调
+				// oks.setCallback(new OneKeyShareCallback());
+				// oks.setShareContentCustomizeCallback(new
+				// ShareContentCustomizeDemo());
+
+				// 去除注释，演示在九宫格设置自定义的图标
+				// Bitmap logo =
+				// BitmapFactory.decodeResource(menu.getResources(),
+				// R.drawable.ic_launcher);
+				// String label =
+				// menu.getResources().getString(R.string.app_name);
+				// OnClickListener listener = new OnClickListener() {
+				// public void onClick(View v) {
+				// String text = "Customer Logo -- ShareSDK " +
+				// ShareSDK.getSDKVersionName();
+				// Toast.makeText(menu.getContext(), text,
+				// Toast.LENGTH_SHORT).show();
+				// oks.finish();
+				// }
+				// };
+				// oks.setCustomerLogo(logo, label, listener);
+
+				// 去除注释，则快捷分享九宫格中将隐藏新浪微博和腾讯微博
+				// oks.addHiddenPlatform(SinaWeibo.NAME);
+				// oks.addHiddenPlatform(TencentWeibo.NAME);
+
+				// 为EditPage设置一个背景的View
+				// oks.setEditPageBackground(getPage());
+
+				oks.show(ActivityInfoActivity.this);
+			}
+		});
 		new GetActivityInfoRequest().setActivityId(activityInfo.activityID)
 				.setHandler(new ResponseHandler() {
 
