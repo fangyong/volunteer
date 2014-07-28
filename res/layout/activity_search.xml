@@ -52,13 +52,13 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    <ListView
+    <com.baiduvolunteer.view.MyListView
         android:id="@+id/resultList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/searchContainer"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp" >
-    </ListView>
+    </com.baiduvolunteer.view.MyListView>
 
 </RelativeLayout>

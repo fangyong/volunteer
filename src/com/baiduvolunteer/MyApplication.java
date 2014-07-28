@@ -32,6 +32,7 @@ public class MyApplication extends Application {
 				// TODO Auto-generated method stub
 				Toast.makeText(instance, ex.getMessage(), Toast.LENGTH_LONG)
 						.show();
+				ex.printStackTrace();
 
 			}
 		});

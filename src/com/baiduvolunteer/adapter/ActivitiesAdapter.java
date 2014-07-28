@@ -95,7 +95,8 @@ public class ActivitiesAdapter extends BaseAdapter {
 				holder.distLabel.setText(">10km");
 			}
 		} else {
-			holder.distLabel.setText(activityInfo.distance + "m");
+//			holder.distLabel.setText(activityInfo.distance + "m");
+			holder.distLabel.setText("未知");
 		}
 		holder.favIcon.setOnClickListener(new OnClickListener() {
 

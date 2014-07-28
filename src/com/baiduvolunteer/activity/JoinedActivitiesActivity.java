@@ -121,46 +121,6 @@ public class JoinedActivitiesActivity extends BaseActivity {
 											.optJSONObject(i);
 									ActivityInfo activityInfo = ActivityInfo
 											.createFromJson(activity);
-									// activityInfo.activityID = activity
-									// .getString("activityId");
-									// activityInfo.title = activity
-									// .getString("actName");
-									// if (activity.optInt("isLine") == 1)
-									// activityInfo.isLine = true;
-									// else
-									// activityInfo.isLine = false;
-									// if (activity.optInt("collection") == 1)
-									// activityInfo.addedToFav = true;
-									// else
-									// activityInfo.addedToFav = false;
-									// activityInfo.publishType = activity
-									// .getString("publishType");
-									// activityInfo.contactPhone = activity
-									// .optString("contactPhone");
-									// activityInfo.startTime = new Date(Long
-									// .parseLong(activity
-									// .getString("serviceOpenTime")));
-									// activityInfo.endTime = new Date(Long
-									// .parseLong(activity
-									// .getString("serviceOverTime")));
-									// activityInfo.publisher = activity
-									// .getString("publisher");
-									// activityInfo.description = activity
-									// .optString("activityDes");
-									// activityInfo.iconUrl = activity
-									// .getString("logo");
-									// activityInfo.distance = activity
-									// .getString("distance");
-									// activityInfo.address = activity
-									// .optString("serviceAdress");
-									// activityInfo.currentCount = activity
-									// .optInt("apply");
-									// activityInfo.totalCount = activity
-									// .optInt("recruitment");
-									// activityInfo.description = activity
-									// .optString("activityDes");
-									// activityInfo.field = activity
-									// .optString("field");
 									activityInfoList.add(activityInfo);
 
 								}
@@ -176,8 +136,8 @@ public class JoinedActivitiesActivity extends BaseActivity {
 										eventsList.removeFooterView(footerView);
 								}
 							} else {
-								Toast.makeText(JoinedActivitiesActivity.this,
-										"已经到底了！", Toast.LENGTH_LONG).show();
+//								Toast.makeText(JoinedActivitiesActivity.this,
+//										"已经到底了！", Toast.LENGTH_LONG).show();
 								if (eventsList.getFooterViewsCount() > 0)
 									eventsList.removeFooterView(footerView);
 							}

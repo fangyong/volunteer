@@ -77,7 +77,7 @@
                     android:layout_alignTop="@+id/activityPic"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/activityPic"
-                    android:text="西南小学教师志愿者活动"
+                    android:text="加载中"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_22"
                     android:textStyle="bold" />
@@ -104,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp"
-                        android:text="07.12 11:00 - 07.12 16:00"
+                        android:text="加载中"
                         android:textColor="@color/light_gary"
                         android:textSize="@dimen/text_size_14" />
                 </LinearLayout>
@@ -131,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp"
-                        android:text="领域 社区服务"
+                        android:text="领域: 加载中"
                         android:textColor="@color/light_gary"
                         android:textSize="@dimen/text_size_14" />
                 </LinearLayout>
@@ -157,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="5dp"
-                        android:text="报名人数 22/50"
+                        android:text="报名人数 加载中"
                         android:textColor="@color/light_gary"
                         android:textSize="@dimen/text_size_14" />
                 </LinearLayout>
@@ -226,7 +226,7 @@
                 android:maxLines="100"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:text="测试测试测试测试测试测试测试测试测试测试测试测试测试"
+                android:text="加载中"
                 android:textColor="@color/gary"
                 android:textSize="@dimen/text_size_20" >
             </TextView>

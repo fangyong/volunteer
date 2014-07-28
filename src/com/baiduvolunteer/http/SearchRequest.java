@@ -2,6 +2,8 @@ package com.baiduvolunteer.http;
 
 import java.util.HashMap;
 
+import android.util.Log;
+
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 public class SearchRequest extends BaseRequest {
@@ -12,7 +14,8 @@ public class SearchRequest extends BaseRequest {
 	private SearchType searchType;
 	private String key;
 	private long end;
-	private int size=10;
+	private int page;
+	private int size = 10;
 	private double lat = 361;
 	private double lng = 361;
 
@@ -23,6 +26,11 @@ public class SearchRequest extends BaseRequest {
 
 	public SearchRequest setLng(double lng) {
 		this.lng = lng;
+		return this;
+	}
+
+	public SearchRequest setPage(int page) {
+		this.page = page;
 		return this;
 	}
 
@@ -63,6 +71,8 @@ public class SearchRequest extends BaseRequest {
 		map.put("type",
 				searchType == SearchType.SearchTypeActivity ? "activity"
 						: "publisher");
+		if (page > 0)
+			map.put("page", page + "");
 		if (size > 0)
 			map.put("size", size + "");
 		if (end > 0)
@@ -73,7 +83,7 @@ public class SearchRequest extends BaseRequest {
 			map.put("lat", "" + lat);
 		if (lng != 361)
 			map.put("lng", "" + lng);
-
+		Log.i("search flag", map.toString());
 	}
 
 	@Override

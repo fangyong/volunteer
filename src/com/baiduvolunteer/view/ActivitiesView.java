@@ -1,6 +1,8 @@
 package com.baiduvolunteer.view;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import org.json.JSONArray;
@@ -19,6 +21,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.activity.ActivityInfoActivity;
 import com.baiduvolunteer.activity.SearchActivity;
@@ -27,6 +31,7 @@ import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetActivitiesListRequest;
 import com.baiduvolunteer.model.ActivityInfo;
+import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.view.MyListView.OnLoadListener;
 import com.baiduvolunteer.view.MyListView.OnRefreshListener;
 
@@ -40,6 +45,8 @@ public class ActivitiesView extends LinearLayout {
 	private View footerView;
 	private Toast mToast;
 	
+	private ActivityInfo lastActivity;
+
 	private HashMap<String, ActivityInfo> hashData = new HashMap<String, ActivityInfo>();
 
 	public ActivitiesView(Context context) {
@@ -74,7 +81,7 @@ public class ActivitiesView extends LinearLayout {
 
 			@Override
 			public void onLoad() {
-				long time = activityInfoList.get(activityInfoList.size() - 1).createTime;
+				long time = lastActivity.createTime;
 				loadData(time);
 			}
 		});
@@ -102,8 +109,7 @@ public class ActivitiesView extends LinearLayout {
 			}
 		});
 
-		mToast = Toast.makeText(getContext(), "已经到底了！",
-				Toast.LENGTH_SHORT);
+		mToast = Toast.makeText(getContext(), "已经到底了！", Toast.LENGTH_SHORT);
 		searchField = (EditText) findViewById(R.id.search);
 		searchField.setOnClickListener(new OnClickListener() {
 
@@ -152,6 +158,40 @@ public class ActivitiesView extends LinearLayout {
 									}
 
 								}
+								lastActivity = activityInfoList.get(activityInfoList.size()-1);
+								Collections.sort(activityInfoList,
+										new Comparator<ActivityInfo>() {
+											@Override
+											public int compare(
+													ActivityInfo lhs,
+													ActivityInfo rhs) {
+												// TODO Auto-generated method
+												// stub
+												if (lhs.latitude == 0
+														&& rhs.latitude == 0) {
+													return rhs.activityID
+															.compareTo(lhs.activityID);
+												} else {
+													if (User.sharedUser().lastLatlng == null) {
+														return -1;
+													} else if (lhs.latitude != 0
+															&& rhs.latitude != 0) {
+														return (int) (DistanceUtil.getDistance(
+																User.sharedUser().lastLatlng,
+																new LatLng(
+																		lhs.latitude,
+																		lhs.longitude)) - DistanceUtil.getDistance(
+																User.sharedUser().lastLatlng,
+																new LatLng(
+																		rhs.latitude,
+																		rhs.longitude)));
+													} else {
+														return (lhs.latitude == 0) ? 1
+																: -1;
+													}
+												}
+											}
+										});
 								mAdapter.setActivitiesList(activityInfoList);
 								mAdapter.notifyDataSetChanged();
 							} else {
