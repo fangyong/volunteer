@@ -3,8 +3,11 @@ package com.baiduvolunteer.adapter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.model.ActivityInfo;
+import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
 import com.lidroid.xutils.BitmapUtils;
@@ -54,12 +57,28 @@ public class JoinActivityAdapter extends BaseAdapter {
 				.getTag();
 		holder.titleLabel.setText(activityInfo.title);
 		holder.locationLabel.setText(activityInfo.address);
-		holder.timeLabel.setText(sdf.format(activityInfo.startTime) + "-"
+		holder.timeLabel.setText(sdf.format(activityInfo.startTime) + "\n--"
 				+ sdf.format(activityInfo.endTime));
-		holder.distLabel.setText(activityInfo.distance + "m");
+		// holder.distLabel.setText(activityInfo.distance + "m");
 		holder.favIcon.setTag(Integer.valueOf(position));
 		ViewUtils.bmUtils.display(holder.imageView, activityInfo.iconUrl);
 		holder.favIcon.setVisibility(View.INVISIBLE);
+		if (User.sharedUser().lastLatlng != null && activityInfo.latitude != 0) {
+			double dist = DistanceUtil.getDistance(new LatLng(
+					activityInfo.latitude, activityInfo.longitude), User
+					.sharedUser().lastLatlng);
+			if (dist < 500) {
+				holder.distLabel.setText(String.format("%.0fm", dist));
+			} else if (dist < 1000) {
+				holder.distLabel.setText(String.format("%.0fm", dist));
+			} else if (dist < 10000) {
+				holder.distLabel.setText(String.format("%.0fkm", dist / 1000));
+			} else {
+				holder.distLabel.setText(">10km");
+			}
+		} else {
+			holder.distLabel.setText(activityInfo.distance + "m");
+		}
 		return convertView;
 	}
 
@@ -70,7 +89,5 @@ public class JoinActivityAdapter extends BaseAdapter {
 	public void setActivityList(ArrayList<ActivityInfo> activityList) {
 		this.activityList = activityList;
 	}
-	
-	
 
 }

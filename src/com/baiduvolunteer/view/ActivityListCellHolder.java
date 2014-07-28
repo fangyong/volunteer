@@ -28,11 +28,8 @@ public class ActivityListCellHolder {
 		ActivityListCellHolder holder = new ActivityListCellHolder();
 		holder.container = rl;
 		holder.imageView = (ImageView) rl.findViewById(R.id.imageView);
-		Log.d("test", "here");
 		holder.favIcon = (ImageView) rl.findViewById(R.id.rightIcon);
-		Log.d("test", "here1"+ rl.findViewById(R.id.distLabel));
 		holder.distLabel = (TextView) rl.findViewById(R.id.distLabel);
-		Log.d("test", "here2");
 		holder.timeIcon = (ImageView) rl.findViewById(R.id.timeIcon);
 
 		holder.locIcon = (ImageView) rl.findViewById(R.id.locIcon);

@@ -17,7 +17,6 @@ public class ActivityInfo implements Serializable {
 	public String organizer;// 发布者名字
 	public String organizerID;// 发布者id
 	public String distance;// 距离
-	public LatLng geo;// 坐标
 	public String address;// 地址
 	public String field;// 领域
 	public String title;// 名称

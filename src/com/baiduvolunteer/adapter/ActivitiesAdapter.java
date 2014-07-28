@@ -11,6 +11,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.AddFavRequest;
 import com.baiduvolunteer.http.AddFavRequest.AddFavType;
@@ -19,6 +21,7 @@ import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.RemoveFavRequest;
 import com.baiduvolunteer.http.RemoveFavRequest.RemoveFavType;
 import com.baiduvolunteer.model.ActivityInfo;
+import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
 import com.lidroid.xutils.BitmapUtils;
@@ -75,9 +78,25 @@ public class ActivitiesAdapter extends BaseAdapter {
 		holder.locationLabel.setText(activityInfo.address);
 		holder.timeLabel.setText(sdf.format(activityInfo.startTime) + "\n--"
 				+ sdf.format(activityInfo.endTime));
-		holder.distLabel.setText(activityInfo.distance + "m");
+		// holder.distLabel.setText(activityInfo.distance + "m");
 		holder.favIcon.setTag(Integer.valueOf(position));
 		bitmapUtils.display(holder.imageView, activityInfo.iconUrl);
+		if (User.sharedUser().lastLatlng != null && activityInfo.latitude != 0) {
+			double dist = DistanceUtil.getDistance(new LatLng(
+					activityInfo.latitude, activityInfo.longitude), User
+					.sharedUser().lastLatlng);
+			if (dist < 500) {
+				holder.distLabel.setText(String.format("%.0fm", dist));
+			} else if (dist < 1000) {
+				holder.distLabel.setText(String.format("%.0fm", dist));
+			} else if (dist < 10000) {
+				holder.distLabel.setText(String.format("%.0fkm", dist / 1000));
+			} else {
+				holder.distLabel.setText(">10km");
+			}
+		} else {
+			holder.distLabel.setText(activityInfo.distance + "m");
+		}
 		holder.favIcon.setOnClickListener(new OnClickListener() {
 
 			@Override
