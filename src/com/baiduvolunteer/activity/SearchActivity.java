@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.baidu.mapapi.model.LatLng;
@@ -50,14 +51,20 @@ import com.baiduvolunteer.model.Publisher;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
+import com.baiduvolunteer.view.MyListView;
+import com.baiduvolunteer.view.MyListView.OnLoadListener;
+import com.baiduvolunteer.view.MyListView.OnRefreshListener;
 import com.baiduvolunteer.view.PublisherListCellHolder;
 
 public class SearchActivity extends Activity {
 	private Spinner typeSelector;
 	private EditText searchField;
-	private ListView resultList;
+	private MyListView resultList;
+	private View footerView;
+	private int size = 10;
+	private int page = 1;
 	private Button searchButton;
-	private ArrayAdapter<Object> resultAdapter;
+	private MyAdapter resultAdapter;
 	private ArrayList<ActivityInfo> activities = new ArrayList<ActivityInfo>();
 	private ArrayList<Publisher> publishers = new ArrayList<Publisher>();
 	private String[] types = { "活动", "组织" };
@@ -81,7 +88,11 @@ public class SearchActivity extends Activity {
 				// TODO Auto-generated method stub
 				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-				startSearch();
+				activities.clear();
+				page = 1;
+				if (resultList.getFooterViewsCount() == 0)
+					resultList.addFooterView(footerView);
+				startSearch(page);
 			}
 		});
 		typeSelector = (Spinner) findViewById(R.id.typeSelector);
@@ -202,140 +213,17 @@ public class SearchActivity extends Activity {
 				return false;
 			}
 		});
-		resultList = (ListView) findViewById(R.id.resultList);
-		resultAdapter = new ArrayAdapter<Object>(this, 0) {
-			@Override
-			public int getCount() {
-				// TODO Auto-generated method stub
-				if (searchField.getText().toString().isEmpty())
-					return 0;
-				return activities.size();
-			}
+		resultList = (MyListView) findViewById(R.id.resultList);
+		footerView = getLayoutInflater().inflate(R.layout.item_foot, null);
+		resultList.setOnLoadListener(new OnLoadListener() {
 
 			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
-				// TODO Auto-generated method stub
-				if (typeSelector.getSelectedItemPosition() == 0) {
-					ActivityListCellHolder holder = ActivityListCellHolder
-							.create(getContext());
-					ActivityInfo info = activities.get(position);
-					holder.favIcon
-							.setImageResource(!info.addedToFav ? R.drawable.icon_fav
-									: R.drawable.icon_fav_sel);
-					ViewUtils.bmUtils.display(holder.imageView, info.iconUrl);
-					holder.titleLabel.setText(info.title);
-					holder.locationLabel.setText(info.address);
-				
-					// holder.distLabel.setText("" + info.distance);
-					if (User.sharedUser().lastLatlng != null
-							&& info.latitude != 0) {
-						double dist = DistanceUtil.getDistance(new LatLng(info.latitude,info.longitude),
-								User.sharedUser().lastLatlng);
-						if (dist < 500) {
-							holder.distLabel.setText(String.format("%.0fm",
-									dist));
-						} else if (dist < 1000) {
-							holder.distLabel.setText(String.format("%.0fm",
-									dist));
-						} else if (dist < 10000) {
-							holder.distLabel.setText(String.format("%.0fkm",
-									dist / 1000));
-						} else {
-							holder.distLabel.setText(">10km");
-						}
-					} else {
-						holder.distLabel.setText(info.distance + "m");
-					}
-					holder.favIcon.setTag(Integer.valueOf(position));
-					holder.favIcon.setOnClickListener(new OnClickListener() {
-
-						@Override
-						public void onClick(View arg0) {
-							Integer pos = (Integer) arg0.getTag();
-							final ActivityInfo info = activities.get(pos);
-
-							if (!info.addedToFav) {
-								mPd.show();
-								new AddFavRequest()
-										.setAddType(
-												AddFavType.AddFavTypeActivity)
-										.setId(info.activityID)
-										.setHandler(new ResponseHandler() {
-
-											@Override
-											public void handleResponse(
-													BaseRequest request,
-													int statusCode,
-													String errorMsg,
-													String response) {
-												// TODO Auto-generated method
-												// stub
-												mPd.dismiss();
-												Log.d("test", "add fav result "
-														+ response);
-												if (statusCode == 200) {
-													info.addedToFav = true;
-													ViewUtils
-															.runInMainThread(new Runnable() {
-
-																@Override
-																public void run() {
-
-																	// TODO
-																	// Auto-generated
-																	// method
-																	// stub
-																	notifyDataSetChanged();
-																}
-															});
-												}
-
-											}
-										}).start();
-							} else {
-								new RemoveFavRequest()
-										.setId(info.activityID)
-										.setRemoveType(
-												RemoveFavType.RemoveFavTypeActivity)
-										.setHandler(new ResponseHandler() {
-
-											@Override
-											public void handleResponse(
-													BaseRequest request,
-													int statusCode,
-													String errorMsg,
-													String response) {
-												Log.d("test",
-														"remove fav result "
-																+ response);
-												mPd.dismiss();
-												if (statusCode == 200) {
-													info.addedToFav = false;
-													ViewUtils
-															.runInMainThread(new Runnable() {
-
-																@Override
-																public void run() {
-																	mPd.dismiss();
-																	// TODO
-																	// Auto-generated
-																	// method
-																	// stub
-																	notifyDataSetChanged();
-																}
-															});
-												}
-											}
-										}).start();
-							}
-						}
-					});
-					return holder.container;
-				} else {
-					return PublisherListCellHolder.create(getContext()).container;
-				}
+			public void onLoad() {
+				page++;
+				startSearch(page);
 			}
-		};
+		});
+		resultAdapter = new MyAdapter(this, 0, activities);
 		resultList.setAdapter(resultAdapter);
 		resultList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -359,7 +247,7 @@ public class SearchActivity extends Activity {
 		});
 	}
 
-	private void startSearch() {
+	private void startSearch(int page) {
 		// if (searchField.getText().toString().isEmpty()) {
 		// activities.clear();
 		// resultAdapter.notifyDataSetChanged();
@@ -371,7 +259,7 @@ public class SearchActivity extends Activity {
 			sreq.setLat(User.sharedUser().lastLatlng.latitude).setLng(
 					User.sharedUser().lastLatlng.longitude);
 		}
-		sreq.setHandler(new ResponseHandler() {
+		sreq.setPage(page).setHandler(new ResponseHandler() {
 
 			@Override
 			public void handleResponse(BaseRequest request, int statusCode,
@@ -383,11 +271,20 @@ public class SearchActivity extends Activity {
 					if (obj != null) {
 						JSONArray array = obj.optJSONArray("activities");
 						if (array != null) {
-							activities.clear();
-							for (int i = 0; i < array.length(); i++) {
-								ActivityInfo info = ActivityInfo
-										.createFromJson(array.getJSONObject(i));
-								activities.add(info);
+							// activities.clear();
+							if (array.length() > 0) {
+								for (int i = 0; i < array.length(); i++) {
+									ActivityInfo info = ActivityInfo
+											.createFromJson(array
+													.getJSONObject(i));
+									activities.add(info);
+								}
+							} else {
+								if (activities.size() > size)
+									Toast.makeText(SearchActivity.this,
+											"已经到底了！", Toast.LENGTH_LONG).show();
+								if (resultList.getFooterViewsCount() > 0)
+									resultList.removeFooterView(footerView);
 							}
 						}
 
@@ -396,6 +293,7 @@ public class SearchActivity extends Activity {
 
 						@Override
 						public void run() {
+							resultAdapter.setActivities(activities);
 							resultAdapter.notifyDataSetChanged();
 						}
 					});
@@ -406,5 +304,151 @@ public class SearchActivity extends Activity {
 				}
 			}
 		}).start();
+	}
+
+	class MyAdapter extends ArrayAdapter<ActivityInfo> {
+
+		private ArrayList<ActivityInfo> activities;
+
+		public MyAdapter(Context context, int resource,
+				ArrayList<ActivityInfo> activities) {
+			super(context, resource);
+			this.activities = activities;
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			if (searchField.getText().toString().isEmpty())
+				return 0;
+			return activities.size();
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			// TODO Auto-generated method stub
+			if (typeSelector.getSelectedItemPosition() == 0) {
+				ActivityListCellHolder holder = ActivityListCellHolder
+						.create(getContext());
+				ActivityInfo info = activities.get(position);
+				holder.favIcon
+						.setImageResource(!info.addedToFav ? R.drawable.icon_fav
+								: R.drawable.icon_fav_sel);
+				ViewUtils.bmUtils.display(holder.imageView, info.iconUrl);
+				holder.titleLabel.setText(info.title);
+				holder.locationLabel.setText(info.address);
+
+				// holder.distLabel.setText("" + info.distance);
+				if (User.sharedUser().lastLatlng != null && info.latitude != 0) {
+					double dist = DistanceUtil.getDistance(new LatLng(
+							info.latitude, info.longitude),
+							User.sharedUser().lastLatlng);
+					if (dist < 500) {
+						holder.distLabel.setText(String.format("%.0fm", dist));
+					} else if (dist < 1000) {
+						holder.distLabel.setText(String.format("%.0fm", dist));
+					} else if (dist < 10000) {
+						holder.distLabel.setText(String.format("%.0fkm",
+								dist / 1000));
+					} else {
+						holder.distLabel.setText(">10km");
+					}
+				} else {
+					holder.distLabel.setText(info.distance + "m");
+				}
+				holder.favIcon.setTag(Integer.valueOf(position));
+				holder.favIcon.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View arg0) {
+						Integer pos = (Integer) arg0.getTag();
+						final ActivityInfo info = activities.get(pos);
+
+						if (!info.addedToFav) {
+							mPd.show();
+							new AddFavRequest()
+									.setAddType(AddFavType.AddFavTypeActivity)
+									.setId(info.activityID)
+									.setHandler(new ResponseHandler() {
+
+										@Override
+										public void handleResponse(
+												BaseRequest request,
+												int statusCode,
+												String errorMsg, String response) {
+											// TODO Auto-generated method
+											// stub
+											mPd.dismiss();
+											Log.d("test", "add fav result "
+													+ response);
+											if (statusCode == 200) {
+												info.addedToFav = true;
+												ViewUtils
+														.runInMainThread(new Runnable() {
+
+															@Override
+															public void run() {
+
+																// TODO
+																// Auto-generated
+																// method
+																// stub
+																notifyDataSetChanged();
+															}
+														});
+											}
+
+										}
+									}).start();
+						} else {
+							new RemoveFavRequest()
+									.setId(info.activityID)
+									.setRemoveType(
+											RemoveFavType.RemoveFavTypeActivity)
+									.setHandler(new ResponseHandler() {
+
+										@Override
+										public void handleResponse(
+												BaseRequest request,
+												int statusCode,
+												String errorMsg, String response) {
+											Log.d("test", "remove fav result "
+													+ response);
+											mPd.dismiss();
+											if (statusCode == 200) {
+												info.addedToFav = false;
+												ViewUtils
+														.runInMainThread(new Runnable() {
+
+															@Override
+															public void run() {
+																mPd.dismiss();
+																// TODO
+																// Auto-generated
+																// method
+																// stub
+																notifyDataSetChanged();
+															}
+														});
+											}
+										}
+									}).start();
+						}
+					}
+				});
+				return holder.container;
+			} else {
+				return PublisherListCellHolder.create(getContext()).container;
+			}
+		}
+
+		public ArrayList<ActivityInfo> getActivities() {
+			return activities;
+		}
+
+		public void setActivities(ArrayList<ActivityInfo> activities) {
+			this.activities = activities;
+		}
+
 	}
 }
