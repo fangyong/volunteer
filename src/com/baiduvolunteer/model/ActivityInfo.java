@@ -6,6 +6,7 @@ import java.util.Date;
 import org.json.JSONObject;
 
 import com.baidu.mapapi.model.LatLng;
+import com.baiduvolunteer.config.Config;
 
 public class ActivityInfo implements Serializable {
 	/**
@@ -63,9 +64,14 @@ public class ActivityInfo implements Serializable {
 			this.organizerID = activity.optString("publishId");
 			this.description = activity.optString("activityDes");
 			this.iconUrl = activity.optString("logo");
+			if(this.iconUrl!=null&&!this.iconUrl.isEmpty()){
+				if(!this.iconUrl.startsWith("http")){
+					this.iconUrl = Config.sharedConfig().baseURL + this.iconUrl;
+				}
+			}
 			this.distance = activity.optString("distance");
 			this.address = activity.optString("serviceAdress");
-			this.currentCount = activity.optInt("apply");
+			this.currentCount = activity.optInt("applyNum");
 			this.totalCount = activity.optInt("recruitment");
 			this.description = activity.optString("activityDes");
 			this.field = activity.optString("field");

@@ -207,8 +207,8 @@ public class SearchActivity extends Activity {
 			@Override
 			public int getCount() {
 				// TODO Auto-generated method stub
-				if (searchField.getText().toString().isEmpty())
-					return 0;
+//				if (searchField.getText().toString().isEmpty())
+//					return 0;
 				return activities.size();
 			}
 

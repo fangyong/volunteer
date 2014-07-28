@@ -38,6 +38,8 @@ public class ActivitiesView extends LinearLayout {
 	private EditText searchField;
 	private int psize = 10;
 	private View footerView;
+	private Toast mToast;
+	
 	private HashMap<String, ActivityInfo> hashData = new HashMap<String, ActivityInfo>();
 
 	public ActivitiesView(Context context) {
@@ -100,6 +102,8 @@ public class ActivitiesView extends LinearLayout {
 			}
 		});
 
+		mToast = Toast.makeText(getContext(), "已经到底了！",
+				Toast.LENGTH_SHORT);
 		searchField = (EditText) findViewById(R.id.search);
 		searchField.setOnClickListener(new OnClickListener() {
 
@@ -151,8 +155,8 @@ public class ActivitiesView extends LinearLayout {
 								mAdapter.setActivitiesList(activityInfoList);
 								mAdapter.notifyDataSetChanged();
 							} else {
-								Toast.makeText(getContext(), "已经到底了！",
-										Toast.LENGTH_SHORT).show();
+								mToast.cancel();
+								mToast.show();
 								if (activityListView.getFooterViewsCount() > 0)
 									activityListView
 											.removeFooterView(footerView);

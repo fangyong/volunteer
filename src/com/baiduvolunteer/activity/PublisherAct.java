@@ -157,7 +157,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 			mPd.show();
 			if (!publisher.isCollection)
 				new AddFavRequest().setAddType(AddFavType.AddFavTypePublisher)
-						.setPublisherType(PublisherType.PublisherTypeGYX)
+						.setPublisherType(publisher.publisherType)
 						.setId(publisher.pid).setHandler(new ResponseHandler() {
 
 							@Override
