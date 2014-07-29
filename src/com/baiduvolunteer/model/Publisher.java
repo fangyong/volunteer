@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import org.json.JSONObject;
 
+import com.baiduvolunteer.config.Config;
+
 import android.util.Log;
 
 public class Publisher implements Serializable {
@@ -66,6 +68,14 @@ public class Publisher implements Serializable {
 			// TODO: handle exception
 			city = 0;
 		}
+
+		String typeString = obj.optString("publishType");
+		if ("gongyixiang".equals(typeString)) {
+			publisherType = PublisherType.PublisherTypeGYX;
+		} else {
+			publisherType = PublisherType.PublisherTypeAPP;
+		}
+
 		publishName = obj.optString("institutionsName");
 		if (publishName == null || publishName.isEmpty())
 			publishName = obj.optString("publisherName");
@@ -76,8 +86,9 @@ public class Publisher implements Serializable {
 		if (logoUrl == null || logoUrl.isEmpty()) {
 			logoUrl = obj.optString("avatar");
 		}
-		if (logoUrl != null && !logoUrl.isEmpty()&&!logoUrl.startsWith("http")) {
-			logoUrl = "http://www.gongyixiang.com" + logoUrl;
+		if (logoUrl != null && !logoUrl.isEmpty()
+				&& !logoUrl.startsWith("http")) {
+			logoUrl = Config.baseURL + logoUrl;
 		}
 		field = obj.optString("filed");
 		try {

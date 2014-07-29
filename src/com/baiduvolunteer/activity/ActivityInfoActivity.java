@@ -234,35 +234,37 @@ public class ActivityInfoActivity extends BaseActivity implements
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v == contactCell) {
+			if (contactCell.textLabel.getText() != null
+					&& !contactCell.textLabel.getText().toString().isEmpty())
+				new AlertDialog.Builder(this)
+						.setMessage(
+								"确认拨打电话"
+										+ contactCell.textLabel.getText()
+												.toString() + "?")
+						.setPositiveButton("拨打",
+								new DialogInterface.OnClickListener() {
 
-			new AlertDialog.Builder(this)
-					.setMessage(
-							"确认拨打电话"
-									+ contactCell.textLabel.getText()
-											.toString() + "?")
-					.setPositiveButton("拨打",
-							new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										Intent intent = new Intent(
+												Intent.ACTION_CALL);
+										intent.setData(Uri.parse("tel:"
+												+ contactCell.textLabel
+														.getText()));
+										startActivity(intent);
+									}
+								})
+						.setNegativeButton("取消",
+								new DialogInterface.OnClickListener() {
 
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									Intent intent = new Intent(
-											Intent.ACTION_CALL);
-									intent.setData(Uri.parse("tel:"
-											+ contactCell.textLabel.getText()));
-									startActivity(intent);
-								}
-							})
-					.setNegativeButton("取消",
-							new DialogInterface.OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									// TODO Auto-generated method stub
-									dialog.dismiss();
-								}
-							}).show();
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										// TODO Auto-generated method stub
+										dialog.dismiss();
+									}
+								}).show();
 		} else if (v == organizerCell) {
 			Intent intent = new Intent(this, PublisherAct.class);
 			intent.putExtra("publisherId", activityInfo.organizerID);
@@ -272,6 +274,11 @@ public class ActivityInfoActivity extends BaseActivity implements
 		} else if (v == attendButton) {
 			if (activityInfo.isAttend)
 				return;
+			if (activityInfo.currentCount >= activityInfo.totalCount) {
+				Toast.makeText(ActivityInfoActivity.this, "报名人数已满",
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
 			if (User.sharedUser().phoneNumber == null
 					|| User.sharedUser().phoneNumber.isEmpty()) {
 				new AlertDialog.Builder(this)

@@ -77,7 +77,8 @@ public class JoinActivityAdapter extends BaseAdapter {
 				holder.distLabel.setText(">10km");
 			}
 		} else {
-			holder.distLabel.setText(activityInfo.distance + "m");
+			holder.distLabel.setText("未知");
+//			holder.distLabel.setText(activityInfo.distance + "m");
 		}
 		return convertView;
 	}

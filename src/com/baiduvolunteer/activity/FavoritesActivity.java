@@ -109,7 +109,8 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 							holder.distLabel.setText(">10km");
 						}
 					} else {
-						holder.distLabel.setText(info.distance + "m");
+//						holder.distLabel.setText(info.distance + "m");
+						holder.distLabel.setText("未知");
 					}
 					return holder.container;
 				} else {

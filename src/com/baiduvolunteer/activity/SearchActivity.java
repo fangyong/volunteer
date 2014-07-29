@@ -2,6 +2,8 @@ package com.baiduvolunteer.activity;
 
 import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,7 +70,6 @@ public class SearchActivity extends Activity {
 	private ArrayList<ActivityInfo> activities = new ArrayList<ActivityInfo>();
 	private ArrayList<Publisher> publishers = new ArrayList<Publisher>();
 	private String[] types = { "活动", "组织" };
-	private int[] favStates = new int[10];
 
 	private ProgressDialog mPd;
 
@@ -279,10 +280,43 @@ public class SearchActivity extends Activity {
 													.getJSONObject(i));
 									activities.add(info);
 								}
+								Collections.sort(activities,
+										new Comparator<ActivityInfo>() {
+											@Override
+											public int compare(
+													ActivityInfo lhs,
+													ActivityInfo rhs) {
+												// TODO Auto-generated method
+												// stub
+												if (lhs.latitude == 0
+														&& rhs.latitude == 0) {
+													return rhs.activityID
+															.compareTo(lhs.activityID);
+												} else {
+													if (User.sharedUser().lastLatlng == null) {
+														return -1;
+													} else if (lhs.latitude != 0
+															&& rhs.latitude != 0) {
+														return (int) (DistanceUtil.getDistance(
+																User.sharedUser().lastLatlng,
+																new LatLng(
+																		lhs.latitude,
+																		lhs.longitude)) - DistanceUtil.getDistance(
+																User.sharedUser().lastLatlng,
+																new LatLng(
+																		rhs.latitude,
+																		rhs.longitude)));
+													} else {
+														return (lhs.latitude == 0) ? 1
+																: -1;
+													}
+												}
+											}
+										});
 							} else {
-								if (activities.size() > size)
-									Toast.makeText(SearchActivity.this,
-											"已经到底了！", Toast.LENGTH_LONG).show();
+								// if (activities.size() > size)
+								// Toast.makeText(SearchActivity.this,
+								// "已经到底了！", Toast.LENGTH_LONG).show();
 								if (resultList.getFooterViewsCount() > 0)
 									resultList.removeFooterView(footerView);
 							}
@@ -354,7 +388,8 @@ public class SearchActivity extends Activity {
 						holder.distLabel.setText(">10km");
 					}
 				} else {
-					holder.distLabel.setText(info.distance + "m");
+					// holder.distLabel.setText(info.distance + "m");
+					holder.distLabel.setText("未知");
 				}
 				holder.favIcon.setTag(Integer.valueOf(position));
 				holder.favIcon.setOnClickListener(new OnClickListener() {

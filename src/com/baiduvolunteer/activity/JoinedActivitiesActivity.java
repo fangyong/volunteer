@@ -136,8 +136,8 @@ public class JoinedActivitiesActivity extends BaseActivity {
 										eventsList.removeFooterView(footerView);
 								}
 							} else {
-								Toast.makeText(JoinedActivitiesActivity.this,
-										"已经到底了！", Toast.LENGTH_LONG).show();
+//								Toast.makeText(JoinedActivitiesActivity.this,
+//										"已经到底了！", Toast.LENGTH_LONG).show();
 								if (eventsList.getFooterViewsCount() > 0)
 									eventsList.removeFooterView(footerView);
 							}
