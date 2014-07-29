@@ -182,8 +182,12 @@ public class ActivityInfoActivity extends BaseActivity implements
 									JSONObject activity = new JSONObject(
 											response);
 									activity = activity.optJSONObject("result");
+									if (activity == null)
+										return;
 									activity = activity
 											.optJSONObject("activity");
+									if (activity == null)
+										return;
 									activityInfo.loadFromJson(activity);
 									Log.d("test", "isattend"
 											+ activityInfo.isAttend);

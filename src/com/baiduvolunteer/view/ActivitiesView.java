@@ -32,6 +32,7 @@ import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetActivitiesListRequest;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.User;
+import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.MyListView.OnLoadListener;
 import com.baiduvolunteer.view.MyListView.OnRefreshListener;
 
@@ -143,11 +144,10 @@ public class ActivitiesView extends LinearLayout {
 						try {
 							JSONObject ret = new JSONObject(response);
 							ret = ret.optJSONObject("result");
-							if (ret == null)
-								return;
-							JSONArray activities = ret
-									.optJSONArray("activities");
-							if (activities.length() > 0) {
+							JSONArray activities = null;
+							if (ret != null)
+								activities = ret.optJSONArray("activities");
+							if (activities != null && activities.length() > 0) {
 								for (int i = 0; i < activities.length(); i++) {
 									JSONObject activity = activities
 											.optJSONObject(i);
@@ -211,6 +211,12 @@ public class ActivitiesView extends LinearLayout {
 							e.printStackTrace();
 						}
 
+					}
+					@Override
+					public void handleError(BaseRequest request,
+							int statusCode, String errorMsg) {
+						// TODO Auto-generated method stub
+						super.handleError(request, statusCode, errorMsg);
 					}
 				}).start();
 	}
