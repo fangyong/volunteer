@@ -210,7 +210,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		super.onFinishInflate();
 		mapView = (MapView) findViewById(R.id.bdmapView);
 		map = mapView.getMap();
-		Log.d("test", "map "+map);
+		Log.d("test", "map " + map);
 		map.setMyLocationEnabled(true);
 		map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 		infoView = (LinearLayout) LayoutInflater.from(getContext()).inflate(
@@ -588,7 +588,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		}
 
 		int count = Math.min(10, markerArray.size());
-		Log.d("test", "lt: " + ltll.longitude + ",rd:" + rdll.longitude);
+		if (ltll != null && rdll != null)
+			Log.d("test", "lt: " + ltll.longitude + ",rd:" + rdll.longitude);
 		int cnt = 0;
 		for (int i = 0; i < count; i++) {
 			Object obj = markerArray.get(i);

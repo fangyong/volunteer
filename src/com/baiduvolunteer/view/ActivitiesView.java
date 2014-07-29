@@ -44,7 +44,7 @@ public class ActivitiesView extends LinearLayout {
 	private int psize = 10;
 	private View footerView;
 	private Toast mToast;
-	
+
 	private ActivityInfo lastActivity;
 
 	private HashMap<String, ActivityInfo> hashData = new HashMap<String, ActivityInfo>();
@@ -142,7 +142,10 @@ public class ActivitiesView extends LinearLayout {
 						Log.d("test", "getActivities response:" + response);
 						try {
 							JSONObject ret = new JSONObject(response);
-							JSONArray activities = ret.optJSONObject("result")
+							ret = ret.optJSONObject("result");
+							if (ret == null)
+								return;
+							JSONArray activities = ret
 									.optJSONArray("activities");
 							if (activities.length() > 0) {
 								for (int i = 0; i < activities.length(); i++) {
@@ -158,7 +161,8 @@ public class ActivitiesView extends LinearLayout {
 									}
 
 								}
-								lastActivity = activityInfoList.get(activityInfoList.size()-1);
+								lastActivity = activityInfoList
+										.get(activityInfoList.size() - 1);
 								Collections.sort(activityInfoList,
 										new Comparator<ActivityInfo>() {
 											@Override
