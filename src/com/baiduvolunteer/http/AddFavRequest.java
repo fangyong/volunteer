@@ -51,7 +51,7 @@ public class AddFavRequest extends BaseRequest {
 				: "publisher");
 		if (addType == AddFavType.AddFavTypePublisher)
 			map.put("publishType",
-					publisherType == PublisherType.PublisherTypeAPP ? "volunteerapp"
+					publisherType == PublisherType.PublisherTypeAPP ? "baiduvolunteer"
 							: "gongyixiang");
 		map.put(addType == AddFavType.AddFavTypeActivity ? "activityId"
 				: "publishId", id);

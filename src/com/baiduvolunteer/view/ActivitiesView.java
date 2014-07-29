@@ -177,7 +177,8 @@ public class ActivitiesView extends LinearLayout {
 															.compareTo(lhs.activityID);
 												} else {
 													if (User.sharedUser().lastLatlng == null) {
-														return -1;
+														return lhs.activityID
+																.compareTo(rhs.activityID);
 													} else if (lhs.latitude != 0
 															&& rhs.latitude != 0) {
 														return (int) (DistanceUtil.getDistance(
@@ -201,17 +202,21 @@ public class ActivitiesView extends LinearLayout {
 							} else {
 								mToast.cancel();
 								mToast.show();
-								if (activityListView.getFooterViewsCount() > 0)
-									activityListView
-											.removeFooterView(footerView);
+								// if (activityListView.getFooterViewsCount() >
+								// 0)
+								// activityListView
+								// .removeFooterView(footerView);
 							}
 							activityListView.onRefreshComplete();
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						if (activityListView.getFooterViewsCount() > 0)
+							activityListView.removeFooterView(footerView);
 
 					}
+
 					@Override
 					public void handleError(BaseRequest request,
 							int statusCode, String errorMsg) {

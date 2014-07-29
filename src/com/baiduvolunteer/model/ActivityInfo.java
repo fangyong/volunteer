@@ -5,7 +5,6 @@ import java.util.Date;
 
 import org.json.JSONObject;
 
-import com.baidu.mapapi.model.LatLng;
 import com.baiduvolunteer.config.Config;
 
 public class ActivityInfo implements Serializable {

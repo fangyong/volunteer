@@ -18,8 +18,8 @@
             android:id="@+id/imageView"
             android:layout_width="70dip"
             android:layout_height="70dip"
-            android:background="#ffeeeeee"
-            android:padding="5dip" />
+            android:background="#00eeeeee"
+            />
 
         <TextView
             android:id="@+id/badgeView"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="55dp"
             android:gravity="center_vertical"
-            android:text="西南小学教师志愿者"
+            android:text=" "
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_20"
             android:textStyle="bold" />

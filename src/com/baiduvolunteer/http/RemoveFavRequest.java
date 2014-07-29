@@ -50,7 +50,7 @@ public class RemoveFavRequest extends BaseRequest {
 						: "publisher");
 		if (removeType == RemoveFavType.RemoveFavTypePublisher)
 			map.put("publishType",
-					publisherType == PublisherType.PublisherTypeAPP ? "volunteerapp"
+					publisherType == PublisherType.PublisherTypeAPP ? "baiduvolunteer"
 							: "gongyixiang");
 		map.put(removeType == RemoveFavType.RemoveFavTypeActivity ? "activityId"
 				: "publishId", id);

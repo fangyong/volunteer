@@ -21,7 +21,7 @@ public class JoinActivityAdapter extends BaseAdapter {
 
 	private Activity activity;
 	private ArrayList<ActivityInfo> activityList;
-	private SimpleDateFormat sdf = new SimpleDateFormat("MM-dd hh:mm");
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.dd h:mm");
 
 	public JoinActivityAdapter(Activity activity,
 			ArrayList<ActivityInfo> activityList) {
@@ -78,7 +78,7 @@ public class JoinActivityAdapter extends BaseAdapter {
 			}
 		} else {
 			holder.distLabel.setText("未知");
-//			holder.distLabel.setText(activityInfo.distance + "m");
+			// holder.distLabel.setText(activityInfo.distance + "m");
 		}
 		return convertView;
 	}
