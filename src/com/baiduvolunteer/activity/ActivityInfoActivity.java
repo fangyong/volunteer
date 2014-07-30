@@ -42,6 +42,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 	private ListViewCell organizerCell;
 	private ListViewCell contactCell;
 
+	private View arrow;
+
 	private TextView activityTitle;
 	private ImageView activityPic;
 	private TextView activityTime;
@@ -49,6 +51,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 	private TextView activityEnrollNumber;
 	private TextView activityIntro;
 
+	private String shareUrl = "http://fir.im/FsTK";
+	
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.d hh:mm");
 
 	private View backButton;
@@ -75,6 +79,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 		organizerCell.iconView
 				.setImageResource(R.drawable.icon_info_organization);
 		contactCell = (ListViewCell) findViewById(R.id.contactCell);
+		arrow = contactCell.findViewById(R.id.detailIcon);
 		contactCell.iconView.setImageResource(R.drawable.icon_info_call);
 		// contactCell.textLabel.setText("18201506318");
 
@@ -109,21 +114,24 @@ public class ActivityInfoActivity extends BaseActivity implements
 				OnekeyShare oks = new OnekeyShare();
 				// oks.setNotification(R.drawable.ic_launcher,
 				// getString(R.string.app_name));
-				oks.setAddress("12345678901");
+				// oks.setAddress("12345678901");
 				oks.setTitle(getString(R.string.evenote_title));
-				oks.setTitleUrl("http://sharesdk.cn");
-				oks.setText(getString(R.string.share_content)
-						+ " http://www.sina.com.cn/");
+				oks.setTitleUrl(shareUrl);
+				oks.setText("#志愿也是一种生活方式#" + activityInfo.title + ":"
+						+ sdf.format(activityInfo.startTime) + "-"
+						+ sdf.format(activityInfo.endTime) + ";"
+						+ activityInfo.address
+						+ ";点击了解一下吧 "+shareUrl+"。记得报名参加哦");
 				// if (captureView) {
 				// oks.setViewToShare(getPage());
 				// } else {
 				// oks.setImagePath(MainActivity.TEST_IMAGE);
-				// oks.setImageUrl(MainActivity.TEST_IMAGE_URL);
+				oks.setImageUrl(activityInfo.iconUrl);
 				// }
-				oks.setUrl("http://www.sharesdk.cn");
+				oks.setUrl(shareUrl);
 				// oks.setFilePath(MainActivity.TEST_IMAGE);
-				oks.setComment(getString(R.string.share)
-						+ " http://www.sina.com.cn/");
+				// oks.setComment(getString(R.string.share)
+				// + " http://www.sina.com.cn/");
 				oks.setSite(getString(R.string.app_name));
 				oks.setSiteUrl("http://sharesdk.cn");
 				oks.setVenueName("ShareSDK");
@@ -219,6 +227,10 @@ public class ActivityInfoActivity extends BaseActivity implements
 											.setText(activityInfo.contactPhone);
 									activityIntro
 											.setText(activityInfo.description);
+									if (activityInfo.contactPhone == null
+											|| activityInfo.contactPhone
+													.equals(""))
+										arrow.setVisibility(View.GONE);
 									attendButton.setEnabled(true);
 									if (activityInfo.iconUrl != null)
 										ViewUtils.bmUtils.display(activityPic,
@@ -226,10 +238,18 @@ public class ActivityInfoActivity extends BaseActivity implements
 									if (activityInfo.isAttend) {
 										attendButton
 												.setBackgroundColor(0xffe7e7e7);
+										attendButton.setEnabled(false);
 										attendBtnText.setText("  已报名");
 									} else {
 										attendButton
 												.setBackgroundColor(0xff107cfd);
+										attendButton.setEnabled(true);
+										if (activityInfo.startTime.getTime() < System
+												.currentTimeMillis()) {
+											attendButton
+													.setBackgroundColor(0xffe7e7e7);
+											attendButton.setEnabled(false);
+										}
 										attendBtnText.setText("  我要报名");
 									}
 
