@@ -123,13 +123,13 @@ public class ActivityInfoActivity extends BaseActivity implements
 				oks.setUrl("http://www.sharesdk.cn");
 				// oks.setFilePath(MainActivity.TEST_IMAGE);
 				oks.setComment(getString(R.string.share)
-						+ " http://www.sina.com.cn/");
+						+ " http://fir.im/FsTK");
 				oks.setSite(getString(R.string.app_name));
 				oks.setSiteUrl("http://sharesdk.cn");
-				oks.setVenueName("ShareSDK");
-				oks.setVenueDescription("This is a beautiful place!");
-				oks.setLatitude(23.056081f);
-				oks.setLongitude(113.385708f);
+//				oks.setVenueName("ShareSDK");
+//				oks.setVenueDescription("This is a beautiful place!");
+//				oks.setLatitude(23.056081f);
+//				oks.setLongitude(113.385708f);
 				// oks.setSilent(silent);
 				// if (platform != null) {
 				// oks.setPlatform(platform);
@@ -390,14 +390,14 @@ public class ActivityInfoActivity extends BaseActivity implements
 				break;
 			case 2: {
 				// 失败
-				// text = plat.getName() + " caught error at " + text;
-				text = "分享成功！";
+//				 text = plat.getName() + " caught error at " + text;
+				text = "分享失败！" ;
 			}
 				break;
 			case 3: {
 				// 取消
 				// text = plat.getName() + " canceled at " + text;
-				text = "分享成功！";
+				text = "取消...";
 			}
 				break;
 			}
