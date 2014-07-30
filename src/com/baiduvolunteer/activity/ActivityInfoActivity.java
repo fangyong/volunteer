@@ -1,6 +1,7 @@
 package com.baiduvolunteer.activity;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler.Callback;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +20,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.utils.UIHandler;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.baiduvolunteer.R;
@@ -106,7 +112,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 				oks.setAddress("12345678901");
 				oks.setTitle(getString(R.string.evenote_title));
 				oks.setTitleUrl("http://sharesdk.cn");
-				oks.setText(getString(R.string.share_content));
+				oks.setText(getString(R.string.share_content)
+						+ " http://www.sina.com.cn/");
 				// if (captureView) {
 				// oks.setViewToShare(getPage());
 				// } else {
@@ -115,7 +122,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 				// }
 				oks.setUrl("http://www.sharesdk.cn");
 				// oks.setFilePath(MainActivity.TEST_IMAGE);
-				oks.setComment(getString(R.string.share));
+				oks.setComment(getString(R.string.share)
+						+ " http://www.sina.com.cn/");
 				oks.setSite(getString(R.string.app_name));
 				oks.setSiteUrl("http://sharesdk.cn");
 				oks.setVenueName("ShareSDK");
@@ -161,6 +169,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 
 				// 为EditPage设置一个背景的View
 				// oks.setEditPageBackground(getPage());
+				oks.setCallback(new MyActionListener());
 
 				oks.show(ActivityInfoActivity.this);
 			}
@@ -182,8 +191,12 @@ public class ActivityInfoActivity extends BaseActivity implements
 									JSONObject activity = new JSONObject(
 											response);
 									activity = activity.optJSONObject("result");
+									if (activity == null)
+										return;
 									activity = activity
 											.optJSONObject("activity");
+									if (activity == null)
+										return;
 									activityInfo.loadFromJson(activity);
 									Log.d("test", "isattend"
 											+ activityInfo.isAttend);
@@ -331,6 +344,89 @@ public class ActivityInfoActivity extends BaseActivity implements
 
 			}
 
+		}
+	}
+
+	class MyActionListener implements PlatformActionListener, Callback {
+
+		public void onComplete(Platform plat, int action,
+				HashMap<String, Object> res) {
+
+			Message msg = new Message();
+			msg.arg1 = 1;
+			msg.arg2 = action;
+			msg.obj = plat;
+			UIHandler.sendMessage(msg, MyActionListener.this);
+		}
+
+		public void onCancel(Platform palt, int action) {
+			Message msg = new Message();
+			msg.arg1 = 3;
+			msg.arg2 = action;
+			msg.obj = palt;
+			UIHandler.sendMessage(msg, this);
+		}
+
+		public void onError(Platform palt, int action, Throwable t) {
+			t.printStackTrace();
+
+			Message msg = new Message();
+			msg.arg1 = 2;
+			msg.arg2 = action;
+			msg.obj = palt;
+			UIHandler.sendMessage(msg, this);
+		}
+
+		@Override
+		public boolean handleMessage(Message msg) {
+			Platform plat = (Platform) msg.obj;
+			String text = actionToString(msg.arg2);
+			switch (msg.arg1) {
+			case 1: {
+				// 成功
+				// text = plat.getName() + " completed at " + text;
+				text = "分享成功！";
+			}
+				break;
+			case 2: {
+				// 失败
+				// text = plat.getName() + " caught error at " + text;
+				text = "分享成功！";
+			}
+				break;
+			case 3: {
+				// 取消
+				// text = plat.getName() + " canceled at " + text;
+				text = "分享成功！";
+			}
+				break;
+			}
+
+			Toast.makeText(ActivityInfoActivity.this, text, Toast.LENGTH_SHORT)
+					.show();
+			return false;
+		}
+	}
+
+	public String actionToString(int action) {
+		switch (action) {
+		case Platform.ACTION_AUTHORIZING:
+			return "ACTION_AUTHORIZING";
+		case Platform.ACTION_GETTING_FRIEND_LIST:
+			return "ACTION_GETTING_FRIEND_LIST";
+		case Platform.ACTION_FOLLOWING_USER:
+			return "ACTION_FOLLOWING_USER";
+		case Platform.ACTION_SENDING_DIRECT_MESSAGE:
+			return "ACTION_SENDING_DIRECT_MESSAGE";
+		case Platform.ACTION_TIMELINE:
+			return "ACTION_TIMELINE";
+		case Platform.ACTION_USER_INFOR:
+			return "ACTION_USER_INFOR";
+		case Platform.ACTION_SHARE:
+			return "ACTION_SHARE";
+		default: {
+			return "UNKNOWN";
+		}
 		}
 	}
 }

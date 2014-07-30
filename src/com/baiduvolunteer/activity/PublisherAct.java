@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.hardware.Camera.Size;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -68,6 +69,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 
 	private void getInfoFromServer() {
 		String publisherId = getIntent().getStringExtra("publisherId");
+		boolean isGYX = getIntent().getBooleanExtra("isGYX", false);
 		if (publisherId != null) {
 			publisher = new Publisher();
 			publisher.pid = publisherId;
@@ -114,7 +116,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 				titleLabel.setText(publisher.publishName);
 				sloganLabel.setText(publisher.mission);
 				createTimeLabel.setText(publisher.setUpTime);
-				membersLabel.setText("" + publisher.memberNumber);
+				membersLabel.setText(publisher.size);
 
 				if (publisher.province > 0) {
 					CityInfo province = Config.sharedConfig().provinceList
@@ -144,6 +146,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 				}
 				contactLabel.setText(publisher.linkUser);
 				phoneLabel.setText(publisher.linkPhone);
+				
 			}
 		});
 	}

@@ -54,18 +54,18 @@
     <SinaWeibo
         Id="1"
         SortId="1"
-        AppKey="568898243"
-        AppSecret="38a4f8204cc784f81f9f0daaf31e02e3"
-        RedirectUrl="http://www.sharesdk.cn"
+        AppKey="2343476698"
+        AppSecret="da3bbc920804f594a73f5274d86402cd"
+        RedirectUrl="http://www.sina.com.cn"
         ShareByAppClient="false"
         Enable="true" />
 
     <TencentWeibo
         Id="2" 
         SortId="2"
-        AppKey="801307650"
-        AppSecret="ae36f4ee3946e1cbb98d6965b0b2ff5c"
-        RedirectUri="http://sharesdk.cn"
+        AppKey="801528266"
+        AppSecret="a2623d223bf0352bdf2129367f0e88dd"
+        RedirectUri=""
         Enable="true" />
 
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
@@ -136,9 +136,9 @@
     <Renren
         Id="10"
         SortId="10"
-        AppId="226427"
-        ApiKey="fc5b8aed373c4c27a05b712acba0f8c3"
-        SecretKey="f29df781abdd4f49beca5a2194676ca4"
+        AppId="270358"
+        ApiKey="3398619389ef4e9d8075a6029651f2f5"
+        SecretKey="b10398ce8e9842dd93a3e84d4538e8b0"
         Enable="true" />
     
     <KaiXin

@@ -1,6 +1,6 @@
 package com.baiduvolunteer.activity;
 
-import java.security.acl.LastOwnerException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,8 +22,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.view.animation.Animation.AnimationListener;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -31,10 +31,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.baidu.mapapi.model.LatLng;
@@ -55,7 +53,6 @@ import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
 import com.baiduvolunteer.view.MyListView;
 import com.baiduvolunteer.view.MyListView.OnLoadListener;
-import com.baiduvolunteer.view.MyListView.OnRefreshListener;
 import com.baiduvolunteer.view.PublisherListCellHolder;
 
 public class SearchActivity extends Activity {
@@ -232,9 +229,10 @@ public class SearchActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if (typeSelector.getSelectedItemPosition() == 0) {
+//					Log.d("test", "parent:" + parent.getChildAt(0));
 					Intent intent = new Intent(SearchActivity.this,
 							ActivityInfoActivity.class);
-					ActivityInfo activity = activities.get(position);
+					ActivityInfo activity = activities.get(position- parent.getCount() + activities.size());
 					intent.putExtra("activity", activity);
 					startActivity(intent);
 				} else {
@@ -317,10 +315,14 @@ public class SearchActivity extends Activity {
 								// if (activities.size() > size)
 								// Toast.makeText(SearchActivity.this,
 								// "已经到底了！", Toast.LENGTH_LONG).show();
-								if (resultList.getFooterViewsCount() > 0)
-									resultList.removeFooterView(footerView);
+								// if (resultList.getFooterViewsCount() > 0)
+								// resultList.removeFooterView(footerView);
 							}
+						} else {
+
 						}
+						if (resultList.getFooterViewsCount() > 0)
+							resultList.removeFooterView(footerView);
 
 					}
 					ViewUtils.runInMainThread(new Runnable() {
@@ -342,6 +344,7 @@ public class SearchActivity extends Activity {
 
 	class MyAdapter extends ArrayAdapter<ActivityInfo> {
 
+		private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.dd h:mm");
 		private ArrayList<ActivityInfo> activities;
 
 		public MyAdapter(Context context, int resource,
@@ -353,8 +356,8 @@ public class SearchActivity extends Activity {
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			if (searchField.getText().toString().isEmpty())
-				return 0;
+			// if (searchField.getText().toString().isEmpty())
+			// return 0;
 			return activities.size();
 		}
 
@@ -391,6 +394,8 @@ public class SearchActivity extends Activity {
 					// holder.distLabel.setText(info.distance + "m");
 					holder.distLabel.setText("未知");
 				}
+				holder.timeLabel.setText(sdf.format(info.startTime) + "\n--"
+						+ sdf.format(info.endTime));
 				holder.favIcon.setTag(Integer.valueOf(position));
 				holder.favIcon.setOnClickListener(new OnClickListener() {
 

@@ -247,7 +247,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:drawableLeft="@drawable/btn_attend"
+            android:drawableLeft="@drawable/icon_save"
             android:gravity="center"
             android:text="  保存"
             android:textColor="#ffffff"

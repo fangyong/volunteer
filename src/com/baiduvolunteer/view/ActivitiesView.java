@@ -32,6 +32,7 @@ import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetActivitiesListRequest;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.User;
+import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.MyListView.OnLoadListener;
 import com.baiduvolunteer.view.MyListView.OnRefreshListener;
 
@@ -44,7 +45,7 @@ public class ActivitiesView extends LinearLayout {
 	private int psize = 10;
 	private View footerView;
 	private Toast mToast;
-	
+
 	private ActivityInfo lastActivity;
 
 	private HashMap<String, ActivityInfo> hashData = new HashMap<String, ActivityInfo>();
@@ -142,9 +143,11 @@ public class ActivitiesView extends LinearLayout {
 						Log.d("test", "getActivities response:" + response);
 						try {
 							JSONObject ret = new JSONObject(response);
-							JSONArray activities = ret.optJSONObject("result")
-									.optJSONArray("activities");
-							if (activities.length() > 0) {
+							ret = ret.optJSONObject("result");
+							JSONArray activities = null;
+							if (ret != null)
+								activities = ret.optJSONArray("activities");
+							if (activities != null && activities.length() > 0) {
 								for (int i = 0; i < activities.length(); i++) {
 									JSONObject activity = activities
 											.optJSONObject(i);
@@ -158,7 +161,8 @@ public class ActivitiesView extends LinearLayout {
 									}
 
 								}
-								lastActivity = activityInfoList.get(activityInfoList.size()-1);
+								lastActivity = activityInfoList
+										.get(activityInfoList.size() - 1);
 								Collections.sort(activityInfoList,
 										new Comparator<ActivityInfo>() {
 											@Override
@@ -173,7 +177,8 @@ public class ActivitiesView extends LinearLayout {
 															.compareTo(lhs.activityID);
 												} else {
 													if (User.sharedUser().lastLatlng == null) {
-														return -1;
+														return lhs.activityID
+																.compareTo(rhs.activityID);
 													} else if (lhs.latitude != 0
 															&& rhs.latitude != 0) {
 														return (int) (DistanceUtil.getDistance(
@@ -197,16 +202,26 @@ public class ActivitiesView extends LinearLayout {
 							} else {
 								mToast.cancel();
 								mToast.show();
-								if (activityListView.getFooterViewsCount() > 0)
-									activityListView
-											.removeFooterView(footerView);
+								// if (activityListView.getFooterViewsCount() >
+								// 0)
+								// activityListView
+								// .removeFooterView(footerView);
 							}
 							activityListView.onRefreshComplete();
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						if (activityListView.getFooterViewsCount() > 0)
+							activityListView.removeFooterView(footerView);
 
+					}
+
+					@Override
+					public void handleError(BaseRequest request,
+							int statusCode, String errorMsg) {
+						// TODO Auto-generated method stub
+						super.handleError(request, statusCode, errorMsg);
 					}
 				}).start();
 	}

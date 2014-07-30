@@ -41,7 +41,7 @@ public class JoinedActivitiesActivity extends BaseActivity {
 	private JoinActivityAdapter mAdapter;
 	private View footerView;
 	private ArrayList<ActivityInfo> activityInfoList = new ArrayList<ActivityInfo>();
-	private int size = 10;
+	private int size = 100;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +80,9 @@ public class JoinedActivitiesActivity extends BaseActivity {
 
 			@Override
 			public void onLoad() {
-				long time = activityInfoList.get(activityInfoList.size() - 1).createTime;
-				load(time);
+				// long time = activityInfoList.get(activityInfoList.size() -
+				// 1).createTime;
+				// load(time);
 			}
 		});
 
@@ -113,8 +114,12 @@ public class JoinedActivitiesActivity extends BaseActivity {
 							Log.i("response test", response);
 
 							JSONObject ret = new JSONObject(response);
-							JSONArray activities = ret.optJSONObject("result")
-									.optJSONArray("activities");
+							JSONArray activities = null;
+							ret = ret.optJSONObject("result");
+							if (ret == null)
+								activities = new JSONArray();
+							else
+								activities = ret.optJSONArray("activities");
 							if (activities.length() > 0) {
 								for (int i = 0; i < activities.length(); i++) {
 									JSONObject activity = activities
@@ -136,8 +141,8 @@ public class JoinedActivitiesActivity extends BaseActivity {
 										eventsList.removeFooterView(footerView);
 								}
 							} else {
-//								Toast.makeText(JoinedActivitiesActivity.this,
-//										"已经到底了！", Toast.LENGTH_LONG).show();
+								// Toast.makeText(JoinedActivitiesActivity.this,
+								// "已经到底了！", Toast.LENGTH_LONG).show();
 								if (eventsList.getFooterViewsCount() > 0)
 									eventsList.removeFooterView(footerView);
 							}
