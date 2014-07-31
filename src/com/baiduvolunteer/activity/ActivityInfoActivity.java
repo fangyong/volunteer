@@ -52,7 +52,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 	private TextView activityIntro;
 
 	private String shareUrl = "http://fir.im/FsTK";
-	
+
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.d hh:mm");
 
 	private View backButton;
@@ -83,6 +83,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 		contactCell.iconView.setImageResource(R.drawable.icon_info_call);
 		// contactCell.textLabel.setText("18201506318");
 
+		locationCell.setOnClickListener(this);
 		contactCell.setOnClickListener(this);
 		organizerCell.setOnClickListener(this);
 		backButton = findViewById(R.id.backBtn);
@@ -120,8 +121,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 				oks.setText("#志愿也是一种生活方式#" + activityInfo.title + ":"
 						+ sdf.format(activityInfo.startTime) + "-"
 						+ sdf.format(activityInfo.endTime) + ";"
-						+ activityInfo.address
-						+ ";点击了解一下吧 "+shareUrl+"。记得报名参加哦");
+						+ activityInfo.address + ";点击了解一下吧 " + shareUrl
+						+ "。记得报名参加哦");
 				// if (captureView) {
 				// oks.setViewToShare(getPage());
 				// } else {
@@ -130,14 +131,14 @@ public class ActivityInfoActivity extends BaseActivity implements
 				// }
 				oks.setUrl(shareUrl);
 				// oks.setFilePath(MainActivity.TEST_IMAGE);
-				// oks.setComment(getString(R.string.share)
-				// + " http://www.sina.com.cn/");
+				oks.setComment(getString(R.string.share)
+						+ " http://fir.im/FsTK");
 				oks.setSite(getString(R.string.app_name));
 				oks.setSiteUrl("http://sharesdk.cn");
-				oks.setVenueName("ShareSDK");
-				oks.setVenueDescription("This is a beautiful place!");
-				oks.setLatitude(23.056081f);
-				oks.setLongitude(113.385708f);
+				// oks.setVenueName("ShareSDK");
+				// oks.setVenueDescription("This is a beautiful place!");
+				// oks.setLatitude(23.056081f);
+				// oks.setLongitude(113.385708f);
 				// oks.setSilent(silent);
 				// if (platform != null) {
 				// oks.setPlatform(platform);
@@ -227,6 +228,9 @@ public class ActivityInfoActivity extends BaseActivity implements
 											.setText(activityInfo.contactPhone);
 									activityIntro
 											.setText(activityInfo.description);
+									locationCell.detailIconView
+											.setVisibility((activityInfo.latitude != 0 || activityInfo.longitude != 0) ? View.VISIBLE
+													: View.INVISIBLE);
 									if (activityInfo.contactPhone == null
 											|| activityInfo.contactPhone
 													.equals(""))
@@ -364,6 +368,14 @@ public class ActivityInfoActivity extends BaseActivity implements
 
 			}
 
+		} else if (v == locationCell) {
+			if (activityInfo.latitude != 0 || activityInfo.longitude != 0) {
+				Intent intent = new Intent(ActivityInfoActivity.this,
+						MapViewActivity.class);
+				intent.putExtra("lat", activityInfo.latitude);
+				intent.putExtra("lng", activityInfo.longitude);
+				startActivity(intent);
+			}
 		}
 	}
 
@@ -411,13 +423,13 @@ public class ActivityInfoActivity extends BaseActivity implements
 			case 2: {
 				// 失败
 				// text = plat.getName() + " caught error at " + text;
-				text = "分享成功！";
+				text = "分享失败！";
 			}
 				break;
 			case 3: {
 				// 取消
 				// text = plat.getName() + " canceled at " + text;
-				text = "分享成功！";
+				text = "取消...";
 			}
 				break;
 			}

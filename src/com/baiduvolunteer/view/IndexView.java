@@ -1,6 +1,5 @@
 package com.baiduvolunteer.view;
 
-import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -32,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
+import android.widget.ZoomControls;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -81,8 +81,10 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	private Marker marker = null;
 	private Button locationButton;
 	private Object currentData;
-	private int searchCount = 0;
+	// private int searchCount = 0;
 	private Button searchButton;
+	private Button zoomInButton;
+	private Button zoomOutButton;
 
 	private LatLng currentLatLng;
 	private float currentZoom;
@@ -233,6 +235,31 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				marker = null;
 			}
 		});
+		zoomInButton = (Button) findViewById(R.id.zoomInButton);
+		zoomOutButton = (Button) findViewById(R.id.zoomOutButton);
+
+		zoomOutButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				map.animateMapStatus(MapStatusUpdateFactory.zoomOut());
+			}
+		});
+		
+		zoomInButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+//				ZoomControls controls = (ZoomControls) mapView.getChildAt(2);
+//				Log.d("test","map button "+controls.getChildAt(1).performClick());
+				map.animateMapStatus(MapStatusUpdateFactory.zoomIn());
+			}
+		});
+		
+		
+
 		map.setOnMapStatusChangeListener(new OnMapStatusChangeListener() {
 
 			@Override
@@ -331,7 +358,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				}
 
 				((ImageView) infoView.findViewById(R.id.placeMarker))
-						.setImageResource(ids[index]);
+						.setImageResource(index < 10 ? ids[index]
+								: R.drawable.icon_markextra);
 				((TextView) infoView.findViewById(R.id.titleLabel))
 						.setText(currentPublisher != null ? currentPublisher.publishName
 								: info.title);
@@ -520,7 +548,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		markerArray.clear();
 		LatLng ll = map.getMapStatus().target;
 		new SearchAllRequest().setLat(ll.latitude).setLng(ll.longitude)
-				.setKey(searchField.getText().toString())
+				.setKey(searchField.getText().toString()).setSize(20)
 				.setHandler(new SearchAllResponseHandler() {
 
 					@Override
@@ -587,7 +615,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			e.printStackTrace();
 		}
 
-		int count = Math.min(10, markerArray.size());
+		int count = Math.min(25, markerArray.size());
 		if (ltll != null && rdll != null)
 			Log.d("test", "lt: " + ltll.longitude + ",rd:" + rdll.longitude);
 		int cnt = 0;
@@ -603,8 +631,10 @@ public class IndexView extends LinearLayout implements OnClickListener {
 						|| (ll.latitude < ltll.latitude
 								&& ll.latitude > rdll.latitude
 								&& ll.longitude > ltll.longitude && ll.longitude < rdll.longitude)) {
-
-					int id = ids[cnt];
+					int id = R.drawable.icon_markextra;
+					if (cnt < 10) {
+						id = ids[cnt];
+					}
 					cnt++;
 					Bundle bundle = new Bundle();
 					bundle.putInt("index", i);
@@ -626,7 +656,9 @@ public class IndexView extends LinearLayout implements OnClickListener {
 								&& ll.latitude > rdll.latitude
 								&& ll.longitude > ltll.longitude && ll.longitude < rdll.longitude)) {
 
-					int id = ids[cnt];
+					int id = R.drawable.icon_markextra;
+					if (cnt < 10)
+						id = ids[cnt];
 					cnt++;
 					Bundle bundle = new Bundle();
 					bundle.putInt("index", i);
