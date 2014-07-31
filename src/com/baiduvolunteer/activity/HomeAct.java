@@ -32,6 +32,7 @@ import com.baiduvolunteer.view.ActivitiesView;
 import com.baiduvolunteer.view.IndexView;
 import com.baiduvolunteer.view.MoreView;
 import com.baiduvolunteer.view.UserCenterView;
+import com.umeng.update.UmengUpdateAgent;
 
 //import com.baiduvolunteer.http.LoginRequest;
 
@@ -186,7 +187,8 @@ public class HomeAct extends Activity {
 		userCenterView = (UserCenterView) findViewById(R.id.tab_usercenter);
 		moreView = (MoreView) findViewById(R.id.tab_more);
 		initTabs();
-
+		UmengUpdateAgent.setDefault();
+		UmengUpdateAgent.update(this);
 	}
 
 	void initTabs() {
