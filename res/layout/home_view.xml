@@ -22,6 +22,23 @@
         android:layout_marginLeft="15dp"
         android:background="@drawable/map_location" />
 
+    <Button
+        android:id="@+id/zoomInButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_above="@+id/zoomOutButton"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/btn_map_zoomin" />
+
+    <Button
+        android:id="@+id/zoomOutButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/locationButton"
+        android:layout_alignLeft="@+id/zoomInButton"
+        android:background="@drawable/btn_map_zoomout" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dip"
@@ -41,7 +58,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_gravity="center">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
 
             <EditText
                 android:id="@+id/search"

@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,10 +26,14 @@ import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.BaseRequest;
+import com.baiduvolunteer.http.AddFavRequest.AddFavType;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
+import com.baiduvolunteer.http.RemoveFavRequest.RemoveFavType;
+import com.baiduvolunteer.http.AddFavRequest;
 import com.baiduvolunteer.http.GetActivityCollectionListRequest;
 import com.baiduvolunteer.http.GetPublisherCollectionsRequest;
 import com.baiduvolunteer.http.MD5;
+import com.baiduvolunteer.http.RemoveFavRequest;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.Publisher;
 import com.baiduvolunteer.model.User;
@@ -48,6 +53,7 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 	private ArrayList<Publisher> publishers = new ArrayList<Publisher>();
 	private ArrayList<ActivityInfo> activities = new ArrayList<ActivityInfo>();
 	private ArrayAdapter<Object> mAdapter;
+	private ProgressDialog mPd;
 
 	private int selectIndex = 0;
 
@@ -55,6 +61,9 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		mPd = new ProgressDialog(this);
+		mPd.setCancelable(false);
+		mPd.setIndeterminate(true);
 		setContentView(R.layout.activity_favorites);
 		backButton = findViewById(R.id.backButton);
 		tab1 = (TextView) findViewById(R.id.title1);
@@ -85,8 +94,9 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 					ActivityInfo info = activities.get(position);
 					ActivityListCellHolder holder = ActivityListCellHolder
 							.create(getContext());
-					holder.favIcon.setVisibility(View.INVISIBLE);
+					// holder.favIcon.setVisibility(View.INVISIBLE);
 					holder.titleLabel.setText(info.title);
+					holder.favIcon.setTag(Integer.valueOf(position));
 					holder.timeLabel.setText(sdf.format(info.startTime)
 							+ "\n --" + sdf.format(info.endTime));
 					holder.locationLabel.setText(info.address);
@@ -109,9 +119,95 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 							holder.distLabel.setText(">10km");
 						}
 					} else {
-//						holder.distLabel.setText(info.distance + "m");
+						// holder.distLabel.setText(info.distance + "m");
 						holder.distLabel.setText("未知");
 					}
+					holder.favIcon
+					.setImageResource(info.addedToFav ? R.drawable.icon_fav_sel
+							: R.drawable.icon_fav);
+					holder.favIcon.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View arg0) {
+							Integer pos = (Integer) arg0.getTag();
+							final ActivityInfo info = activities.get(pos);
+
+							if (!info.addedToFav) {
+								mPd.show();
+								new AddFavRequest()
+										.setAddType(
+												AddFavType.AddFavTypeActivity)
+										.setId(info.activityID)
+										.setHandler(new ResponseHandler() {
+
+											@Override
+											public void handleResponse(
+													BaseRequest request,
+													int statusCode,
+													String errorMsg,
+													String response) {
+												// TODO Auto-generated method
+												// stub
+												mPd.dismiss();
+												Log.d("test", "add fav result "
+														+ response);
+												if (statusCode == 200) {
+													info.addedToFav = true;
+													ViewUtils
+															.runInMainThread(new Runnable() {
+
+																@Override
+																public void run() {
+
+																	// TODO
+																	// Auto-generated
+																	// method
+																	// stub
+																	notifyDataSetChanged();
+																}
+															});
+												}
+
+											}
+										}).start();
+							} else {
+								new RemoveFavRequest()
+										.setId(info.activityID)
+										.setRemoveType(
+												RemoveFavType.RemoveFavTypeActivity)
+										.setHandler(new ResponseHandler() {
+
+											@Override
+											public void handleResponse(
+													BaseRequest request,
+													int statusCode,
+													String errorMsg,
+													String response) {
+												Log.d("test",
+														"remove fav result "
+																+ response);
+												mPd.dismiss();
+												if (statusCode == 200) {
+													info.addedToFav = false;
+													ViewUtils
+															.runInMainThread(new Runnable() {
+
+																@Override
+																public void run() {
+																	mPd.dismiss();
+																	// TODO
+																	// Auto-generated
+																	// method
+																	// stub
+																	notifyDataSetChanged();
+																}
+															});
+												}
+											}
+										}).start();
+							}
+						}
+					});
 					return holder.container;
 				} else {
 					Publisher publisher = publishers.get(position);
