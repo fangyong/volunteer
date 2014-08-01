@@ -46,8 +46,9 @@
             android:layout_marginTop="10dp"
             android:layout_weight="0"
             android:gravity="center_vertical"
-            android:text="北大青年志愿者协会"
-            android:textSize="18sp"
+            android:text=" "
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_20"
             android:textStyle="bold" />
 
         <TextView
@@ -57,7 +58,9 @@
             android:layout_weight="1"
             android:drawableLeft="@drawable/icon_schedule"
             android:gravity="center_vertical"
-            android:text="发起21个活动" />
+            android:textColor="@color/gary"
+            android:textSize="@dimen/text_size_16"
+            android:text=" " />
 
         <TextView
             android:id="@+id/memberLabel"
@@ -66,7 +69,9 @@
             android:layout_weight="1"
             android:drawableLeft="@drawable/icon_members"
             android:gravity="center_vertical"
-            android:text="共121个人参加" />
+            android:textColor="@color/gary"
+            android:textSize="@dimen/text_size_16"
+            android:text=" " />
     </LinearLayout>
 
 </LinearLayout>

@@ -204,6 +204,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		super.onDetachedFromWindow();
 		Log.d("test", "onDettach");
 		getContext().unregisterReceiver(myReceiver);
+		mpd.dismiss();
 		mLocationClient.stop();
 	}
 
@@ -538,6 +539,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				mpd.show();
 				startSearch();
 			}
 		});
@@ -554,6 +556,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 					@Override
 					public void handleSuccess(ArrayList<Object> results) {
 						// TODO Auto-generated method stub
+						
 						Collections.sort(results, new Comparator<Object>() {
 
 							@Override
@@ -591,9 +594,17 @@ public class IndexView extends LinearLayout implements OnClickListener {
 							@Override
 							public void run() {
 								// TODO Auto-generated method stub
+								mpd.dismiss();
 								updateMap();
 							}
 						});
+					}
+					
+					@Override
+					public void handleError(int statusCode, String errorMsg) {
+						// TODO Auto-generated method stub
+						mpd.dismiss();
+						super.handleError(statusCode, errorMsg);
 					}
 				}).start();
 	}

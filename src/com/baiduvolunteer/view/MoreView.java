@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.activity.PushSettingsActivity;
+import com.umeng.update.UmengUpdateAgent;
 
 public class MoreView extends LinearLayout implements OnClickListener {
 
@@ -83,7 +84,8 @@ public class MoreView extends LinearLayout implements OnClickListener {
 		} else if (v == about) {
 
 		} else if (v == checkUpdate) {
-
+			UmengUpdateAgent.setDefault();
+			UmengUpdateAgent.update(getContext());
 		}
 	}
 

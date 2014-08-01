@@ -74,13 +74,13 @@ public class ActivityInfoActivity extends BaseActivity implements
 		locationCell = (ListViewCell) findViewById(R.id.locationCell);
 		organizerCell = (ListViewCell) findViewById(R.id.organizerCell);
 		// infoCell = (ListViewCell) findViewById(R.id.infoContainer);
-		locationCell.iconView.setImageResource(R.drawable.icon_info_location);
+		locationCell.iconView.setImageResource(R.drawable.icon_address_h);
 		// organizerCell.textLabel.setText("北大青年志愿者协会");
 		organizerCell.iconView
-				.setImageResource(R.drawable.icon_info_organization);
+				.setImageResource(R.drawable.icon_organization_h);
 		contactCell = (ListViewCell) findViewById(R.id.contactCell);
 		arrow = contactCell.findViewById(R.id.detailIcon);
-		contactCell.iconView.setImageResource(R.drawable.icon_info_call);
+		contactCell.iconView.setImageResource(R.drawable.icon_contact_h);
 		// contactCell.textLabel.setText("18201506318");
 
 		locationCell.setOnClickListener(this);

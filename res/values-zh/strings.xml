@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">友盟SDK</string>
+    <string name="app_name">百度志愿者</string>
     <string name="umeng_example_home_btn_analytics">统计分析</string>
     <string name="umeng_example_home_btn_xp">应用联盟</string>
     <string name="umeng_example_home_btn_ad">移动广告</string>

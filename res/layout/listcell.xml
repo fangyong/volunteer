@@ -24,12 +24,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
         android:layout_toLeftOf="@+id/detailIcon"
         android:layout_toRightOf="@+id/iconView"
         android:gravity="center_vertical"
-        android:textSize="@dimen/text_size_20"
+        android:text=""
         android:textColor="@color/gary"
-        android:text="" >
+        android:textSize="@dimen/text_size_20" >
     </TextView>
 
 </com.baiduvolunteer.view.ListViewCell>

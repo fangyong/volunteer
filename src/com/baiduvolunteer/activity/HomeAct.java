@@ -187,8 +187,7 @@ public class HomeAct extends Activity {
 		userCenterView = (UserCenterView) findViewById(R.id.tab_usercenter);
 		moreView = (MoreView) findViewById(R.id.tab_more);
 		initTabs();
-		UmengUpdateAgent.setDefault();
-		UmengUpdateAgent.update(this);
+		
 	}
 
 	void initTabs() {
