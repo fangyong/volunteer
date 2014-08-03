@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <citys name="地区">
 
-	<city value="0" name="不限" />
+	<city value="0" name="不限">
+		<pro value="0" name="不限" />
+	</city>
 
 	<city value="1" name="北京">
 		<pro value="0" name="北京" />
@@ -25,9 +27,7 @@
 	</city>
 
 	<city value="2" name="上海">
-
 		<pro value="0" name="上海" />
-
 		<pro value="1" name="黄浦" />
 
 		<pro value="2" name="卢湾" />

@@ -58,8 +58,18 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>
+         <activity
+            android:name="com.baiduvolunteer.activity.AboutActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+        </activity>
         <activity
             android:name="com.baiduvolunteer.activity.SearchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+        </activity>
+        <activity
+            android:name="com.baiduvolunteer.activity.FeedbackActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>

@@ -3,6 +3,7 @@ package com.baiduvolunteer.view;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,12 +17,14 @@ public class PublisherListCellHolder {
 	public TextView titleLabel;
 	public TextView activitiesLabel;
 	public TextView membersLabel;
-	public LinearLayout container;
+	public TextView distLabel;
+	public ViewGroup container;
+	public ImageView favButton;
 
 	public static PublisherListCellHolder create(Context ctx) {
 		LayoutInflater inflater = LayoutInflater.from(ctx);
-		LinearLayout rl = (LinearLayout) inflater.inflate(
-				R.layout.user_listitem, null);
+		ViewGroup rl = (ViewGroup) inflater.inflate(R.layout.user_listitem,
+				null);
 		PublisherListCellHolder holder = new PublisherListCellHolder();
 		holder.container = rl;
 		holder.imageView = (ImageView) rl.findViewById(R.id.imageView);
@@ -29,6 +32,8 @@ public class PublisherListCellHolder {
 		holder.titleLabel = (TextView) rl.findViewById(R.id.titleLabel);
 		holder.activitiesLabel = (TextView) rl.findViewById(R.id.activityLabel);
 		holder.membersLabel = (TextView) rl.findViewById(R.id.memberLabel);
+		holder.favButton = (ImageView) rl.findViewById(R.id.favButton);
+		holder.distLabel = (TextView) rl.findViewById(R.id.distLabel);
 		return holder;
 	}
 

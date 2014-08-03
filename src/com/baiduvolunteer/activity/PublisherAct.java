@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.hardware.Camera.Size;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +41,8 @@ public class PublisherAct extends Activity implements OnClickListener {
 	private TextView locationLabel;
 	private TextView contactLabel;
 	private TextView phoneLabel;
+	private TextView addressLabel;
+	private TextView emailLabel;
 	private View addFavButton;
 	private ProgressDialog mPd;
 
@@ -59,12 +62,15 @@ public class PublisherAct extends Activity implements OnClickListener {
 		membersLabel = (TextView) findViewById(R.id.membersLabel);
 		contactLabel = (TextView) findViewById(R.id.contactLabel);
 		phoneLabel = (TextView) findViewById(R.id.phoneLabel);
+		addressLabel = (TextView) findViewById(R.id.addressLabel);
+		emailLabel = (TextView) findViewById(R.id.emailLabel);
 
 		getInfoFromServer();
 		backButton = findViewById(R.id.backButton);
 		backButton.setOnClickListener(this);
 		addFavButton = findViewById(R.id.favButton);
 		addFavButton.setOnClickListener(this);
+		addressLabel.setOnClickListener(this);
 	}
 
 	private void getInfoFromServer() {
@@ -146,7 +152,9 @@ public class PublisherAct extends Activity implements OnClickListener {
 				}
 				contactLabel.setText(publisher.linkUser);
 				phoneLabel.setText(publisher.linkPhone);
-				
+				addressLabel.setText(publisher.address);
+//				emailLabel.setText(publisher);
+
 			}
 		});
 	}
@@ -205,6 +213,14 @@ public class PublisherAct extends Activity implements OnClickListener {
 								}
 							}
 						}).start();
+			}
+		}else if(addressLabel == v){
+			if(publisher.latitude!=0||publisher.longitude!=0){
+				Intent intent = new Intent(this, MapViewActivity.class);
+				intent.putExtra("lat", publisher.latitude);
+				intent.putExtra("lng", publisher.longitude);
+				startActivity(intent);
+				
 			}
 		}
 	}

@@ -40,7 +40,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:background="@drawable/icon_fav" >
+            android:background="@drawable/icon_fav"
+            android:padding="2dp" >
         </Button>
 
         <View
@@ -107,7 +108,7 @@
                     android:layout_below="@+id/iconContainer"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="15dp"
-                    android:text="北大青年志愿者协会"
+                    android:text=" "
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -123,7 +124,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
                     android:maxLines="2"
-                    android:text="用我智慧奉献爱"
+                    android:text=" "
                     android:textAlignment="center"
                     android:textColor="#000000"
                     android:textSize="16sp" />
@@ -152,7 +153,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:text="1993年"
+                    android:text=" "
                     android:textColor="#262626"
                     android:textSize="16sp" />
 
@@ -187,7 +188,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:text="50-100人"
+                    android:text=" "
                     android:textColor="#262626"
                     android:textSize="16sp" />
 
@@ -211,7 +212,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:text="所在地"
+                    android:text="地区"
                     android:textColor="#262626"
                     android:textSize="16sp" />
 
@@ -222,7 +223,47 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:text="北京市 朝阳区"
+                    android:text=" "
+                    android:textColor="#262626"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="#cccccc" >
+                </View>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" >
+
+                <TextView
+                    android:id="@+id/addressTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="地址"
+                    android:textColor="#262626"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/addressLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@+id/addressTitle"
+                    android:gravity="right"
+                    android:maxLines="2"
+                    android:text=" "
                     android:textColor="#262626"
                     android:textSize="16sp" />
 
@@ -257,7 +298,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:text="李磊"
+                    android:text=" "
                     android:textColor="#262626"
                     android:textSize="16sp" />
 
@@ -292,7 +333,42 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:text="13812343434"
+                    android:text=" "
+                    android:textColor="#262626"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="#cccccc" >
+                </View>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="邮箱"
+                    android:textColor="#262626"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/emailLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text=" "
                     android:textColor="#262626"
                     android:textSize="16sp" />
 

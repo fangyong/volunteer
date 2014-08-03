@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="#ffffffff"
     android:orientation="horizontal" >
 
     <RelativeLayout
+        android:id="@+id/iconContainer"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginBottom="15dp"
@@ -30,13 +31,29 @@
             android:textAlignment="center"
             android:textColor="#FFEE33"
             android:textSize="12sp"
-            android:textStyle="bold" android:visibility="gone"/>
+            android:textStyle="bold"
+            android:visibility="gone" />
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/favButton"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/container"
+        android:layout_marginRight="15dip"
+        android:layout_marginTop="15dp"
+        android:padding="3dp"
+        android:src="@drawable/icon_fav" >
+    </ImageView>
+
     <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/iconContainer"
+        android:layout_toLeftOf="@+id/distLabel"
         android:orientation="vertical" >
 
         <TextView
@@ -58,9 +75,9 @@
             android:layout_weight="1"
             android:drawableLeft="@drawable/icon_schedule"
             android:gravity="center_vertical"
+            android:text=" "
             android:textColor="@color/gary"
-            android:textSize="@dimen/text_size_16"
-            android:text=" " />
+            android:textSize="@dimen/text_size_16" />
 
         <TextView
             android:id="@+id/memberLabel"
@@ -69,9 +86,26 @@
             android:layout_weight="1"
             android:drawableLeft="@drawable/icon_members"
             android:gravity="center_vertical"
+            android:text=" "
             android:textColor="@color/gary"
-            android:textSize="@dimen/text_size_16"
-            android:text=" " />
+            android:textSize="@dimen/text_size_16" />
     </LinearLayout>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/distLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/container"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/gary_c_bg"
+        android:paddingBottom="1dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="1dp"
+        android:text="&lt; 500m"
+        android:textColor="@color/gary"
+        android:textSize="@dimen/text_size_14" />
+
+</RelativeLayout>

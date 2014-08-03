@@ -122,7 +122,9 @@ public class User implements Serializable {
 	public Date registerTime;// 注册时间
 	public String phoneNumber;// 手机号
 
-	public transient LatLng lastLatlng;
+	public transient LatLng lastLatlng;//地图浏览
+	
+	public transient LatLng currentLatlng;//定位
 	public String buid;// 百度用户id
 
 }

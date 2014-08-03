@@ -10,7 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baiduvolunteer.R;
+import com.baiduvolunteer.activity.AboutActivity;
+import com.baiduvolunteer.activity.FeedbackActivity;
 import com.baiduvolunteer.activity.PushSettingsActivity;
+import com.umeng.fb.FeedbackAgent;
 import com.umeng.update.UmengUpdateAgent;
 
 public class MoreView extends LinearLayout implements OnClickListener {
@@ -80,9 +83,12 @@ public class MoreView extends LinearLayout implements OnClickListener {
 			getContext().startActivity(intent);
 			
 		} else if (v == feedBack) {
-
+			Intent intent = new Intent(getContext(), FeedbackActivity.class);
+			getContext().startActivity(intent);
+			
 		} else if (v == about) {
-
+			Intent intent = new Intent(getContext(), AboutActivity.class);
+			getContext().startActivity(intent);
 		} else if (v == checkUpdate) {
 			UmengUpdateAgent.setDefault();
 			UmengUpdateAgent.update(getContext());

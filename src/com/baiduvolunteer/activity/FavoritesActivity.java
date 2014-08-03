@@ -101,11 +101,11 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 							+ "\n --" + sdf.format(info.endTime));
 					holder.locationLabel.setText(info.address);
 					ViewUtils.bmUtils.display(holder.imageView, info.iconUrl);
-					if (User.sharedUser().lastLatlng != null
+					if (User.sharedUser().currentLatlng != null
 							&& info.latitude != 0) {
 						double dist = DistanceUtil.getDistance(new LatLng(
 								info.latitude, info.longitude), User
-								.sharedUser().lastLatlng);
+								.sharedUser().currentLatlng);
 						if (dist < 500) {
 							holder.distLabel.setText(String.format("%.0fm",
 									dist));
@@ -123,8 +123,8 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 						holder.distLabel.setText("未知");
 					}
 					holder.favIcon
-					.setImageResource(info.addedToFav ? R.drawable.icon_fav_sel
-							: R.drawable.icon_fav);
+							.setImageResource(info.addedToFav ? R.drawable.icon_fav_sel
+									: R.drawable.icon_fav);
 					holder.favIcon.setOnClickListener(new OnClickListener() {
 
 						@Override
@@ -219,6 +219,133 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 							publisher.activityNum));
 					holder.membersLabel.setText(String.format("共%d个人参加",
 							publisher.activityJoinNum));
+					holder.favButton
+							.setImageResource(publisher.isCollection ? R.drawable.icon_fav_sel
+									: R.drawable.icon_fav);
+					holder.favButton.setTag(Integer.valueOf(position));
+					if (User.sharedUser().currentLatlng != null
+							&& publisher.latitude != 0) {
+						double dist = DistanceUtil.getDistance(new LatLng(
+								publisher.latitude, publisher.longitude), User
+								.sharedUser().currentLatlng);
+						if (dist < 500) {
+							holder.distLabel.setText(String.format("%.0fm",
+									dist));
+						} else if (dist < 1000) {
+							holder.distLabel.setText(String.format("%.0fm",
+									dist));
+						} else if (dist < 10000) {
+							holder.distLabel.setText(String.format("%.0fkm",
+									dist / 1000));
+						} else {
+							holder.distLabel.setText(">10km");
+						}
+					} else {
+						// holder.distLabel.setText(info.distance + "m");
+						holder.distLabel.setText("未知");
+					}
+					holder.favButton.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							mPd.show();
+							final Publisher publisher = publishers
+									.get((Integer) v.getTag());
+							if (!publisher.isCollection)
+								new AddFavRequest()
+										.setAddType(
+												AddFavType.AddFavTypePublisher)
+										.setPublisherType(
+												publisher.publisherType)
+										.setId(publisher.pid)
+										.setHandler(new ResponseHandler() {
+
+											@Override
+											public void handleResponse(
+													BaseRequest request,
+													int statusCode,
+													String errorMsg,
+													String response) {
+												// TODO Auto-generated method
+												// stub
+												publisher.isCollection = true;
+												notifyDataSetChanged();
+												mPd.dismiss();
+											}
+
+											@Override
+											public void handleError(
+													BaseRequest request,
+													int statusCode,
+													String errorMsg) {
+												// TODO Auto-generated method
+												// stub
+												super.handleError(request,
+														statusCode, errorMsg);
+												ViewUtils
+														.runInMainThread(new Runnable() {
+
+															@Override
+															public void run() {
+																// TODO
+																// Auto-generated
+																// method stub
+																mPd.dismiss();
+															}
+														});
+											}
+										}).start();
+							else {
+								new RemoveFavRequest()
+										.setId(publisher.pid)
+										.setPublisherType(
+												publisher.publisherType)
+										.setRemoveType(
+												RemoveFavType.RemoveFavTypePublisher)
+										.setHandler(new ResponseHandler() {
+
+											@Override
+											public void handleResponse(
+													BaseRequest request,
+													int statusCode,
+													String errorMsg,
+													String response) {
+												// TODO Auto-generated method
+												// stub
+												Log.d("test",
+														"remove fav resp "
+																+ response);
+												mPd.dismiss();
+												publisher.isCollection = false;
+												notifyDataSetChanged();
+											}
+
+											@Override
+											public void handleError(
+													BaseRequest request,
+													int statusCode,
+													String errorMsg) {
+												// TODO Auto-generated method
+												// stub
+												super.handleError(request,
+														statusCode, errorMsg);
+												ViewUtils
+														.runInMainThread(new Runnable() {
+
+															@Override
+															public void run() {
+																// TODO
+																// Auto-generated
+																// method stub
+																mPd.dismiss();
+															}
+														});
+											}
+										}).start();
+							}
+						}
+					});
 					ViewUtils.bmUtils.display(holder.imageView,
 							publisher.logoUrl);
 					return holder.container;

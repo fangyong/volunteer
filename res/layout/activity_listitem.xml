@@ -18,8 +18,7 @@
             android:id="@+id/imageView"
             android:layout_width="70dip"
             android:layout_height="70dip"
-            android:background="#00eeeeee"
-            />
+            android:background="#00eeeeee" />
 
         <TextView
             android:id="@+id/badgeView"
@@ -43,6 +42,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/container"
         android:layout_marginRight="15dip"
+        android:padding="3dp"
         android:src="@drawable/icon_fav" >
     </ImageView>
 
