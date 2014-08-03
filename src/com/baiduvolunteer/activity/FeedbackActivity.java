@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.baiduvolunteer.R;
+import com.umeng.fb.FeedbackAgent;
 
 public class FeedbackActivity extends BaseActivity {
 	private EditText feedbackInput;

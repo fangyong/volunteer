@@ -61,6 +61,12 @@ public class UserCenterView extends LinearLayout {
 		if (userNameLabel != null) {
 			userNameLabel.setText(User.sharedUser().uname);
 		}
+		if (userIcon != null && User.sharedUser().portrait != null) {
+			ViewUtils.bmUtils.display(
+					userIcon,
+					"http://himg.bdimg.com/sys/portrait/item/"
+							+ User.sharedUser().portrait);
+		}
 
 		new GetUserInfoRequest().setHandler(new ResponseHandler() {
 
@@ -129,6 +135,8 @@ public class UserCenterView extends LinearLayout {
 
 										@Override
 										public void run() {
+											User.sharedUser().portrait = portrait;
+											User.sharedUser().save();
 											// TODO Auto-generated method stub
 											ViewUtils.bmUtils.display(userIcon,
 													"http://himg.bdimg.com/sys/portrait/item/"

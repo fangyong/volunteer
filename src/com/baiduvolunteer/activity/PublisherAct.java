@@ -65,12 +65,18 @@ public class PublisherAct extends Activity implements OnClickListener {
 		addressLabel = (TextView) findViewById(R.id.addressLabel);
 		emailLabel = (TextView) findViewById(R.id.emailLabel);
 
-		getInfoFromServer();
 		backButton = findViewById(R.id.backButton);
 		backButton.setOnClickListener(this);
 		addFavButton = findViewById(R.id.favButton);
 		addFavButton.setOnClickListener(this);
 		addressLabel.setOnClickListener(this);
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		getInfoFromServer();
 	}
 
 	private void getInfoFromServer() {
@@ -153,7 +159,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 				contactLabel.setText(publisher.linkUser);
 				phoneLabel.setText(publisher.linkPhone);
 				addressLabel.setText(publisher.address);
-//				emailLabel.setText(publisher);
+				// emailLabel.setText(publisher);
 
 			}
 		});
@@ -214,13 +220,13 @@ public class PublisherAct extends Activity implements OnClickListener {
 							}
 						}).start();
 			}
-		}else if(addressLabel == v){
-			if(publisher.latitude!=0||publisher.longitude!=0){
+		} else if (addressLabel == v) {
+			if (publisher.latitude != 0 || publisher.longitude != 0) {
 				Intent intent = new Intent(this, MapViewActivity.class);
 				intent.putExtra("lat", publisher.latitude);
 				intent.putExtra("lng", publisher.longitude);
 				startActivity(intent);
-				
+
 			}
 		}
 	}

@@ -227,13 +227,13 @@
                             android:layout_height="45dp"
                             android:orientation="horizontal" >
 
-                            <LinearLayout
+                            <ImageView
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 android:layout_gravity="center_vertical"
-                                android:background="@drawable/icon_fav_sel"
-                                android:orientation="vertical" >
-                            </LinearLayout>
+                                android:src="@drawable/icon_fav_sel"
+                                android:padding="4dp" >
+                            </ImageView>
 
                             <TextView
                                 android:id="@+id/textView3"

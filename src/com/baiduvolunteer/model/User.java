@@ -48,6 +48,7 @@ public class User implements Serializable {
 		this.phoneNumber = null;
 		this.province = 0;
 		this.registerTime = null;
+		this.portrait = null;
 		this.save();
 	}
 
@@ -111,6 +112,7 @@ public class User implements Serializable {
 			instance.phoneNumber = user.phoneNumber;
 			instance.province = user.province;
 			instance.city = user.city;
+			instance.portrait=user.portrait;
 		}
 	}
 
@@ -121,6 +123,7 @@ public class User implements Serializable {
 	public int city;// 城市
 	public Date registerTime;// 注册时间
 	public String phoneNumber;// 手机号
+	public String portrait;
 
 	public transient LatLng lastLatlng;//地图浏览
 	
