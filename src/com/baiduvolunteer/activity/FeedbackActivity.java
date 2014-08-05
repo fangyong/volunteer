@@ -3,6 +3,7 @@ package com.baiduvolunteer.activity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.GetUserInfoRequest;
+import com.baiduvolunteer.http.SendFeedBackRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
@@ -24,12 +26,16 @@ public class FeedbackActivity extends BaseActivity {
 	private EditText phoneInput;
 	private TextView nameLabel;
 	private Button submitButton;
+	private ProgressDialog mpd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_feedback);
+		mpd = new ProgressDialog(this);
+		mpd.setCancelable(false);
+		mpd.setIndeterminate(true);
 		findViewById(R.id.backButton).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -52,7 +58,56 @@ public class FeedbackActivity extends BaseActivity {
 							Toast.LENGTH_SHORT).show();
 					return;
 				} else {
-					// TODO add feedback logic
+					mpd.show();
+					new SendFeedBackRequest()
+							.setPhone(phoneInput.getText().toString())
+							.setContent(feedbackInput.getText().toString())
+							.setHandler(new ResponseHandler() {
+
+								@Override
+								public void handleResponse(BaseRequest request,
+										int statusCode, String errorMsg,
+										String response) {
+									ViewUtils.runInMainThread(new Runnable() {
+										
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											mpd.dismiss();
+										}
+									});
+									// TODO Auto-generated method stub
+									try {
+										JSONObject result = new JSONObject(
+												response);
+										boolean success = false;
+										JSONObject responseHead = result
+												.optJSONObject("responseHead");
+										success = responseHead != null
+												&& "success".equals(responseHead
+														.optString("success",
+																null));
+										if(success) finish();
+									} catch (JSONException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+								}
+
+								public void handleError(BaseRequest request,
+										int statusCode, String errorMsg) {
+									ViewUtils.runInMainThread(new Runnable() {
+
+										@Override
+										public void run() {
+											// TODO Auto-generated method stub
+											mpd.dismiss();
+										}
+									});
+									super.handleError(request, statusCode,
+											errorMsg);
+								};
+							}).start();
 				}
 			}
 		});

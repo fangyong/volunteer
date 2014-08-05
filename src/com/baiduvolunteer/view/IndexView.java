@@ -235,7 +235,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		for (int i = 0; i < mapView.getChildCount(); i++) {
 			View view = mapView.getChildAt(i);
 			if (view instanceof ImageView || view instanceof Button
-					|| view instanceof ZoomControls)
+					|| view instanceof ZoomControls||view instanceof TextView)
 				view.setVisibility(View.INVISIBLE);
 		}
 		map = mapView.getMap();
@@ -597,9 +597,9 @@ public class IndexView extends LinearLayout implements OnClickListener {
 					@Override
 					public void handleSuccess(ArrayList<Object> results) {
 						// TODO Auto-generated method stub
-						if (clearResult || keyword == null || keyword.isEmpty())
-							resultFilterMap.clear();
-						if (clearResult)
+//						if (clearResult || keyword == null || keyword.isEmpty())
+//							resultFilterMap.clear();
+//						if (clearResult)
 							Collections.sort(results, new Comparator<Object>() {
 
 								@Override
@@ -632,31 +632,31 @@ public class IndexView extends LinearLayout implements OnClickListener {
 									return (dist < 0) ? -1 : (dist > 0) ? 1 : 0;
 								}
 							});
-						for (int i = results.size() - 1; i >= 0; i--) {
-							Object obj = results.get(i);
-							if (obj instanceof Publisher) {
-								if (resultFilterMap.containsKey("publisher"
-										+ ((Publisher) obj).pid)) {
-									results.remove(i);
-									continue;
-								} else {
-									resultFilterMap.put("publisher"
-											+ ((Publisher) obj).pid, obj);
-								}
-							} else if (obj instanceof ActivityInfo) {
-								if (resultFilterMap.containsKey("activity"
-										+ ((ActivityInfo) obj).activityID)) {
-									results.remove(i);
-									continue;
-								} else {
-									resultFilterMap.put("activity"
-											+ ((ActivityInfo) obj).activityID,
-											obj);
-								}
-							}
-						}
-						if (clearResult || resultMarkerArray.size() == 0
-								|| keyword == null || keyword.isEmpty()) {
+//						for (int i = results.size() - 1; i >= 0; i--) {
+//							Object obj = results.get(i);
+//							if (obj instanceof Publisher) {
+//								if (resultFilterMap.containsKey("publisher"
+//										+ ((Publisher) obj).pid)) {
+//									results.remove(i);
+//									continue;
+//								} else {
+//									resultFilterMap.put("publisher"
+//											+ ((Publisher) obj).pid, obj);
+//								}
+//							} else if (obj instanceof ActivityInfo) {
+//								if (resultFilterMap.containsKey("activity"
+//										+ ((ActivityInfo) obj).activityID)) {
+//									results.remove(i);
+//									continue;
+//								} else {
+//									resultFilterMap.put("activity"
+//											+ ((ActivityInfo) obj).activityID,
+//											obj);
+//								}
+//							}
+//						}
+//						if (clearResult || resultMarkerArray.size() == 0
+//								|| keyword == null || keyword.isEmpty()) {
 							resultMarkerArray.clear();
 							resultMarkerArray.addAll(results.subList(0,
 									Math.min(10, results.size())));
@@ -666,10 +666,10 @@ public class IndexView extends LinearLayout implements OnClickListener {
 										results.size()));
 							}
 
-						} else {
-							markerArray.clear();
-							markerArray.addAll(results);
-						}
+//						} else {
+//							markerArray.clear();
+//							markerArray.addAll(results);
+//						}
 
 						ViewUtils.runInMainThread(new Runnable() {
 
