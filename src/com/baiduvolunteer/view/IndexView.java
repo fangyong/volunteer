@@ -235,7 +235,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		for (int i = 0; i < mapView.getChildCount(); i++) {
 			View view = mapView.getChildAt(i);
 			if (view instanceof ImageView || view instanceof Button
-					|| view instanceof ZoomControls||view instanceof TextView)
+					|| view instanceof ZoomControls || view instanceof TextView)
 				view.setVisibility(View.INVISIBLE);
 		}
 		map = mapView.getMap();
@@ -597,79 +597,78 @@ public class IndexView extends LinearLayout implements OnClickListener {
 					@Override
 					public void handleSuccess(ArrayList<Object> results) {
 						// TODO Auto-generated method stub
-//						if (clearResult || keyword == null || keyword.isEmpty())
-//							resultFilterMap.clear();
-//						if (clearResult)
-							Collections.sort(results, new Comparator<Object>() {
+						// if (clearResult || keyword == null ||
+						// keyword.isEmpty())
+						// resultFilterMap.clear();
+						// if (clearResult)
+						Collections.sort(results, new Comparator<Object>() {
 
-								@Override
-								public int compare(Object lhs, Object rhs) {
-									Publisher p1 = null;
-									ActivityInfo a1 = null;
-									Publisher p2 = null;
-									ActivityInfo a2 = null;
-									if (lhs instanceof Publisher)
-										p1 = (Publisher) lhs;
-									else if (lhs instanceof ActivityInfo)
-										a1 = (ActivityInfo) lhs;
-									if (rhs instanceof Publisher)
-										p2 = (Publisher) rhs;
-									else if (rhs instanceof ActivityInfo)
-										a2 = (ActivityInfo) rhs;
-									LatLng latlng1 = p1 == null ? new LatLng(
-											a1.latitude, a1.longitude)
-											: new LatLng(p1.latitude,
-													p1.longitude);
-									LatLng latlng2 = p2 == null ? new LatLng(
-											a2.latitude, a2.longitude)
-											: new LatLng(p2.latitude,
-													p2.longitude);
-									double dist = DistanceUtil.getDistance(
-											latlng1, map.getMapStatus().target)
-											- DistanceUtil.getDistance(latlng2,
-													map.getMapStatus().target);
-									Log.d("test", "dist:" + dist);
-									return (dist < 0) ? -1 : (dist > 0) ? 1 : 0;
-								}
-							});
-//						for (int i = results.size() - 1; i >= 0; i--) {
-//							Object obj = results.get(i);
-//							if (obj instanceof Publisher) {
-//								if (resultFilterMap.containsKey("publisher"
-//										+ ((Publisher) obj).pid)) {
-//									results.remove(i);
-//									continue;
-//								} else {
-//									resultFilterMap.put("publisher"
-//											+ ((Publisher) obj).pid, obj);
-//								}
-//							} else if (obj instanceof ActivityInfo) {
-//								if (resultFilterMap.containsKey("activity"
-//										+ ((ActivityInfo) obj).activityID)) {
-//									results.remove(i);
-//									continue;
-//								} else {
-//									resultFilterMap.put("activity"
-//											+ ((ActivityInfo) obj).activityID,
-//											obj);
-//								}
-//							}
-//						}
-//						if (clearResult || resultMarkerArray.size() == 0
-//								|| keyword == null || keyword.isEmpty()) {
-							resultMarkerArray.clear();
-							resultMarkerArray.addAll(results.subList(0,
-									Math.min(10, results.size())));
-							markerArray.clear();
-							if (results.size() > 10) {
-								markerArray.addAll(results.subList(10,
-										results.size()));
+							@Override
+							public int compare(Object lhs, Object rhs) {
+								Publisher p1 = null;
+								ActivityInfo a1 = null;
+								Publisher p2 = null;
+								ActivityInfo a2 = null;
+								if (lhs instanceof Publisher)
+									p1 = (Publisher) lhs;
+								else if (lhs instanceof ActivityInfo)
+									a1 = (ActivityInfo) lhs;
+								if (rhs instanceof Publisher)
+									p2 = (Publisher) rhs;
+								else if (rhs instanceof ActivityInfo)
+									a2 = (ActivityInfo) rhs;
+								LatLng latlng1 = p1 == null ? new LatLng(
+										a1.latitude, a1.longitude)
+										: new LatLng(p1.latitude, p1.longitude);
+								LatLng latlng2 = p2 == null ? new LatLng(
+										a2.latitude, a2.longitude)
+										: new LatLng(p2.latitude, p2.longitude);
+								double dist = DistanceUtil.getDistance(latlng1,
+										map.getMapStatus().target)
+										- DistanceUtil.getDistance(latlng2,
+												map.getMapStatus().target);
+								Log.d("test", "dist:" + dist);
+								return (dist < 0) ? -1 : (dist > 0) ? 1 : 0;
 							}
+						});
+						// for (int i = results.size() - 1; i >= 0; i--) {
+						// Object obj = results.get(i);
+						// if (obj instanceof Publisher) {
+						// if (resultFilterMap.containsKey("publisher"
+						// + ((Publisher) obj).pid)) {
+						// results.remove(i);
+						// continue;
+						// } else {
+						// resultFilterMap.put("publisher"
+						// + ((Publisher) obj).pid, obj);
+						// }
+						// } else if (obj instanceof ActivityInfo) {
+						// if (resultFilterMap.containsKey("activity"
+						// + ((ActivityInfo) obj).activityID)) {
+						// results.remove(i);
+						// continue;
+						// } else {
+						// resultFilterMap.put("activity"
+						// + ((ActivityInfo) obj).activityID,
+						// obj);
+						// }
+						// }
+						// }
+						// if (clearResult || resultMarkerArray.size() == 0
+						// || keyword == null || keyword.isEmpty()) {
+						resultMarkerArray.clear();
+						resultMarkerArray.addAll(results.subList(0,
+								Math.min(10, results.size())));
+						markerArray.clear();
+						if (results.size() > 10) {
+							markerArray.addAll(results.subList(10,
+									results.size()));
+						}
 
-//						} else {
-//							markerArray.clear();
-//							markerArray.addAll(results);
-//						}
+						// } else {
+						// markerArray.clear();
+						// markerArray.addAll(results);
+						// }
 
 						ViewUtils.runInMainThread(new Runnable() {
 
@@ -818,9 +817,13 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		// }
 		if (v == locationButton) {
 			this.firstLoc = true;
-
 			markerArray.clear();
 			map.clear();
+			if (map.getLocationData()!= null) {
+				map.animateMapStatus(MapStatusUpdateFactory.newLatLng(
+						new LatLng(map.getLocationData().latitude,
+						map.getLocationData().longitude)));
+			}
 		}
 	}
 }
