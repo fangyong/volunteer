@@ -150,10 +150,10 @@ public class PublisherAct extends Activity implements OnClickListener {
 					locationLabel.setText(null);
 				}
 				if (publisher.isCollection)
-					addFavButton.setBackground(getResources().getDrawable(
+					addFavButton.setBackgroundDrawable(getResources().getDrawable(
 							R.drawable.icon_fav_sel));
 				else {
-					addFavButton.setBackground(getResources().getDrawable(
+					addFavButton.setBackgroundDrawable(getResources().getDrawable(
 							R.drawable.icon_fav));
 				}
 				contactLabel.setText(publisher.linkUser);
@@ -185,11 +185,11 @@ public class PublisherAct extends Activity implements OnClickListener {
 								Log.d("test", "add fav publisher:" + response);
 								publisher.isCollection = true;
 								if (publisher.isCollection)
-									addFavButton.setBackground(getResources()
+									addFavButton.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.icon_fav_sel));
 								else {
-									addFavButton.setBackground(getResources()
+									addFavButton.setBackgroundDrawable(getResources()
 											.getDrawable(R.drawable.icon_fav));
 								}
 								mPd.dismiss();
@@ -210,11 +210,11 @@ public class PublisherAct extends Activity implements OnClickListener {
 								mPd.dismiss();
 								publisher.isCollection = false;
 								if (publisher.isCollection)
-									addFavButton.setBackground(getResources()
+									addFavButton.setBackgroundDrawable(getResources()
 											.getDrawable(
 													R.drawable.icon_fav_sel));
 								else {
-									addFavButton.setBackground(getResources()
+									addFavButton.setBackgroundDrawable(getResources()
 											.getDrawable(R.drawable.icon_fav));
 								}
 							}

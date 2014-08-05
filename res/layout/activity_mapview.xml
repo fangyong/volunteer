@@ -41,22 +41,34 @@
         android:layout_below="@+id/titleView"
         android:clickable="true" />
 
-    <Button
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/bmap_logo" />
+
+    <ImageView
         android:id="@+id/zoomInButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_above="@+id/zoomOutButton"
         android:layout_alignParentRight="true"
         android:layout_marginRight="15dp"
-        android:background="@drawable/btn_map_zoomin" />
+        android:background="#ffffff"
+        android:padding="3dp"
+        android:src="@drawable/btn_map_zoomin" />
 
-    <Button
+    <ImageView
         android:id="@+id/zoomOutButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignLeft="@+id/zoomInButton"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
-        android:background="@drawable/btn_map_zoomout" />
+        android:background="#ffffff"
+        android:padding="3dp"
+        android:src="@drawable/minus" />
 
 </RelativeLayout>

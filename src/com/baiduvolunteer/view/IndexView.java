@@ -80,12 +80,12 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	private boolean firstLoc = true;
 	private LinearLayout infoView;
 	private Marker marker = null;
-	private Button locationButton;
+	private View locationButton;
 	private Object currentData;
 	// private int searchCount = 0;
-	private Button searchButton;
-	private Button zoomInButton;
-	private Button zoomOutButton;
+	private View searchButton;
+	private View zoomInButton;
+	private View zoomOutButton;
 
 	private LatLng currentLatLng;
 	private float currentZoom;
@@ -96,13 +96,25 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			R.drawable.icon_markg, R.drawable.icon_markh,
 			R.drawable.icon_marki, R.drawable.icon_markj, };
 
+	private int bids[] = { R.drawable.icon_bmarka, R.drawable.icon_bmarkb,
+			R.drawable.icon_bmarkc, R.drawable.icon_bmarkd,
+			R.drawable.icon_bmarke, R.drawable.icon_bmarkf,
+			R.drawable.icon_bmarkg, R.drawable.icon_bmarkh,
+			R.drawable.icon_bmarki, R.drawable.icon_bmarkj, };
+
+	private int cids[] = { R.drawable.icon_cmarka, R.drawable.icon_cmarkb,
+			R.drawable.icon_cmarkc, R.drawable.icon_cmarkd,
+			R.drawable.icon_cmarke, R.drawable.icon_cmarkf,
+			R.drawable.icon_cmarkg, R.drawable.icon_cmarkh,
+			R.drawable.icon_cmarki, R.drawable.icon_cmarkj, };
+
 	private ArrayList<Object> markerArray = new ArrayList<Object>();
 	private ArrayList<Object> resultMarkerArray = new ArrayList<Object>();
 
 	private HashMap<String, Object> resultFilterMap = new HashMap<String, Object>();
 
 	private EditText searchField;
-	private String keyword=null;
+	private String keyword = null;
 
 	// private Button mSwitchButton;
 	// private boolean isMap = true;
@@ -156,8 +168,9 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
 			// map view 销毁后不在处理新接收的位置
-			if(location!=null){
-				User.sharedUser().currentLatlng = new LatLng(location.getLatitude(), location.getLongitude());
+			if (location != null) {
+				User.sharedUser().currentLatlng = new LatLng(
+						location.getLatitude(), location.getLongitude());
 			}
 			if (location == null || mapView == null)
 				return;
@@ -249,8 +262,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				marker = null;
 			}
 		});
-		zoomInButton = (Button) findViewById(R.id.zoomInButton);
-		zoomOutButton = (Button) findViewById(R.id.zoomOutButton);
+		zoomInButton = findViewById(R.id.zoomInButton);
+		zoomOutButton = findViewById(R.id.zoomOutButton);
 
 		zoomOutButton.setOnClickListener(new OnClickListener() {
 
@@ -354,9 +367,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				map.hideInfoWindow();
 				marker = arg0;
 				int index = marker.getExtraInfo().getInt("index");
-				if(!marker.getExtraInfo().containsKey("index"))
-					index=-1;
-				
+				if (!marker.getExtraInfo().containsKey("index"))
+					index = -1;
 
 				currentData = marker.getExtraInfo().getSerializable("object");
 				Point p = map.getProjection().toScreenLocation(
@@ -372,9 +384,14 @@ public class IndexView extends LinearLayout implements OnClickListener {
 					info = (ActivityInfo) currentData;
 				}
 
-				((ImageView) infoView.findViewById(R.id.placeMarker))
-						.setImageResource(index >=0&&index<10 ? ids[index]
-								: R.drawable.icon_markextra);
+				if (currentPublisher != null)
+					((ImageView) infoView.findViewById(R.id.placeMarker))
+							.setImageResource(index >= 0 && index < 10 ? ids[index]
+									: R.drawable.icon_markextra);
+				else
+					((ImageView) infoView.findViewById(R.id.placeMarker))
+							.setImageResource(index >= 0 && index < 10 ? cids[index]
+									: R.drawable.icon_cmarkextra);
 				((TextView) infoView.findViewById(R.id.titleLabel))
 						.setText(currentPublisher != null ? currentPublisher.publishName
 								: info.title);
@@ -414,7 +431,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			}
 		});
 		searchField = (EditText) findViewById(R.id.search);
-		locationButton = (Button) findViewById(R.id.locationButton);
+		locationButton = findViewById(R.id.locationButton);
 		locationButton.setOnClickListener(this);
 		searchField.addTextChangedListener(new TextWatcher() {
 
@@ -555,9 +572,9 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				// TODO Auto-generated method stub
 				mpd.show();
 				keyword = searchField.getText().toString().trim();
-				if(keyword!=null&&!keyword.isEmpty()){
+				if (keyword != null && !keyword.isEmpty()) {
 					searchField.setHint(keyword);
-				}else{
+				} else {
 					searchField.setHint("志愿者活动...");
 				}
 				startSearch(true);
@@ -580,7 +597,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 					@Override
 					public void handleSuccess(ArrayList<Object> results) {
 						// TODO Auto-generated method stub
-						if (clearResult||keyword==null||keyword.isEmpty())
+						if (clearResult || keyword == null || keyword.isEmpty())
 							resultFilterMap.clear();
 						if (clearResult)
 							Collections.sort(results, new Comparator<Object>() {
@@ -638,7 +655,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 								}
 							}
 						}
-						if (clearResult||resultMarkerArray.size()==0||keyword==null||keyword.isEmpty()) {
+						if (clearResult || resultMarkerArray.size() == 0
+								|| keyword == null || keyword.isEmpty()) {
 							resultMarkerArray.clear();
 							resultMarkerArray.addAll(results.subList(0,
 									Math.min(10, results.size())));
@@ -675,7 +693,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 
 	public void updateMap() {
 		map.clear();
-		Log.d("test", "resultArray:"+resultMarkerArray.size()+",markerArray:"+markerArray.size());
+		Log.d("test", "resultArray:" + resultMarkerArray.size()
+				+ ",markerArray:" + markerArray.size());
 		LatLng ltll = null;
 		LatLng rdll = null;
 		try {
@@ -697,77 +716,79 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			if (obj instanceof Publisher) {
 				Publisher publisher = (Publisher) obj;
 				LatLng ll = new LatLng(publisher.latitude, publisher.longitude);
-//				if (ltll == null
-//						|| rdll == null
-//						|| (ll.latitude < ltll.latitude
-//								&& ll.latitude > rdll.latitude
-//								&& ll.longitude > ltll.longitude && ll.longitude < rdll.longitude)) {
-					int id = ids[i];
+				// if (ltll == null
+				// || rdll == null
+				// || (ll.latitude < ltll.latitude
+				// && ll.latitude > rdll.latitude
+				// && ll.longitude > ltll.longitude && ll.longitude <
+				// rdll.longitude)) {
+				int id = ids[i];
+				Bundle bundle = new Bundle();
+				bundle.putInt("index", i);
+				bundle.putSerializable("object", publisher);
+				OverlayOptions oo = new MarkerOptions().extraInfo(bundle)
+						.position(ll)
+						.icon(BitmapDescriptorFactory.fromResource(id));
+				map.addOverlay(oo);
+				// }
+
+			} else if (obj instanceof ActivityInfo) {
+				ActivityInfo info = (ActivityInfo) obj;
+				LatLng ll = new LatLng(info.latitude, info.longitude);
+				// if (ltll == null
+				// || rdll == null
+				// || (ll.latitude < ltll.latitude
+				// && ll.latitude > rdll.latitude
+				// && ll.longitude > ltll.longitude && ll.longitude <
+				// rdll.longitude)) {
+				//
+				int id = cids[i];
+				Bundle bundle = new Bundle();
+				bundle.putInt("index", i);
+				bundle.putSerializable("object", info);
+				OverlayOptions oo = new MarkerOptions().extraInfo(bundle)
+						.position(ll)
+						.icon(BitmapDescriptorFactory.fromResource(id));
+				map.addOverlay(oo);
+				// }
+			}
+		}
+		for (Object obj : markerArray) {
+			if (obj instanceof Publisher) {
+				Publisher publisher = (Publisher) obj;
+				LatLng ll = new LatLng(publisher.latitude, publisher.longitude);
+				if (ltll == null
+						|| rdll == null
+						|| (ll.latitude < ltll.latitude
+								&& ll.latitude > rdll.latitude
+								&& ll.longitude > ltll.longitude && ll.longitude < rdll.longitude)) {
+					int id = R.drawable.icon_markextra;
 					Bundle bundle = new Bundle();
-					bundle.putInt("index", i);
 					bundle.putSerializable("object", publisher);
 					OverlayOptions oo = new MarkerOptions().extraInfo(bundle)
 							.position(ll)
 							.icon(BitmapDescriptorFactory.fromResource(id));
 					map.addOverlay(oo);
-//				}
+				}
 
 			} else if (obj instanceof ActivityInfo) {
 				ActivityInfo info = (ActivityInfo) obj;
 				LatLng ll = new LatLng(info.latitude, info.longitude);
-//				if (ltll == null
-//						|| rdll == null
-//						|| (ll.latitude < ltll.latitude
-//								&& ll.latitude > rdll.latitude
-//								&& ll.longitude > ltll.longitude && ll.longitude < rdll.longitude)) {
-//
-					int id = ids[i];
+				if (ltll == null
+						|| rdll == null
+						|| (ll.latitude < ltll.latitude
+								&& ll.latitude > rdll.latitude
+								&& ll.longitude > ltll.longitude && ll.longitude < rdll.longitude)) {
+
+					int id = R.drawable.icon_cmarkextra;
 					Bundle bundle = new Bundle();
-					bundle.putInt("index", i);
 					bundle.putSerializable("object", info);
 					OverlayOptions oo = new MarkerOptions().extraInfo(bundle)
 							.position(ll)
 							.icon(BitmapDescriptorFactory.fromResource(id));
 					map.addOverlay(oo);
-//				}
-			}
-		}
-		for(Object obj : markerArray){
-				if (obj instanceof Publisher) {
-					Publisher publisher = (Publisher) obj;
-					LatLng ll = new LatLng(publisher.latitude, publisher.longitude);
-					if (ltll == null
-							|| rdll == null
-							|| (ll.latitude < ltll.latitude
-									&& ll.latitude > rdll.latitude
-									&& ll.longitude > ltll.longitude && ll.longitude < rdll.longitude)) {
-						int id = R.drawable.icon_markextra;
-						Bundle bundle = new Bundle();
-						bundle.putSerializable("object", publisher);
-						OverlayOptions oo = new MarkerOptions().extraInfo(bundle)
-								.position(ll)
-								.icon(BitmapDescriptorFactory.fromResource(id));
-						map.addOverlay(oo);
-					}
-
-				} else if (obj instanceof ActivityInfo) {
-					ActivityInfo info = (ActivityInfo) obj;
-					LatLng ll = new LatLng(info.latitude, info.longitude);
-					if (ltll == null
-							|| rdll == null
-							|| (ll.latitude < ltll.latitude
-									&& ll.latitude > rdll.latitude
-									&& ll.longitude > ltll.longitude && ll.longitude < rdll.longitude)) {
-
-						int id = R.drawable.icon_markextra;
-						Bundle bundle = new Bundle();
-						bundle.putSerializable("object", info);
-						OverlayOptions oo = new MarkerOptions().extraInfo(bundle)
-								.position(ll)
-								.icon(BitmapDescriptorFactory.fromResource(id));
-						map.addOverlay(oo);
-					}
 				}
+			}
 		}
 		Log.d("test", "sss out");
 	}

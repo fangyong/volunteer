@@ -23,8 +23,8 @@ public class MapViewActivity extends BaseActivity {
 	private MapView mapView;
 	private View backButton;
 	private LatLng latlng;
-	private Button zoomInButton;
-	private Button zoomOutButton;
+	private View zoomInButton;
+	private View zoomOutButton;
 	private BaiduMap map;
 
 	@Override
@@ -49,8 +49,8 @@ public class MapViewActivity extends BaseActivity {
 				finish();
 			}
 		});
-		zoomInButton = (Button) findViewById(R.id.zoomInButton);
-		zoomOutButton = (Button) findViewById(R.id.zoomOutButton);
+		zoomInButton = findViewById(R.id.zoomInButton);
+		zoomOutButton = findViewById(R.id.zoomOutButton);
 
 		zoomOutButton.setOnClickListener(new OnClickListener() {
 
