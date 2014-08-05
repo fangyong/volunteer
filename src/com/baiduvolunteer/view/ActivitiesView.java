@@ -42,6 +42,7 @@ public class ActivitiesView extends LinearLayout {
 	private ArrayList<ActivityInfo> activityInfoList = new ArrayList<ActivityInfo>();
 	private ActivitiesAdapter mAdapter;
 	private EditText searchField;
+	private int page = 1;
 	private int psize = 10;
 	private View footerView;
 	private Toast mToast;
@@ -73,7 +74,8 @@ public class ActivitiesView extends LinearLayout {
 				// TODO Auto-generated method stub
 				activityInfoList = new ArrayList<ActivityInfo>();
 				hashData = new HashMap<String, ActivityInfo>();
-				loadData(System.currentTimeMillis());
+				page = 1;
+				loadData(page);
 				if (activityListView.getFooterViewsCount() == 0)
 					activityListView.addFooterView(footerView);
 			}
@@ -82,8 +84,9 @@ public class ActivitiesView extends LinearLayout {
 
 			@Override
 			public void onLoad() {
-				long time = lastActivity.createTime;
-				loadData(time);
+				// long time = lastActivity.createTime;
+				page++;
+				loadData(page);
 			}
 		});
 
@@ -130,17 +133,19 @@ public class ActivitiesView extends LinearLayout {
 
 	public void onResume() {
 		// TODO Auto-generated method stub
-		loadData(System.currentTimeMillis());
+		 loadData(page);
 	}
 
-	public void loadData(long end) {
-		new GetActivitiesListRequest().setSize(psize).setEnd(end)
-				.setHandler(new ResponseHandler() {
+	public void loadData(int page) {
+		new GetActivitiesListRequest()
+				.setLat(User.sharedUser().lastLatlng.latitude)
+				.setLng(User.sharedUser().lastLatlng.longitude).setSize(psize)
+				.setPage(page).setHandler(new ResponseHandler() {
 
 					@Override
 					public void handleResponse(BaseRequest request,
 							int statusCode, String errorMsg, String response) {
-						Log.d("test", "getActivities response:" + response);
+						Log.d("test activities", "getActivities response:" + response);
 						try {
 							JSONObject ret = new JSONObject(response);
 							ret = ret.optJSONObject("result");
@@ -161,42 +166,42 @@ public class ActivitiesView extends LinearLayout {
 									}
 
 								}
-								lastActivity = activityInfoList
-										.get(activityInfoList.size() - 1);
-								Collections.sort(activityInfoList,
-										new Comparator<ActivityInfo>() {
-											@Override
-											public int compare(
-													ActivityInfo lhs,
-													ActivityInfo rhs) {
-												// TODO Auto-generated method
-												// stub
-												if (lhs.latitude == 0
-														&& rhs.latitude == 0) {
-													return rhs.activityID
-															.compareTo(lhs.activityID);
-												} else {
-													if (User.sharedUser().lastLatlng == null) {
-														return lhs.activityID
-																.compareTo(rhs.activityID);
-													} else if (lhs.latitude != 0
-															&& rhs.latitude != 0) {
-														return (int) (DistanceUtil.getDistance(
-																User.sharedUser().lastLatlng,
-																new LatLng(
-																		lhs.latitude,
-																		lhs.longitude)) - DistanceUtil.getDistance(
-																User.sharedUser().lastLatlng,
-																new LatLng(
-																		rhs.latitude,
-																		rhs.longitude)));
-													} else {
-														return (lhs.latitude == 0) ? 1
-																: -1;
-													}
-												}
-											}
-										});
+								// lastActivity = activityInfoList
+								// .get(activityInfoList.size() - 1);
+								// Collections.sort(activityInfoList,
+								// new Comparator<ActivityInfo>() {
+								// @Override
+								// public int compare(
+								// ActivityInfo lhs,
+								// ActivityInfo rhs) {
+								// // TODO Auto-generated method
+								// // stub
+								// if (lhs.latitude == 0
+								// && rhs.latitude == 0) {
+								// return rhs.activityID
+								// .compareTo(lhs.activityID);
+								// } else {
+								// if (User.sharedUser().lastLatlng == null) {
+								// return lhs.activityID
+								// .compareTo(rhs.activityID);
+								// } else if (lhs.latitude != 0
+								// && rhs.latitude != 0) {
+								// return (int) (DistanceUtil.getDistance(
+								// User.sharedUser().lastLatlng,
+								// new LatLng(
+								// lhs.latitude,
+								// lhs.longitude)) - DistanceUtil.getDistance(
+								// User.sharedUser().lastLatlng,
+								// new LatLng(
+								// rhs.latitude,
+								// rhs.longitude)));
+								// } else {
+								// return (lhs.latitude == 0) ? 1
+								// : -1;
+								// }
+								// }
+								// }
+								// });
 								mAdapter.setActivitiesList(activityInfoList);
 								mAdapter.notifyDataSetChanged();
 							} else {

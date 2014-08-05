@@ -12,13 +12,17 @@ import android.os.Looper;
 import android.text.ClipboardManager;
 import android.widget.Toast;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.baidu.api.Baidu;
+import com.baidu.frontia.FrontiaApplication;
 import com.baidu.mapapi.SDKInitializer;
+import com.baidu.push.Utils;
 import com.baiduvolunteer.config.Config;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 
-public class MyApplication extends Application {
+public class MyApplication extends FrontiaApplication {
 	private static MyApplication instance;
 	private Baidu baidu;
 
@@ -85,6 +89,7 @@ public class MyApplication extends Application {
 			}
 			
 		});
+		
 	}
 
 	public void setBaidu(Baidu baidu) {

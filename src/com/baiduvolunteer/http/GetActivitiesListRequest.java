@@ -2,6 +2,8 @@ package com.baiduvolunteer.http;
 
 import java.util.HashMap;
 
+import android.util.Log;
+
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 public class GetActivitiesListRequest extends BaseRequest {
@@ -9,8 +11,26 @@ public class GetActivitiesListRequest extends BaseRequest {
 	private String vUid;
 	private long startTimes;
 	private long endTimes;
-	private int size;
 	private long end;
+	private int page;
+	private int size = 10;
+	private double lat = 361;
+	private double lng = 361;
+
+	public GetActivitiesListRequest setLat(double lat) {
+		this.lat = lat;
+		return this;
+	}
+
+	public GetActivitiesListRequest setLng(double lng) {
+		this.lng = lng;
+		return this;
+	}
+
+	public GetActivitiesListRequest setPage(int page) {
+		this.page = page;
+		return this;
+	}
 
 	public GetActivitiesListRequest setvUid(String vUid) {
 		this.vUid = vUid;
@@ -55,8 +75,10 @@ public class GetActivitiesListRequest extends BaseRequest {
 		if (vUid != null) {
 			map.put("vuid", vUid);
 		}
+		Log.i("test activities", map.toString());
+		map.put("page", page + "");
 		map.put("size", size + "");
-		map.put("end", end + "");
+		// map.put("end", end + "");
 		if (startTimes > 0)
 			map.put("starttimes", "" + startTimes);
 		if (endTimes > 0)

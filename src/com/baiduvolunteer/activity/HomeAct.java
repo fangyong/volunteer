@@ -17,11 +17,14 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
+import com.baidu.android.pushservice.PushConstants;
+import com.baidu.android.pushservice.PushManager;
 import com.baidu.api.AccessTokenManager;
 import com.baidu.api.AsyncBaiduRunner;
 import com.baidu.api.AsyncBaiduRunner.RequestListener;
 import com.baidu.api.Baidu;
 import com.baidu.api.BaiduException;
+import com.baidu.push.Utils;
 import com.baiduvolunteer.MyApplication;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.BaseRequest;
@@ -187,7 +190,9 @@ public class HomeAct extends Activity {
 		userCenterView = (UserCenterView) findViewById(R.id.tab_usercenter);
 		moreView = (MoreView) findViewById(R.id.tab_more);
 		initTabs();
-		
+		PushManager.startWork(getApplicationContext(),
+				PushConstants.LOGIN_TYPE_API_KEY,
+				Utils.getMetaValue(HomeAct.this, "api_key"));
 	}
 
 	void initTabs() {

@@ -68,8 +68,9 @@ public class FeedbackActivity extends BaseActivity {
 								public void handleResponse(BaseRequest request,
 										int statusCode, String errorMsg,
 										String response) {
+									Log.i("feed back response", response);
 									ViewUtils.runInMainThread(new Runnable() {
-										
+
 										@Override
 										public void run() {
 											// TODO Auto-generated method stub
@@ -87,7 +88,8 @@ public class FeedbackActivity extends BaseActivity {
 												&& "success".equals(responseHead
 														.optString("success",
 																null));
-										if(success) finish();
+										if (success)
+											finish();
 									} catch (JSONException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
