@@ -133,102 +133,207 @@ public class ActivitiesView extends LinearLayout {
 
 	public void onResume() {
 		// TODO Auto-generated method stub
-		 loadData(page);
+		loadData(page);
 	}
 
 	public void loadData(int page) {
-		new GetActivitiesListRequest()
-				.setLat(User.sharedUser().lastLatlng.latitude)
-				.setLng(User.sharedUser().lastLatlng.longitude).setSize(psize)
-				.setPage(page).setHandler(new ResponseHandler() {
+		if (User.sharedUser().lastLatlng != null)
+			new GetActivitiesListRequest()
+					.setLat(User.sharedUser().lastLatlng.latitude)
+					.setLng(User.sharedUser().lastLatlng.longitude)
+					.setSize(psize).setPage(page)
+					.setHandler(new ResponseHandler() {
 
-					@Override
-					public void handleResponse(BaseRequest request,
-							int statusCode, String errorMsg, String response) {
-						Log.d("test activities", "getActivities response:" + response);
-						try {
-							JSONObject ret = new JSONObject(response);
-							ret = ret.optJSONObject("result");
-							JSONArray activities = null;
-							if (ret != null)
-								activities = ret.optJSONArray("activities");
-							if (activities != null && activities.length() > 0) {
-								for (int i = 0; i < activities.length(); i++) {
-									JSONObject activity = activities
-											.optJSONObject(i);
-									ActivityInfo activityInfo = ActivityInfo
-											.createFromJson(activity);
-									if (!isRepeat(hashData,
-											activityInfo.activityID)) {
-										activityInfoList.add(activityInfo);
-										hashData.put(activityInfo.activityID,
-												activityInfo);
+						@Override
+						public void handleResponse(BaseRequest request,
+								int statusCode, String errorMsg, String response) {
+							Log.d("test activities", "getActivities response:"
+									+ response);
+							try {
+								JSONObject ret = new JSONObject(response);
+								ret = ret.optJSONObject("result");
+								JSONArray activities = null;
+								if (ret != null)
+									activities = ret.optJSONArray("activities");
+								if (activities != null
+										&& activities.length() > 0) {
+									for (int i = 0; i < activities.length(); i++) {
+										JSONObject activity = activities
+												.optJSONObject(i);
+										ActivityInfo activityInfo = ActivityInfo
+												.createFromJson(activity);
+										if (!isRepeat(hashData,
+												activityInfo.activityID)) {
+											activityInfoList.add(activityInfo);
+											hashData.put(
+													activityInfo.activityID,
+													activityInfo);
+										}
+
 									}
-
+									// lastActivity = activityInfoList
+									// .get(activityInfoList.size() - 1);
+									// Collections.sort(activityInfoList,
+									// new Comparator<ActivityInfo>() {
+									// @Override
+									// public int compare(
+									// ActivityInfo lhs,
+									// ActivityInfo rhs) {
+									// // TODO Auto-generated method
+									// // stub
+									// if (lhs.latitude == 0
+									// && rhs.latitude == 0) {
+									// return rhs.activityID
+									// .compareTo(lhs.activityID);
+									// } else {
+									// if (User.sharedUser().lastLatlng == null)
+									// {
+									// return lhs.activityID
+									// .compareTo(rhs.activityID);
+									// } else if (lhs.latitude != 0
+									// && rhs.latitude != 0) {
+									// return (int) (DistanceUtil.getDistance(
+									// User.sharedUser().lastLatlng,
+									// new LatLng(
+									// lhs.latitude,
+									// lhs.longitude)) -
+									// DistanceUtil.getDistance(
+									// User.sharedUser().lastLatlng,
+									// new LatLng(
+									// rhs.latitude,
+									// rhs.longitude)));
+									// } else {
+									// return (lhs.latitude == 0) ? 1
+									// : -1;
+									// }
+									// }
+									// }
+									// });
+									mAdapter.setActivitiesList(activityInfoList);
+									mAdapter.notifyDataSetChanged();
+								} else {
+									mToast.cancel();
+									mToast.show();
+									// if
+									// (activityListView.getFooterViewsCount() >
+									// 0)
+									// activityListView
+									// .removeFooterView(footerView);
 								}
-								// lastActivity = activityInfoList
-								// .get(activityInfoList.size() - 1);
-								// Collections.sort(activityInfoList,
-								// new Comparator<ActivityInfo>() {
-								// @Override
-								// public int compare(
-								// ActivityInfo lhs,
-								// ActivityInfo rhs) {
-								// // TODO Auto-generated method
-								// // stub
-								// if (lhs.latitude == 0
-								// && rhs.latitude == 0) {
-								// return rhs.activityID
-								// .compareTo(lhs.activityID);
-								// } else {
-								// if (User.sharedUser().lastLatlng == null) {
-								// return lhs.activityID
-								// .compareTo(rhs.activityID);
-								// } else if (lhs.latitude != 0
-								// && rhs.latitude != 0) {
-								// return (int) (DistanceUtil.getDistance(
-								// User.sharedUser().lastLatlng,
-								// new LatLng(
-								// lhs.latitude,
-								// lhs.longitude)) - DistanceUtil.getDistance(
-								// User.sharedUser().lastLatlng,
-								// new LatLng(
-								// rhs.latitude,
-								// rhs.longitude)));
-								// } else {
-								// return (lhs.latitude == 0) ? 1
-								// : -1;
-								// }
-								// }
-								// }
-								// });
-								mAdapter.setActivitiesList(activityInfoList);
-								mAdapter.notifyDataSetChanged();
-							} else {
-								mToast.cancel();
-								mToast.show();
-								// if (activityListView.getFooterViewsCount() >
-								// 0)
-								// activityListView
-								// .removeFooterView(footerView);
+								activityListView.onRefreshComplete();
+							} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
-							activityListView.onRefreshComplete();
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							if (activityListView.getFooterViewsCount() > 0)
+								activityListView.removeFooterView(footerView);
+
 						}
-						if (activityListView.getFooterViewsCount() > 0)
-							activityListView.removeFooterView(footerView);
 
-					}
+						@Override
+						public void handleError(BaseRequest request,
+								int statusCode, String errorMsg) {
+							// TODO Auto-generated method stub
+							super.handleError(request, statusCode, errorMsg);
+						}
+					}).start();
+		else
+			new GetActivitiesListRequest().setSize(psize).setPage(page)
+					.setHandler(new ResponseHandler() {
 
-					@Override
-					public void handleError(BaseRequest request,
-							int statusCode, String errorMsg) {
-						// TODO Auto-generated method stub
-						super.handleError(request, statusCode, errorMsg);
-					}
-				}).start();
+						@Override
+						public void handleResponse(BaseRequest request,
+								int statusCode, String errorMsg, String response) {
+							Log.d("test activities", "getActivities response:"
+									+ response);
+							try {
+								JSONObject ret = new JSONObject(response);
+								ret = ret.optJSONObject("result");
+								JSONArray activities = null;
+								if (ret != null)
+									activities = ret.optJSONArray("activities");
+								if (activities != null
+										&& activities.length() > 0) {
+									for (int i = 0; i < activities.length(); i++) {
+										JSONObject activity = activities
+												.optJSONObject(i);
+										ActivityInfo activityInfo = ActivityInfo
+												.createFromJson(activity);
+										if (!isRepeat(hashData,
+												activityInfo.activityID)) {
+											activityInfoList.add(activityInfo);
+											hashData.put(
+													activityInfo.activityID,
+													activityInfo);
+										}
+
+									}
+									// lastActivity = activityInfoList
+									// .get(activityInfoList.size() - 1);
+									// Collections.sort(activityInfoList,
+									// new Comparator<ActivityInfo>() {
+									// @Override
+									// public int compare(
+									// ActivityInfo lhs,
+									// ActivityInfo rhs) {
+									// // TODO Auto-generated method
+									// // stub
+									// if (lhs.latitude == 0
+									// && rhs.latitude == 0) {
+									// return rhs.activityID
+									// .compareTo(lhs.activityID);
+									// } else {
+									// if (User.sharedUser().lastLatlng == null)
+									// {
+									// return lhs.activityID
+									// .compareTo(rhs.activityID);
+									// } else if (lhs.latitude != 0
+									// && rhs.latitude != 0) {
+									// return (int) (DistanceUtil.getDistance(
+									// User.sharedUser().lastLatlng,
+									// new LatLng(
+									// lhs.latitude,
+									// lhs.longitude)) -
+									// DistanceUtil.getDistance(
+									// User.sharedUser().lastLatlng,
+									// new LatLng(
+									// rhs.latitude,
+									// rhs.longitude)));
+									// } else {
+									// return (lhs.latitude == 0) ? 1
+									// : -1;
+									// }
+									// }
+									// }
+									// });
+									mAdapter.setActivitiesList(activityInfoList);
+									mAdapter.notifyDataSetChanged();
+								} else {
+									mToast.cancel();
+									mToast.show();
+									// if
+									// (activityListView.getFooterViewsCount() >
+									// 0)
+									// activityListView
+									// .removeFooterView(footerView);
+								}
+								activityListView.onRefreshComplete();
+							} catch (JSONException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							if (activityListView.getFooterViewsCount() > 0)
+								activityListView.removeFooterView(footerView);
+
+						}
+
+						@Override
+						public void handleError(BaseRequest request,
+								int statusCode, String errorMsg) {
+							// TODO Auto-generated method stub
+							super.handleError(request, statusCode, errorMsg);
+						}
+					}).start();
 	}
 
 	boolean isRepeat(HashMap<String, ActivityInfo> hashData, String key) {

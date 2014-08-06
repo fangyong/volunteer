@@ -39,7 +39,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="#cccccc"
+        android:background="#f9f9f9"
         android:orientation="horizontal" >
 
         <TextView
@@ -66,7 +66,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="4dip"
-        android:background="#cccccc" >
+        android:background="#f9f9f9" >
 
         <View
             android:layout_width="match_parent"
@@ -83,6 +83,7 @@
                 android:id="@+id/indicator1"
                 android:layout_width="0dp"
                 android:layout_height="3dp"
+                android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:background="#107cfd" />
 
@@ -90,14 +91,15 @@
                 android:id="@+id/indicator2"
                 android:layout_width="0dp"
                 android:layout_height="3dp"
+                android:layout_gravity="bottom"
                 android:layout_weight="1" />
         </LinearLayout>
     </RelativeLayout>
 
-    <ListView
+    <com.baiduvolunteer.view.MyListView
         android:id="@+id/favList"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    </ListView>
+    </com.baiduvolunteer.view.MyListView>
 
 </LinearLayout>

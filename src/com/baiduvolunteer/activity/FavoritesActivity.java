@@ -39,21 +39,27 @@ import com.baiduvolunteer.model.Publisher;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
+import com.baiduvolunteer.view.MyListView;
 import com.baiduvolunteer.view.PublisherListCellHolder;
+import com.baiduvolunteer.view.MyListView.OnLoadListener;
+import com.baiduvolunteer.view.MyListView.OnRefreshListener;
 
-public class FavoritesActivity extends Activity implements OnClickListener {
+public class FavoritesActivity extends Activity implements OnClickListener,
+		OnRefreshListener, OnLoadListener {
 
 	private View backButton;
 	private TextView tab1;
 	private TextView tab2;
 	private View indicator1;
 	private View indicator2;
-	private ListView favList;
+	private MyListView favList;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 	private ArrayList<Publisher> publishers = new ArrayList<Publisher>();
 	private ArrayList<ActivityInfo> activities = new ArrayList<ActivityInfo>();
 	private ArrayAdapter<Object> mAdapter;
 	private ProgressDialog mPd;
+	private int page1 = 0;
+	private int page2 = 0;
 
 	private int selectIndex = 0;
 
@@ -72,7 +78,9 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 		indicator2 = findViewById(R.id.indicator2);
 		tab1.setOnClickListener(this);
 		tab2.setOnClickListener(this);
-		favList = (ListView) findViewById(R.id.favList);
+		favList = (MyListView) findViewById(R.id.favList);
+		favList.setonRefreshListener(this);
+		favList.setOnLoadListener(this);
 		backButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -360,13 +368,13 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if (selectIndex == 0) {
-					ActivityInfo info = activities.get(position);
+					ActivityInfo info = activities.get(position-1);
 					Intent intent = new Intent(FavoritesActivity.this,
 							ActivityInfoActivity.class);
 					intent.putExtra("activity", info);
 					startActivity(intent);
 				} else {
-					Publisher publisher = publishers.get(position);
+					Publisher publisher = publishers.get(position-1);
 					Intent intent = new Intent(FavoritesActivity.this,
 							PublisherAct.class);
 					intent.putExtra("publisherId", publisher.pid);
@@ -400,69 +408,97 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 	}
 
 	@Override
-	protected void onResume() {
+	public void onLoad() {
 		// TODO Auto-generated method stub
-		super.onResume();
-		new GetActivityCollectionListRequest().setHandler(
-				new ResponseHandler() {
+		if (selectIndex == 0) {
+			loadActivity(false);
+		} else if (selectIndex == 1) {
+			loadPublisher(false);
+		}
+	}
 
-					@Override
-					public void handleResponse(BaseRequest request,
-							int statusCode, String errorMsg, String response) {
-						// TODO Auto-generated method stub
-						Log.d("test", "get fav list 1 :" + response);
-						try {
-							JSONObject resultObj = new JSONObject(response);
-							resultObj = resultObj.optJSONObject("result");
-							if (resultObj == null)
-								return;
-							JSONArray array = resultObj
-									.optJSONArray("activities");
-							activities.clear();
-							for (int i = 0; i < array.length(); i++) {
-								JSONObject obj = array.optJSONObject(i);
-								if (obj != null) {
-									ActivityInfo info = ActivityInfo
-											.createFromJson(obj);
-									activities.add(info);
-								}
-							}
-							ViewUtils.runInMainThread(new Runnable() {
+	@Override
+	public void onRefresh() {
+		// TODO Auto-generated method stub
+		if (selectIndex == 0) {
+			loadActivity(true);
+		} else if (selectIndex == 1) {
+			loadPublisher(true);
+		}
+	}
 
-								@Override
-								public void run() {
-									// TODO Auto-generated method stub
-									mAdapter.notifyDataSetChanged();
-								}
-							});
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-					}
-				}).start();
-		new GetPublisherCollectionsRequest().setHandler(new ResponseHandler() {
+	private void loadActivity(final boolean startOver){
+		if(startOver)page1=1;
+		new GetActivityCollectionListRequest().setPage(page1).setSize(20)
+		.setHandler(new ResponseHandler() {
 
 			@Override
-			public void handleResponse(BaseRequest request, int statusCode,
-					String errorMsg, String response) {
+			public void handleResponse(BaseRequest request,
+					int statusCode, String errorMsg, String response) {
 				// TODO Auto-generated method stub
-				Log.d("test", "get fav list 2: " + response);
+				page1++;
+				Log.d("test", "get fav list 1 :" + response);
 				try {
 					JSONObject resultObj = new JSONObject(response);
 					resultObj = resultObj.optJSONObject("result");
 					if (resultObj == null)
 						return;
-					JSONArray array = resultObj.optJSONArray("publishers");
+					JSONArray array = resultObj
+							.optJSONArray("activities");
+					if(startOver)activities.clear();
+					for (int i = 0; i < array.length(); i++) {
+						JSONObject obj = array.optJSONObject(i);
+						if (obj != null) {
+							ActivityInfo info = ActivityInfo
+									.createFromJson(obj);
+							activities.add(info);
+						}
+					}
+					ViewUtils.runInMainThread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							mAdapter.notifyDataSetChanged();
+							favList.onRefreshComplete();
+						}
+					});
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+		}).start();
+	}
+	
+	private void loadPublisher(final boolean startOver){
+		if(startOver)page2=1;
+		new GetPublisherCollectionsRequest().setPage(page2).setSize(20)
+		.setHandler(new ResponseHandler() {
+
+			@Override
+			public void handleResponse(BaseRequest request,
+					int statusCode, String errorMsg, String response) {
+				// TODO Auto-generated method stub
+				Log.d("test", "get fav list 2: " + response);
+				page2++;
+				try {
+					JSONObject resultObj = new JSONObject(response);
+					resultObj = resultObj.optJSONObject("result");
+					if (resultObj == null)
+						return;
+					JSONArray array = resultObj
+							.optJSONArray("publishers");
 					if (array == null)
 						return;
-					publishers.clear();
+					if(startOver)publishers.clear();
 					for (int i = 0; i < array.length(); i++) {
 						JSONObject obj = array.optJSONObject(i);
 						if (obj == null)
 							continue;
-						Publisher publisher = Publisher.createFromJson(obj);
+						Publisher publisher = Publisher
+								.createFromJson(obj);
 						publishers.add(publisher);
 						ViewUtils.runInMainThread(new Runnable() {
 
@@ -470,6 +506,7 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 							public void run() {
 								// TODO Auto-generated method stub
 								mAdapter.notifyDataSetChanged();
+								favList.onRefreshComplete();
 							}
 						});
 					}
@@ -480,6 +517,20 @@ public class FavoritesActivity extends Activity implements OnClickListener {
 
 			}
 		}).start();
+	}
+	
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onPostCreate(savedInstanceState);
+		loadActivity(true);
+		loadPublisher(true);
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 	}
 
 	@Override

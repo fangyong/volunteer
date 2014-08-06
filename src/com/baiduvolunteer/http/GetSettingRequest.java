@@ -4,44 +4,33 @@ import java.util.HashMap;
 
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
-public class GetPublisherCollectionsRequest extends BaseRequest {
+public class GetSettingRequest extends BaseRequest {
 
-	private String vUid;
-	private int size;
-	private int page;
-
-	public GetPublisherCollectionsRequest setSize(int size) {
-		this.size = size;
+	private String key;
+	
+	public GetSettingRequest setKey(String key) {
+		this.key = key;
 		return this;
 	}
 	
-	public GetPublisherCollectionsRequest setPage(int page) {
-		this.page = page;
-		return this;
-	}
-	
-	public void setvUid(String vUid) {
-		this.vUid = vUid;
-	}
-
 	@Override
 	protected String url() {
 		// TODO Auto-generated method stub
-		return "user";
+		return "app";
 	}
 
 	@Override
 	protected String method() {
 		// TODO Auto-generated method stub
-		return "getPublishCollections";
+		return "sysset";
 	}
 
 	@Override
 	protected void generateParams(HashMap<String, String> map) {
 		// TODO Auto-generated method stub
-		map.put("vuid", vUid);
-		if(page>0)map.put("page", ""+page);
-		if(size>0)map.put("size", ""+size);
+		if(key!=null&&!key.isEmpty())
+			map.put("param", key);
+
 	}
 
 	@Override

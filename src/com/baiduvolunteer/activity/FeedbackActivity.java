@@ -4,10 +4,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -119,6 +121,8 @@ public class FeedbackActivity extends BaseActivity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		manager.hideSoftInputFromInputMethod(feedbackInput.getWindowToken(), 0);
 		nameLabel.setText(User.sharedUser().uname);
 		if (phoneInput.getText().toString().isEmpty()) {
 			phoneInput.setText(User.sharedUser().phoneNumber);

@@ -486,6 +486,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 							public void onAnimationEnd(Animation animation) {
 								// TODO Auto-generated method stub
 								searchButton.setVisibility(View.GONE);
+								startSearch(true);
 							}
 						});
 						searchButton.clearAnimation();
@@ -572,11 +573,13 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				// TODO Auto-generated method stub
 				mpd.show();
 				keyword = searchField.getText().toString().trim();
-				if (keyword != null && !keyword.isEmpty()) {
-					searchField.setHint(keyword);
-				} else {
-					searchField.setHint("志愿者活动...");
-				}
+//				if (keyword != null && !keyword.isEmpty()) {
+//					searchField.setHint(keyword);
+//				} else {
+//					searchField.setHint("志愿者活动...");
+//				}
+				InputMethodManager im = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+				im.hideSoftInputFromInputMethod(getWindowToken(), 0);
 				startSearch(true);
 			}
 		});

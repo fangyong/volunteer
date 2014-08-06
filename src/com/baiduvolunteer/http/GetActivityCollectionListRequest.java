@@ -7,23 +7,35 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 public class GetActivityCollectionListRequest extends BaseRequest {
 
 	private String vUid;
-	private long startTimes;
-	private long endTimes;
+
+	private int size = 0;
+
+	private int page = 0;
 
 	public GetActivityCollectionListRequest setvUid(String vUid) {
 		this.vUid = vUid;
 		return this;
 	}
 
-	public GetActivityCollectionListRequest setStartTimes(long startTimes) {
-		this.startTimes = startTimes;
+	public GetActivityCollectionListRequest setSize(int size) {
+		this.size = size;
 		return this;
 	}
 
-	public GetActivityCollectionListRequest setEndTimes(long endTimes) {
-		this.endTimes = endTimes;
+	public GetActivityCollectionListRequest setPage(int page) {
+		this.page = page;
 		return this;
 	}
+
+	// public GetActivityCollectionListRequest setStartTimes(long startTimes) {
+	// this.startTimes = startTimes;
+	// return this;
+	// }
+
+	// public GetActivityCollectionListRequest setEndTimes(long endTimes) {
+	// this.endTimes = endTimes;
+	// return this;
+	// }
 
 	@Override
 	protected String url() {
@@ -41,10 +53,10 @@ public class GetActivityCollectionListRequest extends BaseRequest {
 	protected void generateParams(HashMap<String, String> map) {
 		// TODO Auto-generated method stub
 		map.put("vuid", vUid);
-		if (startTimes > 0)
-			map.put("starttimes", "" + startTimes);
-		if (endTimes > 0)
-			map.put("endtimes", "" + endTimes);
+		if (page > 0)
+			map.put("page", "" + page);
+		if (size > 0)
+			map.put("size", "" + size);
 	}
 
 	@Override

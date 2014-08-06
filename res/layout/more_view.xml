@@ -109,11 +109,12 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="30dp"
-        android:background="#eaeaea"
+        android:background="@drawable/btn_logout"
         android:gravity="center"
+        android:orientation="horizontal"
         android:onClick="logout" >
 
-        <TextView
+        <!-- <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -121,7 +122,7 @@
             android:gravity="center"
             android:textSize="@dimen/text_size_22"
             android:text="    退出登录"
-            android:textColor="#000000" />
+            android:textColor="#000000" /> -->
     </LinearLayout>
 
 </RelativeLayout>

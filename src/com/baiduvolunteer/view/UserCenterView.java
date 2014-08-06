@@ -66,6 +66,63 @@ public class UserCenterView extends LinearLayout {
 					userIcon,
 					"http://himg.bdimg.com/sys/portrait/item/"
 							+ User.sharedUser().portrait);
+		} else {
+			Baidu baidu = MyApplication.getApplication().getBaidu();
+			if (baidu != null) {
+				baidu.init(getContext());
+				// String accessToken = atm.getAccessToken();
+				AsyncBaiduRunner runner = new AsyncBaiduRunner(baidu);
+				runner.request(
+						"https://openapi.baidu.com/rest/2.0/passport/users/getInfo",
+						null, "POST", new RequestListener() {
+
+							@Override
+							public void onIOException(IOException arg0) {
+								// TODO Auto-generated method stub
+								Log.d("test", "ioexception");
+							}
+
+							@Override
+							public void onComplete(String arg0) {
+								// TODO Auto-generated method stub
+								Log.d("test", "response:" + arg0);
+								try {
+									JSONObject obj = new JSONObject(arg0);
+									final String portrait = obj
+											.optString("portrait");
+									if (portrait != null)
+										ViewUtils
+												.runInMainThread(new Runnable() {
+
+													@Override
+													public void run() {
+														User.sharedUser().portrait = portrait;
+														User.sharedUser()
+																.save();
+														// TODO Auto-generated
+														// method stub
+														ViewUtils.bmUtils
+																.display(
+																		userIcon,
+																		"http://himg.bdimg.com/sys/portrait/item/"
+																				+ portrait);
+													}
+												});
+
+								} catch (JSONException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+
+							@Override
+							public void onBaiduException(BaiduException arg0) {
+								// TODO Auto-generated method stub
+								Log.d("test",
+										"baidu exception:" + arg0.getMessage());
+							}
+						});
+			}
 		}
 
 		new GetUserInfoRequest().setHandler(new ResponseHandler() {
@@ -107,57 +164,7 @@ public class UserCenterView extends LinearLayout {
 				});
 			}
 		}).start();
-		Baidu baidu = MyApplication.getApplication().getBaidu();
-		if (baidu != null) {
-			baidu.init(getContext());
-			// String accessToken = atm.getAccessToken();
-			AsyncBaiduRunner runner = new AsyncBaiduRunner(baidu);
-			runner.request(
-					"https://openapi.baidu.com/rest/2.0/passport/users/getInfo",
-					null, "POST", new RequestListener() {
 
-						@Override
-						public void onIOException(IOException arg0) {
-							// TODO Auto-generated method stub
-							Log.d("test", "ioexception");
-						}
-
-						@Override
-						public void onComplete(String arg0) {
-							// TODO Auto-generated method stub
-							Log.d("test", "response:" + arg0);
-							try {
-								JSONObject obj = new JSONObject(arg0);
-								final String portrait = obj
-										.optString("portrait");
-								if (portrait != null)
-									ViewUtils.runInMainThread(new Runnable() {
-
-										@Override
-										public void run() {
-											User.sharedUser().portrait = portrait;
-											User.sharedUser().save();
-											// TODO Auto-generated method stub
-											ViewUtils.bmUtils.display(userIcon,
-													"http://himg.bdimg.com/sys/portrait/item/"
-															+ portrait);
-										}
-									});
-
-							} catch (JSONException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-
-						@Override
-						public void onBaiduException(BaiduException arg0) {
-							// TODO Auto-generated method stub
-							Log.d("test",
-									"baidu exception:" + arg0.getMessage());
-						}
-					});
-		}
 	}
 
 	@Override
