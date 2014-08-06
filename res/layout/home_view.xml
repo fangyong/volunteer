@@ -86,7 +86,7 @@
                 android:layout_toLeftOf="@+id/searchButton"
                 android:background="@drawable/textfield_bg"
                 android:drawableLeft="@drawable/icon_search"
-                android:hint="志愿者活动..."
+                android:hint="公益组织或志愿者活动..."
                 android:paddingBottom="4dp"
                 android:paddingLeft="10dip"
                 android:paddingRight="5dip"
