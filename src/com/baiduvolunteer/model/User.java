@@ -6,6 +6,7 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.string;
 import android.util.Log;
 
 import com.baidu.mapapi.model.LatLng;
@@ -46,6 +47,7 @@ public class User implements Serializable {
 		this.uname = null;
 		this.vuid = null;
 		this.phoneNumber = null;
+		this.email = null;
 		this.province = 0;
 		this.registerTime = null;
 		this.portrait = null;
@@ -75,6 +77,7 @@ public class User implements Serializable {
 							}
 							uname = resultObj.optString("nickname");
 							phoneNumber = resultObj.optString("phone");
+							email = resultObj.optString("email");
 							try {
 								province = Integer.valueOf(resultObj
 										.optString("province"));
@@ -110,6 +113,7 @@ public class User implements Serializable {
 			instance.vuid = user.vuid;
 			instance.gender = user.gender;
 			instance.phoneNumber = user.phoneNumber;
+			instance.email = user.email;
 			instance.province = user.province;
 			instance.city = user.city;
 			instance.portrait=user.portrait;
@@ -124,6 +128,7 @@ public class User implements Serializable {
 	public Date registerTime;// 注册时间
 	public String phoneNumber;// 手机号
 	public String portrait;
+	public String email;
 
 	public transient LatLng lastLatlng;//地图浏览
 	

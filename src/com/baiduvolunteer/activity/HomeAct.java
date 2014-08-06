@@ -121,8 +121,10 @@ public class HomeAct extends Activity {
 										Log.d("test",
 												"user.name "
 														+ User.sharedUser().uname);
+										
+										Log.i(">>>>>>>>>>>uid",uid);
 										LoginRequest loginRequest = new LoginRequest(
-												uid);
+												uid,User.sharedUser().uname);
 										loginRequest
 												.setHandler(new ResponseHandler() {
 

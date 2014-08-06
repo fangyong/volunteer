@@ -42,6 +42,7 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 
 	private EditText unameEt;
 	private EditText telephoneEt;
+	private EditText emailEt;
 
 	private View maleTv;
 	private View femaleTv;
@@ -53,6 +54,7 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 	private String uname;
 	private String cityName;
 	private String phoneNumber;
+	private String email;
 
 	private CityInfo province;
 	private CityInfo city;
@@ -132,12 +134,16 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		femaleCheck = findViewById(R.id.female_check);
 		otherCheck = findViewById(R.id.other_check);
 		telephoneEt = (EditText) findViewById(R.id.telephone_et);
+		emailEt = (EditText) findViewById(R.id.email_et);
 		setProvince();
 		if (User.sharedUser().uname != null) {
 			unameEt.setText(User.sharedUser().uname);
 		}
 		if (User.sharedUser().phoneNumber != null) {
 			telephoneEt.setText(User.sharedUser().phoneNumber);
+		}
+		if (User.sharedUser().email != null) {
+			emailEt.setText(User.sharedUser().email);
 		}
 		if (User.sharedUser().gender != 0) {
 			setSex(User.sharedUser().gender);
@@ -231,10 +237,17 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 			return false;
 		}
 		Pattern p = Pattern.compile("^1\\d{10}$");
+		Pattern pe = Pattern.compile("/^[\\w]+\\@[0-9a-zA-Z]+(\\.[0-9a-zA-Z]+)*(\\.cn|\\.com|\\.com\\.cn)$/");
 		Matcher matcher = p.matcher(telephoneEt.getText().toString());
+		Matcher matchere = pe.matcher(emailEt.getText().toString());
 
 		if (!matcher.matches()) {
 			Toast.makeText(this, "请输入11位手机号", Toast.LENGTH_LONG).show();
+			return false;
+		}
+		
+		if(!matchere.matches()){
+			Toast.makeText(this, "请输入邮箱", Toast.LENGTH_LONG).show();
 			return false;
 		}
 		return true;
@@ -248,13 +261,16 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		if (!telephoneEt.getText().toString().isEmpty()) {
 			phoneNumber = telephoneEt.getText().toString();
 		}
+		if (!emailEt.getText().toString().isEmpty()) {
+			email = emailEt.getText().toString();
+		}
 		province = provinceList.get(provinceSpinner.getSelectedItemPosition());
 		city = cityList != null ? cityList.get(citySpinner
 				.getSelectedItemPosition()) : null;
 		new UpdateUserInfoRequest().setCity("" + (city == null ? 0 : city.id))
 				.setProvince("" + province.id)
 				.setNickName(unameEt.getText().toString())
-				.setPhone(phoneNumber).setSex(sex)
+				.setPhone(phoneNumber).setEmail(email).setSex(sex)
 				.setHandler(new ResponseHandler() {
 
 					@Override
@@ -266,6 +282,7 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 						User.sharedUser().province = province.id;
 						User.sharedUser().uname = uname;
 						User.sharedUser().phoneNumber = phoneNumber;
+						User.sharedUser().email = email;
 						User.sharedUser().gender = sex;
 						User.sharedUser().save();
 					}

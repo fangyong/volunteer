@@ -12,6 +12,7 @@ public class UpdateUserInfoRequest extends BaseRequest {
 	private String province;
 	private String city;
 	private String phone;
+	private String email;
 
 	public UpdateUserInfoRequest setvUid(String vUid) {
 		this.vUid = vUid;
@@ -42,6 +43,11 @@ public class UpdateUserInfoRequest extends BaseRequest {
 		this.phone = phone;
 		return this;
 	}
+	
+	public UpdateUserInfoRequest setEmail(String email) {
+		this.email = email;
+		return this;
+	}
 
 	@Override
 	protected String url() {
@@ -64,6 +70,7 @@ public class UpdateUserInfoRequest extends BaseRequest {
 		map.put("province", province);
 		map.put("city", city);
 		map.put("phone", phone);
+		map.put("email", email);
 	}
 
 	@Override
