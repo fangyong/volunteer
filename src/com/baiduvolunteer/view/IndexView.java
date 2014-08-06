@@ -583,6 +583,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				startSearch(true);
 			}
 		});
+		Log.d("test","color "+ searchField.getHintTextColors().getDefaultColor());
 	}
 
 	private void startSearch(final boolean clearResult) {
