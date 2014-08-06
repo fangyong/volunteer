@@ -244,12 +244,12 @@ public class ActivityInfoActivity extends BaseActivity implements
 										arrow.setVisibility(View.GONE);
 									attendButton.setEnabled(true);
 									if (activityInfo.iconUrl != null) {
-										BitmapUtils bmUtils = new BitmapUtils(
-												ActivityInfoActivity.this);
-										bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
-										bmUtils.configDefaultLoadingImage(R.drawable.default_icon);
-										bmUtils.configDiskCacheEnabled(true);
-										bmUtils.display(activityPic,
+//										BitmapUtils bmUtils = new BitmapUtils(
+//												ActivityInfoActivity.this);
+//										bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
+//										bmUtils.configDefaultLoadingImage(R.drawable.default_icon);
+//										bmUtils.configDiskCacheEnabled(true);
+										ViewUtils.bmUtils.display(activityPic,
 												activityInfo.iconUrl);
 									}
 									if (activityInfo.isAttend) {
