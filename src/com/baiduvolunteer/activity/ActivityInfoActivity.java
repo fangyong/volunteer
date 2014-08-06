@@ -118,11 +118,17 @@ public class ActivityInfoActivity extends BaseActivity implements
 				// oks.setAddress("12345678901");
 				oks.setTitle(getString(R.string.evenote_title));
 				oks.setTitleUrl(shareUrl);
-				oks.setText("#志愿也是一种生活方式#" + activityInfo.title + ":"
-						+ sdf.format(activityInfo.startTime) + "-"
-						+ sdf.format(activityInfo.endTime) + ";"
-						+ activityInfo.address + ";点击了解一下吧 " + shareUrl
-						+ "。记得报名参加哦");
+				oks.setText("#志愿也是一种生活方式#"
+						+ activityInfo.title
+						+ ":"
+						+ sdf.format(activityInfo.startTime)
+						+ "-"
+						+ sdf.format(activityInfo.endTime)
+						+ ";"
+						+ activityInfo.address
+						+ ";点击了解一下吧 "
+						+ " http://115.28.0.232/baidu/activity/jumpShare.action?id="
+						+ activityInfo.activityID + "。记得报名参加哦");
 				// if (captureView) {
 				// oks.setViewToShare(getPage());
 				// } else {
@@ -132,7 +138,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 				oks.setUrl(shareUrl);
 				// oks.setFilePath(MainActivity.TEST_IMAGE);
 				oks.setComment(getString(R.string.share)
-						+ " http://fir.im/FsTK");
+						+ " http://115.28.0.232/baidu/activity/jumpShare.action?id="
+						+ activityInfo.activityID);
 				oks.setSite(getString(R.string.app_name));
 				oks.setSiteUrl("http://sharesdk.cn");
 				// oks.setVenueName("ShareSDK");
