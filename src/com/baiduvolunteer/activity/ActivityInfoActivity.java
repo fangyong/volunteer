@@ -34,6 +34,7 @@ import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ListViewCell;
+import com.lidroid.xutils.BitmapUtils;
 
 public class ActivityInfoActivity extends BaseActivity implements
 		OnClickListener {
@@ -76,8 +77,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 		// infoCell = (ListViewCell) findViewById(R.id.infoContainer);
 		locationCell.iconView.setImageResource(R.drawable.icon_address_h);
 		// organizerCell.textLabel.setText("北大青年志愿者协会");
-		organizerCell.iconView
-				.setImageResource(R.drawable.icon_organization_h);
+		organizerCell.iconView.setImageResource(R.drawable.icon_organization_h);
 		contactCell = (ListViewCell) findViewById(R.id.contactCell);
 		arrow = contactCell.findViewById(R.id.detailIcon);
 		contactCell.iconView.setImageResource(R.drawable.icon_contact_h);
@@ -236,9 +236,15 @@ public class ActivityInfoActivity extends BaseActivity implements
 													.equals(""))
 										arrow.setVisibility(View.GONE);
 									attendButton.setEnabled(true);
-									if (activityInfo.iconUrl != null)
-										ViewUtils.bmUtils.display(activityPic,
+									if (activityInfo.iconUrl != null) {
+										BitmapUtils bmUtils = new BitmapUtils(
+												ActivityInfoActivity.this);
+										bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
+										bmUtils.configDefaultLoadingImage(R.drawable.default_icon);
+										bmUtils.configDiskCacheEnabled(true);
+										bmUtils.display(activityPic,
 												activityInfo.iconUrl);
+									}
 									if (activityInfo.isAttend) {
 										attendButton
 												.setBackgroundColor(0xffe7e7e7);

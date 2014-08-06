@@ -38,7 +38,9 @@ public class ActivitiesAdapter extends BaseAdapter {
 		this.activity = activity;
 		this.activitiesList = list;
 		bitmapUtils = new BitmapUtils(activity);
+		bitmapUtils.configDefaultLoadingImage(R.drawable.default_icon);
 		bitmapUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
+		bitmapUtils.configDiskCacheEnabled(true);
 		mPd = new ProgressDialog(activity);
 		mPd.setCancelable(false);
 		mPd.setIndeterminate(true);
@@ -95,7 +97,7 @@ public class ActivitiesAdapter extends BaseAdapter {
 				holder.distLabel.setText(">10km");
 			}
 		} else {
-//			holder.distLabel.setText(activityInfo.distance + "m");
+			// holder.distLabel.setText(activityInfo.distance + "m");
 			holder.distLabel.setText("未知");
 		}
 		holder.favIcon.setOnClickListener(new OnClickListener() {
