@@ -336,6 +336,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 												PublisherAct.class);
 										intent.putExtra("publisherId",
 												publisher.pid);
+										intent.putExtra("publisher", publisher);
 										getContext().startActivity(intent);
 									} else {
 										Log.d("test", "ddd");
@@ -414,6 +415,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 											PublisherAct.class);
 									intent.putExtra("publisherId",
 											publisher.pid);
+									intent.putExtra("publisher", publisher);
 									getContext().startActivity(intent);
 								} else {
 									Log.d("test", "ddd");

@@ -34,7 +34,6 @@ import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ListViewCell;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ActivityInfoActivity extends BaseActivity implements
 		OnClickListener {
@@ -107,7 +106,9 @@ public class ActivityInfoActivity extends BaseActivity implements
 		if (joined) {
 			attendButton.setVisibility(View.GONE);
 		}
-
+		if(activityInfo!=null&&activityInfo.iconUrl!=null){
+			ViewUtils.bmUtils.display(activityPic, activityInfo.iconUrl);
+		}
 		shareBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -250,9 +251,10 @@ public class ActivityInfoActivity extends BaseActivity implements
 										// bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
 										// bmUtils.configDefaultLoadingImage(R.drawable.default_icon);
 										// bmUtils.configDiskCacheEnabled(true);
-//										ViewUtils.bmUtils.display(activityPic,
-//												activityInfo.iconUrl);
-										ImageLoader.getInstance().displayImage(activityInfo.iconUrl, activityPic);
+										ViewUtils.bmUtils.display(activityPic,
+												activityInfo.iconUrl);
+										// ImageLoader.getInstance().displayImage(activityInfo.iconUrl,
+										// activityPic);
 									}
 									if (activityInfo.isAttend) {
 										attendButton

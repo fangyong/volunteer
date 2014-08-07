@@ -3,20 +3,17 @@ package com.baiduvolunteer.adapter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.DistanceUtil;
-import com.baiduvolunteer.R;
-import com.baiduvolunteer.model.ActivityInfo;
-import com.baiduvolunteer.model.User;
-import com.baiduvolunteer.util.ViewUtils;
-import com.baiduvolunteer.view.ActivityListCellHolder;
-import com.lidroid.xutils.BitmapUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
+import com.baiduvolunteer.model.ActivityInfo;
+import com.baiduvolunteer.model.User;
+import com.baiduvolunteer.util.ViewUtils;
+import com.baiduvolunteer.view.ActivityListCellHolder;
 
 public class JoinActivityAdapter extends BaseAdapter {
 
@@ -62,9 +59,9 @@ public class JoinActivityAdapter extends BaseAdapter {
 				+ sdf.format(activityInfo.endTime));
 		// holder.distLabel.setText(activityInfo.distance + "m");
 		holder.favIcon.setTag(Integer.valueOf(position));
-		ImageLoader.getInstance().displayImage(activityInfo.iconUrl,
-				holder.imageView);
-//		ViewUtils.bmUtils.display(holder.imageView, activityInfo.iconUrl);
+//		ImageLoader.getInstance().displayImage(activityInfo.iconUrl,
+//				holder.imageView);
+		ViewUtils.bmUtils.display(holder.imageView, activityInfo.iconUrl);
 		holder.favIcon.setVisibility(View.INVISIBLE);
 		if (User.sharedUser().currentLatlng != null && activityInfo.latitude != 0) {
 			double dist = DistanceUtil.getDistance(new LatLng(

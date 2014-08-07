@@ -19,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
@@ -106,10 +105,9 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 					holder.timeLabel.setText(sdf.format(info.startTime)
 							+ "\n --" + sdf.format(info.endTime));
 					holder.locationLabel.setText(info.address);
-					// ViewUtils.bmUtils.display(holder.imageView,
-					// info.iconUrl);
-					ImageLoader.getInstance().displayImage(info.iconUrl,
-							holder.imageView);
+					ViewUtils.bmUtils.display(holder.imageView, info.iconUrl);
+					// ImageLoader.getInstance().displayImage(info.iconUrl,
+					// holder.imageView);
 					if (User.sharedUser().currentLatlng != null
 							&& info.latitude != 0) {
 						double dist = DistanceUtil.getDistance(new LatLng(
@@ -355,10 +353,10 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 							}
 						}
 					});
-					ImageLoader.getInstance().displayImage(publisher.logoUrl,
-							holder.imageView);
-//					ViewUtils.bmUtils.display(holder.imageView,
-//							publisher.logoUrl);
+					// ImageLoader.getInstance().displayImage(publisher.logoUrl,
+					// holder.imageView);
+					ViewUtils.bmUtils.display(holder.imageView,
+							publisher.logoUrl);
 					return holder.container;
 				}
 			}
@@ -381,6 +379,7 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 					Intent intent = new Intent(FavoritesActivity.this,
 							PublisherAct.class);
 					intent.putExtra("publisherId", publisher.pid);
+					intent.putExtra("publisher", publisher);
 					startActivity(intent);
 				}
 

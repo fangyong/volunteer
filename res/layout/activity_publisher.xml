@@ -83,7 +83,7 @@
                         android:id="@+id/publisherIcon"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#00000000" android:src="@drawable/default_icon"/>
+                        android:background="#00000000" />
 
                     <TextView
                         android:id="@+id/badgeView"

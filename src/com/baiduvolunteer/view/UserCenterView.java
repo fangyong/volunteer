@@ -28,7 +28,6 @@ import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetUserInfoRequest;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class UserCenterView extends LinearLayout {
 
@@ -63,13 +62,13 @@ public class UserCenterView extends LinearLayout {
 			userNameLabel.setText(User.sharedUser().uname);
 		}
 		if (userIcon != null && User.sharedUser().portrait != null) {
-			ImageLoader.getInstance().displayImage(
+//			ImageLoader.getInstance().displayImage(
+//					"http://himg.bdimg.com/sys/portrait/item/"
+//							+ User.sharedUser().portrait, userIcon);
+			ViewUtils.bmUtils.display(
+					userIcon,
 					"http://himg.bdimg.com/sys/portrait/item/"
-							+ User.sharedUser().portrait, userIcon);
-			// ViewUtils.bmUtils.display(
-			// userIcon,
-			// "http://himg.bdimg.com/sys/portrait/item/"
-			// + User.sharedUser().portrait);
+							+ User.sharedUser().portrait);
 		} else {
 			Baidu baidu = MyApplication.getApplication().getBaidu();
 			if (baidu != null) {
@@ -89,7 +88,7 @@ public class UserCenterView extends LinearLayout {
 							@Override
 							public void onComplete(String arg0) {
 								// TODO Auto-generated method stub
-								Log.d("test", "response:" + arg0);
+//								Log.d("test", "response:" + arg0);
 								try {
 									JSONObject obj = new JSONObject(arg0);
 									final String portrait = obj
@@ -105,17 +104,17 @@ public class UserCenterView extends LinearLayout {
 																.save();
 														// TODO Auto-generated
 														// method stub
-														ImageLoader
-																.getInstance()
-																.displayImage(
+//														ImageLoader
+//																.getInstance()
+//																.displayImage(
+//																		"http://himg.bdimg.com/sys/portrait/item/"
+//																				+ User.sharedUser().portrait,
+//																		userIcon);
+														ViewUtils.bmUtils
+																.display(
+																		userIcon,
 																		"http://himg.bdimg.com/sys/portrait/item/"
-																				+ User.sharedUser().portrait,
-																		userIcon);
-														// ViewUtils.bmUtils
-														// .display(
-														// userIcon,
-														// "http://himg.bdimg.com/sys/portrait/item/"
-														// + portrait);
+																				+ portrait);
 													}
 												});
 

@@ -23,14 +23,12 @@ import android.widget.Toast;
 
 import com.baiduvolunteer.R;
 import com.lidroid.xutils.BitmapUtils;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class ViewUtils {
 	private static Context mContext;
 	private static float density;
 	private static Handler handler;
-//	public static BitmapUtils bmUtils;
+	public static BitmapUtils bmUtils;
 
 	public static void init(Context context) {
 		mContext = context.getApplicationContext();
@@ -40,10 +38,10 @@ public class ViewUtils {
 		wm.getDefaultDisplay().getMetrics(dm);
 		handler = new Handler();
 		density = dm.density;
-//		bmUtils = new BitmapUtils(context);
-//		bmUtils.configDiskCacheEnabled(true);
-//		bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
-		ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(mContext));
+		bmUtils = new BitmapUtils(context);
+		bmUtils.configDiskCacheEnabled(true);
+		bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
+		// ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(mContext));
 		// bmUtils.configDefaultBitmapConfig(Config.ARGB_8888);
 	}
 
