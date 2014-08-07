@@ -74,11 +74,6 @@
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
-<<<<<<< HEAD
-                android:layout_height="wrap_content"
-                android:paddingBottom="57dp"
-                android:orientation="vertical" >
-=======
                 android:layout_height="25dp"
                 android:layout_marginTop="10dp"
                 android:background="#e7e7e7"
@@ -94,7 +89,6 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp" >
->>>>>>> 10a5a7005b41505b3e5f13aafa6ee93ab89c5b58
 
                 <TextView
                     android:layout_width="match_parent"
@@ -238,7 +232,7 @@
                 android:background="#ffe7e7e7"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
-                android:text="e-mail"
+                android:text="邮箱"
                 android:textColor="#000000"
                 android:textSize="@dimen/text_size_16" />
 
@@ -248,6 +242,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/edittext_bg"
                 android:gravity="center_vertical"
                 android:inputType="textEmailAddress"
@@ -265,82 +260,7 @@
                 android:background="#107cfd" >
 
                 <TextView
-<<<<<<< HEAD
-                    android:id="@+id/textView7"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#ffe7e7e7"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="20dp"
-                    android:text="手机"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/text_size_16" />
 
-                <EditText
-                    android:id="@+id/telephone_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/edittext_bg"
-                    android:gravity="center_vertical"
-                    android:inputType="number"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/text_size_22" />
-                 <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#ffe7e7e7"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="20dp"
-                    android:text="邮箱"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/text_size_16" />
-
-                <EditText
-                    android:id="@+id/email_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="57dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:background="@drawable/edittext_bg"
-                    android:gravity="center_vertical"
-                    android:inputType="textEmailAddress"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:singleLine="true"
-                    android:textColor="#000000"
-                    android:textSize="@dimen/text_size_22" />
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/saveButton"
-        android:layout_width="match_parent"
-        android:layout_height="57dip"
-        android:layout_alignParentBottom="true"
-        android:background="#107cfd" >
-
-        <TextView
-            android:id="@+id/btnText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:drawableLeft="@drawable/icon_save"
-            android:gravity="center"
-            android:text="  保存"
-            android:textColor="#ffffff"
-            android:textSize="16sp" />
-    </RelativeLayout>
-=======
                     android:id="@+id/btnText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -353,6 +273,5 @@
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
->>>>>>> 10a5a7005b41505b3e5f13aafa6ee93ab89c5b58
 
 </RelativeLayout>
