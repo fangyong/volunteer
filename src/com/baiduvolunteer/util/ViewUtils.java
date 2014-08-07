@@ -41,6 +41,7 @@ public class ViewUtils {
 		bmUtils = new BitmapUtils(context);
 		bmUtils.configDiskCacheEnabled(true);
 		bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
+		// ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(mContext));
 		// bmUtils.configDefaultBitmapConfig(Config.ARGB_8888);
 	}
 

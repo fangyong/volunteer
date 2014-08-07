@@ -6,7 +6,6 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.hardware.Camera.Size;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +24,6 @@ import com.baiduvolunteer.http.GetPublisherInfoRequest;
 import com.baiduvolunteer.http.RemoveFavRequest;
 import com.baiduvolunteer.http.RemoveFavRequest.RemoveFavType;
 import com.baiduvolunteer.model.Publisher;
-import com.baiduvolunteer.model.Publisher.PublisherType;
 import com.baiduvolunteer.util.ViewUtils;
 
 public class PublisherAct extends Activity implements OnClickListener {
@@ -70,8 +68,12 @@ public class PublisherAct extends Activity implements OnClickListener {
 		addFavButton = findViewById(R.id.favButton);
 		addFavButton.setOnClickListener(this);
 		addressLabel.setOnClickListener(this);
+		publisher = getIntent().getParcelableExtra("publisher");
+		if(publisher!=null&&publisher.publishName!=null){
+			ViewUtils.bmUtils.display(publisherIcon, publisher.logoUrl);
+		}
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
@@ -123,8 +125,11 @@ public class PublisherAct extends Activity implements OnClickListener {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				if (publisher.logoUrl != null)
+				if (publisher.logoUrl != null) {
+					// ImageLoader.getInstance().displayImage(publisher.logoUrl,
+					// publisherIcon);
 					ViewUtils.bmUtils.display(publisherIcon, publisher.logoUrl);
+				}
 				titleLabel.setText(publisher.publishName);
 				sloganLabel.setText(publisher.mission);
 				createTimeLabel.setText(publisher.setUpTime);
@@ -150,11 +155,11 @@ public class PublisherAct extends Activity implements OnClickListener {
 					locationLabel.setText(null);
 				}
 				if (publisher.isCollection)
-					addFavButton.setBackgroundDrawable(getResources().getDrawable(
-							R.drawable.icon_fav_sel));
+					addFavButton.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.icon_fav_sel));
 				else {
-					addFavButton.setBackgroundDrawable(getResources().getDrawable(
-							R.drawable.icon_fav));
+					addFavButton.setBackgroundDrawable(getResources()
+							.getDrawable(R.drawable.icon_fav));
 				}
 				contactLabel.setText(publisher.linkUser);
 				phoneLabel.setText(publisher.linkPhone);
@@ -185,12 +190,15 @@ public class PublisherAct extends Activity implements OnClickListener {
 								Log.d("test", "add fav publisher:" + response);
 								publisher.isCollection = true;
 								if (publisher.isCollection)
-									addFavButton.setBackgroundDrawable(getResources()
-											.getDrawable(
-													R.drawable.icon_fav_sel));
+									addFavButton
+											.setBackgroundDrawable(getResources()
+													.getDrawable(
+															R.drawable.icon_fav_sel));
 								else {
-									addFavButton.setBackgroundDrawable(getResources()
-											.getDrawable(R.drawable.icon_fav));
+									addFavButton
+											.setBackgroundDrawable(getResources()
+													.getDrawable(
+															R.drawable.icon_fav));
 								}
 								mPd.dismiss();
 							}
@@ -210,12 +218,15 @@ public class PublisherAct extends Activity implements OnClickListener {
 								mPd.dismiss();
 								publisher.isCollection = false;
 								if (publisher.isCollection)
-									addFavButton.setBackgroundDrawable(getResources()
-											.getDrawable(
-													R.drawable.icon_fav_sel));
+									addFavButton
+											.setBackgroundDrawable(getResources()
+													.getDrawable(
+															R.drawable.icon_fav_sel));
 								else {
-									addFavButton.setBackgroundDrawable(getResources()
-											.getDrawable(R.drawable.icon_fav));
+									addFavButton
+											.setBackgroundDrawable(getResources()
+													.getDrawable(
+															R.drawable.icon_fav));
 								}
 							}
 						}).start();

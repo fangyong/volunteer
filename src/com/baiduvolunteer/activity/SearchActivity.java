@@ -240,6 +240,7 @@ public class SearchActivity extends Activity {
 							PublisherAct.class);
 					Publisher publisher = publishers.get(position);
 					intent.putExtra("publisherId", publisher.pid);
+					intent.putExtra("publisher", publisher);
 					startActivity(intent);
 				}
 			}
@@ -371,6 +372,8 @@ public class SearchActivity extends Activity {
 				holder.favIcon
 						.setImageResource(!info.addedToFav ? R.drawable.icon_fav
 								: R.drawable.icon_fav_sel);
+//				ImageLoader.getInstance().displayImage(info.iconUrl,
+//						holder.imageView);
 				ViewUtils.bmUtils.display(holder.imageView, info.iconUrl);
 				holder.titleLabel.setText(info.title);
 				holder.locationLabel.setText(info.address);

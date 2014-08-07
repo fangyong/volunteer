@@ -62,6 +62,9 @@ public class UserCenterView extends LinearLayout {
 			userNameLabel.setText(User.sharedUser().uname);
 		}
 		if (userIcon != null && User.sharedUser().portrait != null) {
+//			ImageLoader.getInstance().displayImage(
+//					"http://himg.bdimg.com/sys/portrait/item/"
+//							+ User.sharedUser().portrait, userIcon);
 			ViewUtils.bmUtils.display(
 					userIcon,
 					"http://himg.bdimg.com/sys/portrait/item/"
@@ -85,7 +88,7 @@ public class UserCenterView extends LinearLayout {
 							@Override
 							public void onComplete(String arg0) {
 								// TODO Auto-generated method stub
-								Log.d("test", "response:" + arg0);
+//								Log.d("test", "response:" + arg0);
 								try {
 									JSONObject obj = new JSONObject(arg0);
 									final String portrait = obj
@@ -101,6 +104,12 @@ public class UserCenterView extends LinearLayout {
 																.save();
 														// TODO Auto-generated
 														// method stub
+//														ImageLoader
+//																.getInstance()
+//																.displayImage(
+//																		"http://himg.bdimg.com/sys/portrait/item/"
+//																				+ User.sharedUser().portrait,
+//																		userIcon);
 														ViewUtils.bmUtils
 																.display(
 																		userIcon,

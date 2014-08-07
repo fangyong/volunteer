@@ -44,6 +44,8 @@ public class Config implements Serializable {
 	public void init() {
 		if (initializing)
 			return;
+		if(!provinceList.isEmpty())
+			return;
 		initializing = true;
 		LoadCitiesTask task = new LoadCitiesTask();
 		task.setOnTaskFinishListener(new OnTaskFinishListener() {

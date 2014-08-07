@@ -67,8 +67,7 @@
                     android:layout_width="100dip"
                     android:layout_height="100dip"
                     android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                     />
+                    android:layout_centerVertical="true" />
 
                 <TextView
                     android:id="@+id/activityTitle"
@@ -219,11 +218,11 @@
 
             <TextView
                 android:id="@+id/activityIntro"
-                android:autoLink="all"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="57dp"
                 android:layout_marginTop="10dp"
+                android:autoLink="all"
                 android:maxLines="100"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"

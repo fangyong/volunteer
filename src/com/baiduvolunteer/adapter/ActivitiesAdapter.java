@@ -24,23 +24,22 @@ import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
-import com.lidroid.xutils.BitmapUtils;
 
 public class ActivitiesAdapter extends BaseAdapter {
 
 	private Activity activity;
 	private ArrayList<ActivityInfo> activitiesList;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.dd h:mm");
-	private BitmapUtils bitmapUtils;
+//	private BitmapUtils bitmapUtils;
 	private ProgressDialog mPd;
 
 	public ActivitiesAdapter(Activity activity, ArrayList<ActivityInfo> list) {
 		this.activity = activity;
 		this.activitiesList = list;
-		bitmapUtils = new BitmapUtils(activity);
-		bitmapUtils.configDefaultLoadingImage(R.drawable.default_icon);
-		bitmapUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
-		bitmapUtils.configDiskCacheEnabled(true);
+//		bitmapUtils = new BitmapUtils(activity);
+//		bitmapUtils.configDefaultLoadingImage(R.drawable.default_icon);
+//		bitmapUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
+//		bitmapUtils.configDiskCacheEnabled(true);
 		mPd = new ProgressDialog(activity);
 		mPd.setCancelable(false);
 		mPd.setIndeterminate(true);
@@ -82,7 +81,9 @@ public class ActivitiesAdapter extends BaseAdapter {
 				+ sdf.format(activityInfo.endTime));
 		// holder.distLabel.setText(activityInfo.distance + "m");
 		holder.favIcon.setTag(Integer.valueOf(position));
-		bitmapUtils.display(holder.imageView, activityInfo.iconUrl);
+		ViewUtils.bmUtils.display(holder.imageView, activityInfo.iconUrl);
+//		Picasso.with(activity).load(activityInfo.iconUrl).into(holder.imageView);
+//		ImageLoader.getInstance().displayImage(activityInfo.iconUrl, holder.imageView);
 		if (User.sharedUser().lastLatlng != null && activityInfo.latitude != 0) {
 			double dist = DistanceUtil.getDistance(new LatLng(
 					activityInfo.latitude, activityInfo.longitude), User

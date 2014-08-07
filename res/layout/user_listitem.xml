@@ -16,8 +16,7 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/ic_launcher" />
+            android:layout_height="70dp" />
 
         <TextView
             android:id="@+id/badgeView"
@@ -52,8 +51,8 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginLeft="20dp"
-        android:layout_toRightOf="@+id/iconContainer"
         android:layout_toLeftOf="@+id/distLabel"
+        android:layout_toRightOf="@+id/iconContainer"
         android:orientation="vertical" >
 
         <TextView
