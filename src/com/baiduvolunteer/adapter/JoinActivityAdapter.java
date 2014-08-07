@@ -11,6 +11,7 @@ import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
 import com.lidroid.xutils.BitmapUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
 import android.view.View;
@@ -61,7 +62,9 @@ public class JoinActivityAdapter extends BaseAdapter {
 				+ sdf.format(activityInfo.endTime));
 		// holder.distLabel.setText(activityInfo.distance + "m");
 		holder.favIcon.setTag(Integer.valueOf(position));
-		ViewUtils.bmUtils.display(holder.imageView, activityInfo.iconUrl);
+		ImageLoader.getInstance().displayImage(activityInfo.iconUrl,
+				holder.imageView);
+//		ViewUtils.bmUtils.display(holder.imageView, activityInfo.iconUrl);
 		holder.favIcon.setVisibility(View.INVISIBLE);
 		if (User.sharedUser().currentLatlng != null && activityInfo.latitude != 0) {
 			double dist = DistanceUtil.getDistance(new LatLng(

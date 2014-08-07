@@ -34,7 +34,7 @@ import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ListViewCell;
-import com.lidroid.xutils.BitmapUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ActivityInfoActivity extends BaseActivity implements
 		OnClickListener {
@@ -244,13 +244,15 @@ public class ActivityInfoActivity extends BaseActivity implements
 										arrow.setVisibility(View.GONE);
 									attendButton.setEnabled(true);
 									if (activityInfo.iconUrl != null) {
-//										BitmapUtils bmUtils = new BitmapUtils(
-//												ActivityInfoActivity.this);
-//										bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
-//										bmUtils.configDefaultLoadingImage(R.drawable.default_icon);
-//										bmUtils.configDiskCacheEnabled(true);
-										ViewUtils.bmUtils.display(activityPic,
-												activityInfo.iconUrl);
+										// BitmapUtils bmUtils = new
+										// BitmapUtils(
+										// ActivityInfoActivity.this);
+										// bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
+										// bmUtils.configDefaultLoadingImage(R.drawable.default_icon);
+										// bmUtils.configDiskCacheEnabled(true);
+//										ViewUtils.bmUtils.display(activityPic,
+//												activityInfo.iconUrl);
+										ImageLoader.getInstance().displayImage(activityInfo.iconUrl, activityPic);
 									}
 									if (activityInfo.isAttend) {
 										attendButton
@@ -261,8 +263,9 @@ public class ActivityInfoActivity extends BaseActivity implements
 										attendButton
 												.setBackgroundColor(0xff107cfd);
 										attendButton.setEnabled(true);
-										if (activityInfo.startTime.getTime() < System
-												.currentTimeMillis()) {
+										if (activityInfo.endTime.getTime() < System
+												.currentTimeMillis()
+												|| !activityInfo.isLine) {
 											attendButton
 													.setBackgroundColor(0xffe7e7e7);
 											attendButton.setEnabled(false);
@@ -330,6 +333,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 				return;
 			}
 			if (User.sharedUser().phoneNumber == null
+					|| User.sharedUser().email == null
+					|| User.sharedUser().email.isEmpty()
 					|| User.sharedUser().phoneNumber.isEmpty()) {
 				new AlertDialog.Builder(this)
 						.setMessage("请先补完个人资料")

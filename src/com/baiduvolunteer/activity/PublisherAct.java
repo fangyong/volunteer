@@ -27,6 +27,7 @@ import com.baiduvolunteer.http.RemoveFavRequest.RemoveFavType;
 import com.baiduvolunteer.model.Publisher;
 import com.baiduvolunteer.model.Publisher.PublisherType;
 import com.baiduvolunteer.util.ViewUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class PublisherAct extends Activity implements OnClickListener {
 
@@ -124,7 +125,11 @@ public class PublisherAct extends Activity implements OnClickListener {
 			public void run() {
 				// TODO Auto-generated method stub
 				if (publisher.logoUrl != null)
-					ViewUtils.bmUtils.display(publisherIcon, publisher.logoUrl);
+					{
+					ImageLoader.getInstance().displayImage(publisher.logoUrl,
+							publisherIcon);
+//					ViewUtils.bmUtils.display(publisherIcon, publisher.logoUrl);
+					}
 				titleLabel.setText(publisher.publishName);
 				sloganLabel.setText(publisher.mission);
 				createTimeLabel.setText(publisher.setUpTime);

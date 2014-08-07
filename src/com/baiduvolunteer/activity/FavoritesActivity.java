@@ -18,31 +18,29 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.baiduvolunteer.R;
-import com.baiduvolunteer.http.BaseRequest;
-import com.baiduvolunteer.http.AddFavRequest.AddFavType;
-import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
-import com.baiduvolunteer.http.RemoveFavRequest.RemoveFavType;
 import com.baiduvolunteer.http.AddFavRequest;
+import com.baiduvolunteer.http.AddFavRequest.AddFavType;
+import com.baiduvolunteer.http.BaseRequest;
+import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetActivityCollectionListRequest;
 import com.baiduvolunteer.http.GetPublisherCollectionsRequest;
-import com.baiduvolunteer.http.MD5;
 import com.baiduvolunteer.http.RemoveFavRequest;
+import com.baiduvolunteer.http.RemoveFavRequest.RemoveFavType;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.Publisher;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivityListCellHolder;
 import com.baiduvolunteer.view.MyListView;
-import com.baiduvolunteer.view.PublisherListCellHolder;
 import com.baiduvolunteer.view.MyListView.OnLoadListener;
 import com.baiduvolunteer.view.MyListView.OnRefreshListener;
+import com.baiduvolunteer.view.PublisherListCellHolder;
 
 public class FavoritesActivity extends Activity implements OnClickListener,
 		OnRefreshListener, OnLoadListener {
@@ -108,7 +106,10 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 					holder.timeLabel.setText(sdf.format(info.startTime)
 							+ "\n --" + sdf.format(info.endTime));
 					holder.locationLabel.setText(info.address);
-					ViewUtils.bmUtils.display(holder.imageView, info.iconUrl);
+					// ViewUtils.bmUtils.display(holder.imageView,
+					// info.iconUrl);
+					ImageLoader.getInstance().displayImage(info.iconUrl,
+							holder.imageView);
 					if (User.sharedUser().currentLatlng != null
 							&& info.latitude != 0) {
 						double dist = DistanceUtil.getDistance(new LatLng(
@@ -354,8 +355,10 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 							}
 						}
 					});
-					ViewUtils.bmUtils.display(holder.imageView,
-							publisher.logoUrl);
+					ImageLoader.getInstance().displayImage(publisher.logoUrl,
+							holder.imageView);
+//					ViewUtils.bmUtils.display(holder.imageView,
+//							publisher.logoUrl);
 					return holder.container;
 				}
 			}
@@ -368,13 +371,13 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if (selectIndex == 0) {
-					ActivityInfo info = activities.get(position-1);
+					ActivityInfo info = activities.get(position - 1);
 					Intent intent = new Intent(FavoritesActivity.this,
 							ActivityInfoActivity.class);
 					intent.putExtra("activity", info);
 					startActivity(intent);
 				} else {
-					Publisher publisher = publishers.get(position-1);
+					Publisher publisher = publishers.get(position - 1);
 					Intent intent = new Intent(FavoritesActivity.this,
 							PublisherAct.class);
 					intent.putExtra("publisherId", publisher.pid);
@@ -427,98 +430,102 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 		}
 	}
 
-	private void loadActivity(final boolean startOver){
-		if(startOver)page1=1;
+	private void loadActivity(final boolean startOver) {
+		if (startOver)
+			page1 = 1;
 		new GetActivityCollectionListRequest().setPage(page1).setSize(20)
-		.setHandler(new ResponseHandler() {
+				.setHandler(new ResponseHandler() {
 
-			@Override
-			public void handleResponse(BaseRequest request,
-					int statusCode, String errorMsg, String response) {
-				// TODO Auto-generated method stub
-				page1++;
-				Log.d("test", "get fav list 1 :" + response);
-				try {
-					JSONObject resultObj = new JSONObject(response);
-					resultObj = resultObj.optJSONObject("result");
-					if (resultObj == null)
-						return;
-					JSONArray array = resultObj
-							.optJSONArray("activities");
-					if(startOver)activities.clear();
-					for (int i = 0; i < array.length(); i++) {
-						JSONObject obj = array.optJSONObject(i);
-						if (obj != null) {
-							ActivityInfo info = ActivityInfo
-									.createFromJson(obj);
-							activities.add(info);
-						}
-					}
-					ViewUtils.runInMainThread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							mAdapter.notifyDataSetChanged();
-							favList.onRefreshComplete();
-						}
-					});
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			}
-		}).start();
-	}
-	
-	private void loadPublisher(final boolean startOver){
-		if(startOver)page2=1;
-		new GetPublisherCollectionsRequest().setPage(page2).setSize(20)
-		.setHandler(new ResponseHandler() {
-
-			@Override
-			public void handleResponse(BaseRequest request,
-					int statusCode, String errorMsg, String response) {
-				// TODO Auto-generated method stub
-				Log.d("test", "get fav list 2: " + response);
-				page2++;
-				try {
-					JSONObject resultObj = new JSONObject(response);
-					resultObj = resultObj.optJSONObject("result");
-					if (resultObj == null)
-						return;
-					JSONArray array = resultObj
-							.optJSONArray("publishers");
-					if (array == null)
-						return;
-					if(startOver)publishers.clear();
-					for (int i = 0; i < array.length(); i++) {
-						JSONObject obj = array.optJSONObject(i);
-						if (obj == null)
-							continue;
-						Publisher publisher = Publisher
-								.createFromJson(obj);
-						publishers.add(publisher);
-						ViewUtils.runInMainThread(new Runnable() {
-
-							@Override
-							public void run() {
-								// TODO Auto-generated method stub
-								mAdapter.notifyDataSetChanged();
-								favList.onRefreshComplete();
+					@Override
+					public void handleResponse(BaseRequest request,
+							int statusCode, String errorMsg, String response) {
+						// TODO Auto-generated method stub
+						page1++;
+						Log.d("test", "get fav list 1 :" + response);
+						try {
+							JSONObject resultObj = new JSONObject(response);
+							resultObj = resultObj.optJSONObject("result");
+							if (resultObj == null)
+								return;
+							JSONArray array = resultObj
+									.optJSONArray("activities");
+							if (startOver)
+								activities.clear();
+							for (int i = 0; i < array.length(); i++) {
+								JSONObject obj = array.optJSONObject(i);
+								if (obj != null) {
+									ActivityInfo info = ActivityInfo
+											.createFromJson(obj);
+									activities.add(info);
+								}
 							}
-						});
-					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+							ViewUtils.runInMainThread(new Runnable() {
 
-			}
-		}).start();
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									mAdapter.notifyDataSetChanged();
+									favList.onRefreshComplete();
+								}
+							});
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}).start();
 	}
-	
+
+	private void loadPublisher(final boolean startOver) {
+		if (startOver)
+			page2 = 1;
+		new GetPublisherCollectionsRequest().setPage(page2).setSize(20)
+				.setHandler(new ResponseHandler() {
+
+					@Override
+					public void handleResponse(BaseRequest request,
+							int statusCode, String errorMsg, String response) {
+						// TODO Auto-generated method stub
+						Log.d("test", "get fav list 2: " + response);
+						page2++;
+						try {
+							JSONObject resultObj = new JSONObject(response);
+							resultObj = resultObj.optJSONObject("result");
+							if (resultObj == null)
+								return;
+							JSONArray array = resultObj
+									.optJSONArray("publishers");
+							if (array == null)
+								return;
+							if (startOver)
+								publishers.clear();
+							for (int i = 0; i < array.length(); i++) {
+								JSONObject obj = array.optJSONObject(i);
+								if (obj == null)
+									continue;
+								Publisher publisher = Publisher
+										.createFromJson(obj);
+								publishers.add(publisher);
+								ViewUtils.runInMainThread(new Runnable() {
+
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										mAdapter.notifyDataSetChanged();
+										favList.onRefreshComplete();
+									}
+								});
+							}
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+				}).start();
+	}
+
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

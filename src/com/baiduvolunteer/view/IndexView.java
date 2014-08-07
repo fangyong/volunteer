@@ -259,6 +259,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			public void onMapClick(LatLng arg0) {
 				// TODO Auto-generated method stub
 				map.hideInfoWindow();
+				InputMethodManager im = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+				im.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
 				marker = null;
 			}
 		});
@@ -459,6 +461,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 
 					}
 				} else {
+//					startSearch(true);
 					if (searchButton.getVisibility() != View.GONE) {
 						Log.d("test", "anim");
 						TranslateAnimation ta = new TranslateAnimation(
@@ -491,7 +494,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 						});
 						searchButton.clearAnimation();
 						searchButton.startAnimation(ta);
-
+						
 					}
 
 				}
@@ -572,14 +575,16 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				mpd.show();
+				searchField.clearFocus();
+				InputMethodManager im = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+				im.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
 				keyword = searchField.getText().toString().trim();
 //				if (keyword != null && !keyword.isEmpty()) {
 //					searchField.setHint(keyword);
 //				} else {
 //					searchField.setHint("志愿者活动...");
 //				}
-				InputMethodManager im = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-				im.hideSoftInputFromInputMethod(getWindowToken(), 0);
+				
 				startSearch(true);
 			}
 		});
@@ -595,7 +600,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		// markerArray.clear();
 		LatLng ll = map.getMapStatus().target;
 		new SearchAllRequest().setLat(ll.latitude).setLng(ll.longitude)
-				.setKey(keyword).setSize(20)
+				.setKey(searchField.getText().toString()).setSize(20)
 				.setHandler(new SearchAllResponseHandler() {
 
 					@Override

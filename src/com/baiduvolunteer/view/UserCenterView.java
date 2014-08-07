@@ -28,6 +28,7 @@ import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetUserInfoRequest;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class UserCenterView extends LinearLayout {
 
@@ -62,10 +63,13 @@ public class UserCenterView extends LinearLayout {
 			userNameLabel.setText(User.sharedUser().uname);
 		}
 		if (userIcon != null && User.sharedUser().portrait != null) {
-			ViewUtils.bmUtils.display(
-					userIcon,
+			ImageLoader.getInstance().displayImage(
 					"http://himg.bdimg.com/sys/portrait/item/"
-							+ User.sharedUser().portrait);
+							+ User.sharedUser().portrait, userIcon);
+			// ViewUtils.bmUtils.display(
+			// userIcon,
+			// "http://himg.bdimg.com/sys/portrait/item/"
+			// + User.sharedUser().portrait);
 		} else {
 			Baidu baidu = MyApplication.getApplication().getBaidu();
 			if (baidu != null) {
@@ -101,11 +105,17 @@ public class UserCenterView extends LinearLayout {
 																.save();
 														// TODO Auto-generated
 														// method stub
-														ViewUtils.bmUtils
-																.display(
-																		userIcon,
+														ImageLoader
+																.getInstance()
+																.displayImage(
 																		"http://himg.bdimg.com/sys/portrait/item/"
-																				+ portrait);
+																				+ User.sharedUser().portrait,
+																		userIcon);
+														// ViewUtils.bmUtils
+														// .display(
+														// userIcon,
+														// "http://himg.bdimg.com/sys/portrait/item/"
+														// + portrait);
 													}
 												});
 

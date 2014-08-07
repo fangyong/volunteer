@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.NodeList;
 
 import android.app.Activity;
@@ -14,12 +16,14 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow.OnDismissListener;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -39,6 +43,7 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 	private View backButton;
 
 	private View saveButton;
+	private ScrollView scrollView;
 
 	private EditText unameEt;
 	private EditText telephoneEt;
@@ -82,12 +87,12 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 
 	void initViews() {
 		ViewUtils.inject(this);
-
+		scrollView = (ScrollView) findViewById(R.id.scrollView1);
 		unameEt = (EditText) findViewById(R.id.uname_et);
 		backButton = findViewById(R.id.button2);
 		backButton.setOnClickListener(this);
 		saveButton = (View) findViewById(R.id.saveButton);
-//		saveButton.setText("保存");
+		// saveButton.setText("保存");
 		saveButton.setOnClickListener(this);
 		provinceSpinner = (Spinner) findViewById(R.id.province_spinner);
 		citySpinner = (Spinner) findViewById(R.id.city_spinner);
@@ -145,6 +150,17 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		if (User.sharedUser().email != null) {
 			emailEt.setText(User.sharedUser().email);
 		}
+		emailEt.setOnFocusChangeListener(new OnFocusChangeListener() {
+			
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				// TODO Auto-generated method stub
+				if(hasFocus){
+					scrollView.scrollTo(0, emailEt.getBottom()+com.baiduvolunteer.util.ViewUtils.rp(117));
+				}else{
+				}
+			}
+		});
 		if (User.sharedUser().gender != 0) {
 			setSex(User.sharedUser().gender);
 		}
@@ -227,7 +243,6 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 				this.save();
 				this.finish();
 			}
-
 		}
 	}
 
@@ -237,7 +252,10 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 			return false;
 		}
 		Pattern p = Pattern.compile("^1\\d{10}$");
-		Pattern pe = Pattern.compile("/^[\\w]+\\@[0-9a-zA-Z]+(\\.[0-9a-zA-Z]+)*(\\.cn|\\.com|\\.com\\.cn)$/");
+		// Pattern pe =
+		// Pattern.compile("/^[0-9a-zA-Z]+@[0-9a-zA-Z]+(\\.cn|\\.com|\\.com\\.cn)$/");
+		Pattern pe = Pattern
+				.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
 		Matcher matcher = p.matcher(telephoneEt.getText().toString());
 		Matcher matchere = pe.matcher(emailEt.getText().toString());
 
@@ -245,8 +263,8 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 			Toast.makeText(this, "请输入11位手机号", Toast.LENGTH_LONG).show();
 			return false;
 		}
-		
-		if(!matchere.matches()){
+
+		if (!matchere.matches()) {
 			Toast.makeText(this, "请输入邮箱", Toast.LENGTH_LONG).show();
 			return false;
 		}
@@ -268,7 +286,7 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		city = cityList != null ? cityList.get(citySpinner
 				.getSelectedItemPosition()) : null;
 		new UpdateUserInfoRequest().setCity("" + (city == null ? 0 : city.id))
-				.setProvince("" + province.id)
+				.setProvince("" + (province==null?0:province.id))
 				.setNickName(unameEt.getText().toString())
 				.setPhone(phoneNumber).setEmail(email).setSex(sex)
 				.setHandler(new ResponseHandler() {
@@ -277,14 +295,28 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 					public void handleResponse(BaseRequest request,
 							int statusCode, String errorMsg, String response) {
 						Log.d("test", "response:" + response);
+						boolean success = false;
+						try {
+							JSONObject obj = new JSONObject(response);
+							obj = obj.optJSONObject("responseHead");
+							success = obj != null
+									&& "success".equals(obj
+											.optString("success"));
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						// TODO Auto-generated method stub
-						User.sharedUser().city = city == null ? 0 : city.id;
-						User.sharedUser().province = province.id;
-						User.sharedUser().uname = uname;
-						User.sharedUser().phoneNumber = phoneNumber;
-						User.sharedUser().email = email;
-						User.sharedUser().gender = sex;
-						User.sharedUser().save();
+						if (success) {
+							User.sharedUser().city = city == null ? 0 : city.id;
+							User.sharedUser().province = province==null?0:province.id;
+							User.sharedUser().uname = uname;
+							User.sharedUser().phoneNumber = phoneNumber;
+							User.sharedUser().email = email;
+							User.sharedUser().gender = sex;
+							User.sharedUser().save();
+						} 
+
 					}
 				}).start();
 
