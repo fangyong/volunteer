@@ -246,7 +246,7 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 			return false;
 		}
 		
-		if(!matchere.matches()){
+		if(emailEt.getText().toString().equals("")){
 			Toast.makeText(this, "请输入邮箱", Toast.LENGTH_LONG).show();
 			return false;
 		}

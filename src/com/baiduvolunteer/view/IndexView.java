@@ -387,11 +387,11 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				if (currentPublisher != null)
 					((ImageView) infoView.findViewById(R.id.placeMarker))
 							.setImageResource(index >= 0 && index < 10 ? ids[index]
-									: R.drawable.icon_markextra);
+									: R.drawable.icon_markextra_new_red);
 				else
 					((ImageView) infoView.findViewById(R.id.placeMarker))
 							.setImageResource(index >= 0 && index < 10 ? cids[index]
-									: R.drawable.icon_cmarkextra);
+									: R.drawable.icon_markextra_new);
 				((TextView) infoView.findViewById(R.id.titleLabel))
 						.setText(currentPublisher != null ? currentPublisher.publishName
 								: info.title);
