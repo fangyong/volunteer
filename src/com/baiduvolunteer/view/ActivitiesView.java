@@ -137,10 +137,10 @@ public class ActivitiesView extends LinearLayout {
 	}
 
 	public void loadData(int page) {
-		if (User.sharedUser().lastLatlng != null)
+		if (User.sharedUser().currentLatlng != null)
 			new GetActivitiesListRequest()
-					.setLat(User.sharedUser().lastLatlng.latitude)
-					.setLng(User.sharedUser().lastLatlng.longitude)
+					.setLat(User.sharedUser().currentLatlng.latitude)
+					.setLng(User.sharedUser().currentLatlng.longitude)
 					.setSize(psize).setPage(page)
 					.setHandler(new ResponseHandler() {
 

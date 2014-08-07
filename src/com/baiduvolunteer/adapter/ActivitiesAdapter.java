@@ -84,7 +84,7 @@ public class ActivitiesAdapter extends BaseAdapter {
 		ViewUtils.bmUtils.display(holder.imageView, activityInfo.iconUrl);
 //		Picasso.with(activity).load(activityInfo.iconUrl).into(holder.imageView);
 //		ImageLoader.getInstance().displayImage(activityInfo.iconUrl, holder.imageView);
-		if (User.sharedUser().lastLatlng != null && activityInfo.latitude != 0) {
+		if (User.sharedUser().currentLatlng != null && activityInfo.latitude != 0) {
 			double dist = DistanceUtil.getDistance(new LatLng(
 					activityInfo.latitude, activityInfo.longitude), User
 					.sharedUser().lastLatlng);
