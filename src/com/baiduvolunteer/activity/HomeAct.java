@@ -150,6 +150,9 @@ public class HomeAct extends Activity {
 																				.save();
 																		User.sharedUser()
 																				.syncWithServer();
+																		PushManager.startWork(getApplicationContext(),
+																				PushConstants.LOGIN_TYPE_API_KEY,
+																				Utils.getMetaValue(HomeAct.this, "api_key"));
 																	}
 																}
 															} catch (JSONException e) {
@@ -192,9 +195,6 @@ public class HomeAct extends Activity {
 		userCenterView = (UserCenterView) findViewById(R.id.tab_usercenter);
 		moreView = (MoreView) findViewById(R.id.tab_more);
 		initTabs();
-		PushManager.startWork(getApplicationContext(),
-				PushConstants.LOGIN_TYPE_API_KEY,
-				Utils.getMetaValue(HomeAct.this, "api_key"));
 	}
 
 	void initTabs() {

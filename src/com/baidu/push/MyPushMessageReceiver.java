@@ -14,6 +14,8 @@ import android.util.Log;
 
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
 import com.baiduvolunteer.activity.BootAct;
+import com.baiduvolunteer.http.SaveSettingRequest;
+import com.baiduvolunteer.model.User;
 
 /**
  * Push消息处理receiver。请编写您需要的回调函数， 一般来说： onBind是必须的，用来处理startWork返回值；
@@ -68,7 +70,20 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
                 + appid + " userId=" + userId + " channelId=" + channelId
                 + " requestId=" + requestId;
         Log.d("baidu push response", responseString);
-
+        JSONObject jsonObject = new JSONObject();
+        try {
+			jsonObject.put("appid", appid);
+			jsonObject.put("userId", userId);
+			jsonObject.put("channelId", channelId);
+			jsonObject.put("requestId", requestId);
+			jsonObject.put("vuid", User.sharedUser().vuid);
+			new SaveSettingRequest().setKey(jsonObject.toString()).start();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+       
         // 绑定成功，设置已绑定flag，可以有效的减少不必要的绑定请求
         if (errorCode == 0) {
             Utils.setBind(context, true);
