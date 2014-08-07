@@ -394,6 +394,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 						MapViewActivity.class);
 				intent.putExtra("lat", activityInfo.latitude);
 				intent.putExtra("lng", activityInfo.longitude);
+				intent.putExtra("address", activityInfo.address);
 				startActivity(intent);
 			}
 		}

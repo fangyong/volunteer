@@ -28,6 +28,7 @@ import com.baidu.push.Utils;
 import com.baiduvolunteer.MyApplication;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.http.BaseRequest;
+import com.baiduvolunteer.http.UnbindBPushRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.LoginRequest;
 import com.baiduvolunteer.model.User;
@@ -121,10 +122,10 @@ public class HomeAct extends Activity {
 										Log.d("test",
 												"user.name "
 														+ User.sharedUser().uname);
-										
-										Log.i(">>>>>>>>>>>uid",uid);
+
+										Log.i(">>>>>>>>>>>uid", uid);
 										LoginRequest loginRequest = new LoginRequest(
-												uid,User.sharedUser().uname);
+												uid, User.sharedUser().uname);
 										loginRequest
 												.setHandler(new ResponseHandler() {
 
@@ -134,7 +135,9 @@ public class HomeAct extends Activity {
 															int statusCode,
 															String errorMsg,
 															String response) {
-														Log.d("test","getallinfo response "+response );
+														Log.d("test",
+																"getallinfo response "
+																		+ response);
 														if (statusCode == 200) {
 															try {
 																JSONObject object = new JSONObject(
@@ -150,9 +153,13 @@ public class HomeAct extends Activity {
 																				.save();
 																		User.sharedUser()
 																				.syncWithServer();
-																		PushManager.startWork(getApplicationContext(),
-																				PushConstants.LOGIN_TYPE_API_KEY,
-																				Utils.getMetaValue(HomeAct.this, "api_key"));
+																		PushManager
+																				.startWork(
+																						getApplicationContext(),
+																						PushConstants.LOGIN_TYPE_API_KEY,
+																						Utils.getMetaValue(
+																								HomeAct.this,
+																								"api_key"));
 																	}
 																}
 															} catch (JSONException e) {
@@ -259,9 +266,21 @@ public class HomeAct extends Activity {
 
 	public void logout(View v) {
 		Baidu baidu = MyApplication.getApplication().getBaidu();
+		new UnbindBPushRequest().setChannelId(User.sharedUser().channelId)
+				.setHandler(new ResponseHandler() {
+
+					@Override
+					public void handleResponse(BaseRequest request,
+							int statusCode, String errorMsg, String response) {
+						// TODO Auto-generated method stub
+						Log.d("test", "unbind result " + response);
+					}
+				}).start();
 		if (baidu != null)
 			baidu.clearAccessToken();
 		User.sharedUser().clear();
+		User.sharedUser().bPushUid = null;
+
 		Intent intent = new Intent(HomeAct.this, LoginAct.class);
 		intent.putExtra("forceLogin", true);
 		startActivity(intent);

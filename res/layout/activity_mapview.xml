@@ -32,6 +32,15 @@
             android:text="查看地图"
             android:textColor="#fff"
             android:textSize="@dimen/text_size_24" />
+
+        <Button
+            android:id="@+id/directions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="测试" android:visibility="gone"/>
     </RelativeLayout>
 
     <com.baidu.mapapi.map.MapView

@@ -236,6 +236,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 				Intent intent = new Intent(this, MapViewActivity.class);
 				intent.putExtra("lat", publisher.latitude);
 				intent.putExtra("lng", publisher.longitude);
+				intent.putExtra("address", publisher.address);
 				startActivity(intent);
 
 			}

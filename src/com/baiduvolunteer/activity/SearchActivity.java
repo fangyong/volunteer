@@ -264,7 +264,7 @@ public class SearchActivity extends Activity {
 			@Override
 			public void handleResponse(BaseRequest request, int statusCode,
 					String errorMsg, String response) {
-				Log.d("test", "search request " + response);
+//				Log.d("test", "search request " + response);
 				try {
 					JSONObject obj = new JSONObject(response);
 					obj = obj.optJSONObject("result");

@@ -74,7 +74,7 @@ public class SearchAllRequest {
 					String errorMsg, String response) {
 				// TODO Auto-generated method stub
 				tasks--;
-				Log.d("test", "search request " + response);
+//				Log.d("test", "search request " + response);
 				try {
 					JSONObject obj = new JSONObject(response);
 					obj = obj.optJSONObject("result");
@@ -115,7 +115,7 @@ public class SearchAllRequest {
 			public void handleResponse(BaseRequest request, int statusCode,
 					String errorMsg, String response) {
 				// TODO Auto-generated method stub
-				Log.d("test", "search request " + response);
+//				Log.d("test", "search request " + response);
 				tasks--;
 				try {
 					JSONObject obj = new JSONObject(response);
