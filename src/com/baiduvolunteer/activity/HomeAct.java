@@ -32,6 +32,7 @@ import com.baiduvolunteer.http.UnbindBPushRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.LoginRequest;
 import com.baiduvolunteer.model.User;
+import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.ActivitiesView;
 import com.baiduvolunteer.view.IndexView;
 import com.baiduvolunteer.view.MoreView;
@@ -56,6 +57,7 @@ public class HomeAct extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_main);
 
 		getUserInfoHandler = new Handler();

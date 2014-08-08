@@ -33,14 +33,16 @@
             android:textColor="#fff"
             android:textSize="@dimen/text_size_24" />
 
-        <Button
+        <ImageView
             android:id="@+id/directions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="#00000000"
+            android:src="@drawable/icon_direction"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:text="测试" android:visibility="gone"/>
+             android:visibility="visible"/>
     </RelativeLayout>
 
     <com.baidu.mapapi.map.MapView

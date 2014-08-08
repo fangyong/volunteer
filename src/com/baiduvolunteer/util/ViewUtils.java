@@ -40,6 +40,8 @@ public class ViewUtils {
 		density = dm.density;
 		bmUtils = new BitmapUtils(context);
 		bmUtils.configDiskCacheEnabled(true);
+		bmUtils.clearCache();
+		bmUtils.clearDiskCache();
 		bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
 		// ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(mContext));
 		// bmUtils.configDefaultBitmapConfig(Config.ARGB_8888);
