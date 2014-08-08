@@ -58,7 +58,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 		String responseString = "onBind errorCode=" + errorCode + " appid="
 				+ appid + " userId=" + userId + " channelId=" + channelId
 				+ " requestId=" + requestId;
-		Log.d("test", "baidu push response " + responseString);
+		Log.d("test->>>>>>>>>>>>>>>>>>>>>>>>>", "baidu push response " + responseString);
 		User.sharedUser().bPushUid = userId;
 		User.sharedUser().channelId = channelId;
 		User.sharedUser().syncWithServer();

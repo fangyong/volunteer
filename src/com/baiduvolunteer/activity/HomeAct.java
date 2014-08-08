@@ -155,13 +155,15 @@ public class HomeAct extends Activity {
 																				.save();
 																		User.sharedUser()
 																				.syncWithServer();
-																		PushManager
-																				.startWork(
-																						getApplicationContext(),
-																						PushConstants.LOGIN_TYPE_API_KEY,
-																						Utils.getMetaValue(
-																								HomeAct.this,
-																								"api_key"));
+																		if (!Utils
+																				.hasBind(getApplicationContext()))
+																			PushManager
+																					.startWork(
+																							getApplicationContext(),
+																							PushConstants.LOGIN_TYPE_API_KEY,
+																							Utils.getMetaValue(
+																									HomeAct.this,
+																									"api_key"));
 																	}
 																}
 															} catch (JSONException e) {
