@@ -182,7 +182,7 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="4f83c5d852701564c0000011" >
+            android:value="53e39d22fd98c5960400a785" >
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
