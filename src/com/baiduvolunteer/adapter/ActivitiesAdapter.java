@@ -87,7 +87,7 @@ public class ActivitiesAdapter extends BaseAdapter {
 		if (User.sharedUser().currentLatlng != null && activityInfo.latitude != 0) {
 			double dist = DistanceUtil.getDistance(new LatLng(
 					activityInfo.latitude, activityInfo.longitude), User
-					.sharedUser().lastLatlng);
+					.sharedUser().currentLatlng);
 			if (dist < 500) {
 				holder.distLabel.setText(String.format("%.0fm", dist));
 			} else if (dist < 1000) {

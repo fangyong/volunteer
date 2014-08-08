@@ -1,8 +1,6 @@
 package com.baiduvolunteer.view;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 
 import org.json.JSONArray;
@@ -21,8 +19,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.utils.DistanceUtil;
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.activity.ActivityInfoActivity;
 import com.baiduvolunteer.activity.SearchActivity;
@@ -32,7 +28,6 @@ import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetActivitiesListRequest;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.User;
-import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.MyListView.OnLoadListener;
 import com.baiduvolunteer.view.MyListView.OnRefreshListener;
 
