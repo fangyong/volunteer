@@ -42,6 +42,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 	private TextView addressLabel;
 	private TextView emailLabel;
 	private View addFavButton;
+	private View pointer;
 	private ProgressDialog mPd;
 
 	@Override
@@ -52,6 +53,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 		mPd = new ProgressDialog(this);
 		mPd.setCancelable(false);
 		mPd.setIndeterminate(true);
+		pointer = findViewById(R.id.pointer);
 		publisherIcon = (ImageView) findViewById(R.id.publisherIcon);
 		titleLabel = (TextView) findViewById(R.id.titleLabel);
 		sloganLabel = (TextView) findViewById(R.id.sloganLabel);
@@ -124,6 +126,22 @@ public class PublisherAct extends Activity implements OnClickListener {
 
 			@Override
 			public void run() {
+				if (publisher.latitude != 0 || publisher.longitude != 0) {
+					pointer.setVisibility(View.VISIBLE);
+					findViewById(R.id.address).setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View arg0) {
+							Intent intent = new Intent(PublisherAct.this, MapViewActivity.class);
+							intent.putExtra("lat", publisher.latitude);
+							intent.putExtra("lng", publisher.longitude);
+							intent.putExtra("address", publisher.address);
+							startActivity(intent);		
+						}
+					});
+				}else{
+					pointer.setVisibility(View.GONE);
+				}
 				// TODO Auto-generated method stub
 				if (publisher.logoUrl != null) {
 					// ImageLoader.getInstance().displayImage(publisher.logoUrl,
@@ -233,11 +251,11 @@ public class PublisherAct extends Activity implements OnClickListener {
 			}
 		} else if (addressLabel == v) {
 			if (publisher.latitude != 0 || publisher.longitude != 0) {
-				Intent intent = new Intent(this, MapViewActivity.class);
-				intent.putExtra("lat", publisher.latitude);
-				intent.putExtra("lng", publisher.longitude);
-				intent.putExtra("address", publisher.address);
-				startActivity(intent);
+//				Intent intent = new Intent(this, MapViewActivity.class);
+//				intent.putExtra("lat", publisher.latitude);
+//				intent.putExtra("lng", publisher.longitude);
+//				intent.putExtra("address", publisher.address);
+//				startActivity(intent);
 
 			}
 		}

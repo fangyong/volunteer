@@ -67,7 +67,7 @@
         android:layout_marginRight="15dp"
         android:background="#ffffff"
         android:padding="3dp"
-        android:src="@drawable/btn_map_zoomin" />
+        android:src="@drawable/plus" />
 
     <ImageView
         android:id="@+id/zoomOutButton"
