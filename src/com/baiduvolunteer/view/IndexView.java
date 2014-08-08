@@ -200,7 +200,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	}
 
 	public void onResume() {
-		Log.d("test", "indexView onresume");
+//		Log.d("test", "indexView onresume");
 		if (mapView != null)
 			mapView.onResume();
 		if (mLocationClient != null)
@@ -222,7 +222,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	protected void onDetachedFromWindow() {
 		// TODO Auto-generated method stub
 		super.onDetachedFromWindow();
-		Log.d("test", "onDettach");
+//		Log.d("test", "onDettach");
 		getContext().unregisterReceiver(myReceiver);
 		mpd.dismiss();
 		mLocationClient.stop();
@@ -239,7 +239,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				view.setVisibility(View.INVISIBLE);
 		}
 		map = mapView.getMap();
-		Log.d("test", "map " + map);
+//		Log.d("test", "map " + map);
 		map.setMyLocationEnabled(true);
 		map.setMapType(BaiduMap.MAP_TYPE_NORMAL);
 		infoView = (LinearLayout) LayoutInflater.from(getContext()).inflate(
@@ -328,7 +328,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 								@Override
 								public void onInfoWindowClick() {
 									// TODO Auto-generated method stub
-									Log.d("test", "currentData" + currentData);
+//									Log.d("test", "currentData" + currentData);
 									if (currentData instanceof Publisher) {
 										Publisher publisher = (Publisher) currentData;
 										Intent intent = new Intent(
@@ -339,9 +339,9 @@ public class IndexView extends LinearLayout implements OnClickListener {
 										intent.putExtra("publisher", publisher);
 										getContext().startActivity(intent);
 									} else {
-										Log.d("test", "ddd");
+//										Log.d("test", "ddd");
 										ActivityInfo info = (ActivityInfo) currentData;
-										Log.d("test", "ddd " + info.activityID);
+//										Log.d("test", "ddd " + info.activityID);
 										Intent intent = new Intent(
 												getContext(),
 												ActivityInfoActivity.class);
@@ -381,8 +381,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				ActivityInfo info = null;
 				if (currentData instanceof Publisher) {
 					currentPublisher = (Publisher) currentData;
-					Log.d("test", "current: " + currentPublisher.address + ","
-							+ currentPublisher.publishName);
+//					Log.d("test", "current: " + currentPublisher.address + ","
+//							+ currentPublisher.publishName);
 				} else {
 					info = (ActivityInfo) currentData;
 				}
@@ -408,7 +408,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 							@Override
 							public void onInfoWindowClick() {
 								// TODO Auto-generated method stub
-								Log.d("test", "currentData" + currentData);
+//								Log.d("test", "currentData" + currentData);
 								if (currentData instanceof Publisher) {
 									Publisher publisher = (Publisher) currentData;
 									Intent intent = new Intent(getContext(),
@@ -418,7 +418,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 									intent.putExtra("publisher", publisher);
 									getContext().startActivity(intent);
 								} else {
-									Log.d("test", "ddd");
+//									Log.d("test", "ddd");
 									ActivityInfo info = (ActivityInfo) currentData;
 									// Log.d("test", "ddd");
 									Intent intent = new Intent(getContext(),
@@ -590,7 +590,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				startSearch(true);
 			}
 		});
-		Log.d("test","color "+ searchField.getHintTextColors().getDefaultColor());
+//		Log.d("test","color "+ searchField.getHintTextColors().getDefaultColor());
 	}
 
 	private void startSearch(final boolean clearResult) {
@@ -638,7 +638,6 @@ public class IndexView extends LinearLayout implements OnClickListener {
 										map.getMapStatus().target)
 										- DistanceUtil.getDistance(latlng2,
 												map.getMapStatus().target);
-								Log.d("test", "dist:" + dist);
 								return (dist < 0) ? -1 : (dist > 0) ? 1 : 0;
 							}
 						});
@@ -703,8 +702,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 
 	public void updateMap() {
 		map.clear();
-		Log.d("test", "resultArray:" + resultMarkerArray.size()
-				+ ",markerArray:" + markerArray.size());
+//		Log.d("test", "resultArray:" + resultMarkerArray.size()
+//				+ ",markerArray:" + markerArray.size());
 		LatLng ltll = null;
 		LatLng rdll = null;
 		try {
@@ -800,7 +799,7 @@ public class IndexView extends LinearLayout implements OnClickListener {
 				}
 			}
 		}
-		Log.d("test", "sss out");
+//		Log.d("test", "sss out");
 	}
 
 	public class SDKReceiver extends BroadcastReceiver {

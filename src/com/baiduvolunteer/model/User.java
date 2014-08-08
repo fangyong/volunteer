@@ -3,15 +3,14 @@ package com.baiduvolunteer.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.string;
 import android.util.Log;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
+import com.baiduvolunteer.http.BindBPushRequest;
 import com.baiduvolunteer.http.GetAllUserInfoRequest;
 import com.baiduvolunteer.util.FileCacheUtil;
 import com.baiduvolunteer.util.ViewUtils;
@@ -98,6 +97,23 @@ public class User implements Serializable {
 
 					}
 				}).start();
+		if(this.bPushUid!=null){
+			new BindBPushRequest().setOauthId(bPushUid).setChannelId(channelId).setHandler(new ResponseHandler() {
+				
+				@Override
+				public void handleResponse(BaseRequest request, int statusCode,
+						String errorMsg, String response) {
+					Log.d("test","bind response:"+response);
+				}
+				
+				@Override
+				public void handleError(BaseRequest request, int statusCode,
+						String errorMsg) {
+					// TODO Auto-generated method stub
+					super.handleError(request, statusCode, errorMsg);
+				}
+			}).start();
+		}
 	}
 
 	public void save() {
@@ -129,6 +145,9 @@ public class User implements Serializable {
 	public String phoneNumber;// 手机号
 	public String portrait;
 	public String email;
+	
+	public String channelId;
+	public String bPushUid;
 
 	public transient LatLng lastLatlng;//地图浏览
 	
