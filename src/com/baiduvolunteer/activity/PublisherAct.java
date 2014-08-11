@@ -4,8 +4,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -70,8 +73,9 @@ public class PublisherAct extends Activity implements OnClickListener {
 		addFavButton = findViewById(R.id.favButton);
 		addFavButton.setOnClickListener(this);
 		addressLabel.setOnClickListener(this);
+		phoneLabel.setOnClickListener(this);
 		publisher = getIntent().getParcelableExtra("publisher");
-		if(publisher!=null&&publisher.publishName!=null){
+		if (publisher != null && publisher.publishName != null) {
 			ViewUtils.bmUtils.display(publisherIcon, publisher.logoUrl);
 		}
 	}
@@ -128,18 +132,22 @@ public class PublisherAct extends Activity implements OnClickListener {
 			public void run() {
 				if (publisher.latitude != 0 || publisher.longitude != 0) {
 					pointer.setVisibility(View.VISIBLE);
-					findViewById(R.id.address).setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View arg0) {
-							Intent intent = new Intent(PublisherAct.this, MapViewActivity.class);
-							intent.putExtra("lat", publisher.latitude);
-							intent.putExtra("lng", publisher.longitude);
-							intent.putExtra("address", publisher.address);
-							startActivity(intent);		
-						}
-					});
-				}else{
+					findViewById(R.id.address).setOnClickListener(
+							new OnClickListener() {
+
+								@Override
+								public void onClick(View arg0) {
+									Intent intent = new Intent(
+											PublisherAct.this,
+											MapViewActivity.class);
+									intent.putExtra("lat", publisher.latitude);
+									intent.putExtra("lng", publisher.longitude);
+									intent.putExtra("address",
+											publisher.address);
+									startActivity(intent);
+								}
+							});
+				} else {
 					pointer.setVisibility(View.GONE);
 				}
 				// TODO Auto-generated method stub
@@ -182,7 +190,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 				contactLabel.setText(publisher.linkUser);
 				phoneLabel.setText(publisher.linkPhone);
 				addressLabel.setText(publisher.address);
-				// emailLabel.setText(publisher);
+				emailLabel.setText(publisher.email);
 
 			}
 		});
@@ -251,13 +259,43 @@ public class PublisherAct extends Activity implements OnClickListener {
 			}
 		} else if (addressLabel == v) {
 			if (publisher.latitude != 0 || publisher.longitude != 0) {
-//				Intent intent = new Intent(this, MapViewActivity.class);
-//				intent.putExtra("lat", publisher.latitude);
-//				intent.putExtra("lng", publisher.longitude);
-//				intent.putExtra("address", publisher.address);
-//				startActivity(intent);
+				Intent intent = new Intent(this, MapViewActivity.class);
+				intent.putExtra("lat", publisher.latitude);
+				intent.putExtra("lng", publisher.longitude);
+				intent.putExtra("address", publisher.address);
+				startActivity(intent);
 
 			}
+		} else if (phoneLabel == v) {
+			if (phoneLabel.getText() != null
+					&& !phoneLabel.getText().toString().isEmpty())
+				new AlertDialog.Builder(this)
+						.setMessage(
+								"确认拨打电话" + phoneLabel.getText().toString()
+										+ "?")
+						.setPositiveButton("拨打",
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										Intent intent = new Intent(
+												Intent.ACTION_CALL);
+										intent.setData(Uri.parse("tel:"
+												+ phoneLabel.getText()));
+										startActivity(intent);
+									}
+								})
+						.setNegativeButton("取消",
+								new DialogInterface.OnClickListener() {
+
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										// TODO Auto-generated method stub
+										dialog.dismiss();
+									}
+								}).show();
 		}
 	}
 }

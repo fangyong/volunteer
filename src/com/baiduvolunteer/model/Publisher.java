@@ -33,6 +33,8 @@ public class Publisher implements Serializable {
 	public String linkUser;// 联系人
 
 	public String linkPhone;// 联系方式
+	
+	public String linkEmail;
 
 	public String field;//
 
@@ -44,6 +46,8 @@ public class Publisher implements Serializable {
 
 	public String address;
 
+	public String email;
+	
 	public int city;
 
 	public int province;
@@ -103,15 +107,20 @@ public class Publisher implements Serializable {
 		} catch (Exception e) {
 			memberNumber = 0;
 		}
+		
+		linkEmail = obj.optString("email",null);
+		linkPhone = obj.optString("phone",null);
 
 		latitude = obj.optDouble("latitude", 0);
 		longitude = obj.optDouble("longitude", 0);
 		size = obj.optString("size");
-		linkPhone = obj.optString("contactPhone");
+		if(linkPhone==null)
+			linkPhone = obj.optString("contactPhone");
 		linkUser = obj.optString("publisherName");
 		isCollection = obj.optInt("collection", 0) != 0;
 		activityNum = obj.optInt("publishActivityNum", 0);
 		activityJoinNum = obj.optInt("publishActivityJoinNum", 0);
+		email = obj.optString("email", null);
 	}
 
 	public static Publisher createFromJson(JSONObject obj) {
