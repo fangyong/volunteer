@@ -51,7 +51,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 	private TextView activityEnrollNumber;
 	private TextView activityIntro;
 
-	private String shareUrl = "http://fir.im/FsTK";
+//	private String shareUrl = "http://fir.im/FsTK";
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.d hh:mm");
 
@@ -118,7 +118,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 				// getString(R.string.app_name));
 				// oks.setAddress("12345678901");
 				oks.setTitle(getString(R.string.evenote_title));
-				oks.setTitleUrl(shareUrl);
+				oks.setTitleUrl("http://115.28.0.232/baidu/activity/jumpShare.action?id="
+						+ activityInfo.activityID);
 				oks.setText("#志愿也是一种生活方式#"
 						+ activityInfo.title
 						+ ":"
@@ -136,7 +137,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 				// oks.setImagePath(MainActivity.TEST_IMAGE);
 				oks.setImageUrl(activityInfo.iconUrl);
 				// }
-				oks.setUrl(shareUrl);
+				oks.setUrl("http://115.28.0.232/baidu/activity/jumpShare.action?id="
+						+ activityInfo.activityID);
 				// oks.setFilePath(MainActivity.TEST_IMAGE);
 				oks.setComment(getString(R.string.share)
 						+ " http://115.28.0.232/baidu/activity/jumpShare.action?id="
