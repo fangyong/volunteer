@@ -54,17 +54,17 @@
     <SinaWeibo
         Id="1"
         SortId="1"
-        AppKey="2343476698"
-        AppSecret="da3bbc920804f594a73f5274d86402cd"
-        RedirectUrl="http://www.sina.com.cn"
+        AppKey="2690807948"
+        AppSecret="3ce45dfd23700a22df36eea42831efe1"
+        RedirectUrl=""
         ShareByAppClient="false"
         Enable="true" />
 
     <TencentWeibo
         Id="2" 
         SortId="2"
-        AppKey="801528266"
-        AppSecret="a2623d223bf0352bdf2129367f0e88dd"
+        AppKey="801528858"
+        AppSecret="9b97808635722536f606636a80e9a773"
         RedirectUri=""
         Enable="true" />
 
@@ -92,21 +92,21 @@
     <Wechat
         Id="4"
         SortId="4"
-        AppId="wx4868b35061f87885"
+        AppId="wx1c498fe43698a683"
         BypassApproval="false"
         Enable="true" />
     
     <WechatMoments
         Id="5"
         SortId="5"
-        AppId="wx4868b35061f87885"
+        AppId="wx1c498fe43698a683"
         BypassApproval="false"
         Enable="true" />
         
 	<WechatFavorite
         Id="6"
         SortId="6"
-        AppId="wx4868b35061f87885"
+        AppId="wx1c498fe43698a683"
         Enable="true" />
     
 	<!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
@@ -136,9 +136,9 @@
     <Renren
         Id="10"
         SortId="10"
-        AppId="270358"
-        ApiKey="3398619389ef4e9d8075a6029651f2f5"
-        SecretKey="b10398ce8e9842dd93a3e84d4538e8b0"
+        AppId="270468"
+        ApiKey="6897d9dc14dd4d73993d6150c3661421"
+        SecretKey="cb126b8c4aa84479a05fc9e8c5b4f7bd"
         Enable="true" />
     
     <KaiXin
