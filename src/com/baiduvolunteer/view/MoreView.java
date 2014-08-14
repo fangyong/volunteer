@@ -8,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.activity.AboutActivity;
@@ -15,6 +16,8 @@ import com.baiduvolunteer.activity.FeedbackActivity;
 import com.baiduvolunteer.activity.PushSettingsActivity;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateResponse;
 
 public class MoreView extends LinearLayout implements OnClickListener {
 
@@ -34,10 +37,10 @@ public class MoreView extends LinearLayout implements OnClickListener {
 		// TODO Auto-generated constructor stub
 	}
 
-//	public MoreView(Context context, AttributeSet attrs, int defStyle) {
-//		super(context, attrs, defStyle);
-//		// TODO Auto-generated constructor stub
-//	}
+	// public MoreView(Context context, AttributeSet attrs, int defStyle) {
+	// super(context, attrs, defStyle);
+	// // TODO Auto-generated constructor stub
+	// }
 
 	@Override
 	protected void onFinishInflate() {
@@ -79,19 +82,28 @@ public class MoreView extends LinearLayout implements OnClickListener {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v == pushSettings) {
-			Intent intent = new Intent(getContext(),PushSettingsActivity.class);
+			Intent intent = new Intent(getContext(), PushSettingsActivity.class);
 			getContext().startActivity(intent);
-			
+
 		} else if (v == feedBack) {
 			Intent intent = new Intent(getContext(), FeedbackActivity.class);
 			getContext().startActivity(intent);
-			
+
 		} else if (v == about) {
 			Intent intent = new Intent(getContext(), AboutActivity.class);
 			getContext().startActivity(intent);
 		} else if (v == checkUpdate) {
 			UmengUpdateAgent.setDefault();
 			UmengUpdateAgent.update(getContext());
+			UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
+
+				@Override
+				public void onUpdateReturned(int arg0, UpdateResponse arg1) {
+					if (!arg1.hasUpdate)
+						Toast.makeText(getContext(), "已经是最新版本了！", Toast.LENGTH_LONG)
+								.show();
+				}
+			});
 		}
 	}
 

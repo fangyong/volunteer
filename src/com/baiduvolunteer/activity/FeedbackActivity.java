@@ -90,8 +90,13 @@ public class FeedbackActivity extends BaseActivity {
 												&& "success".equals(responseHead
 														.optString("success",
 																null));
-										if (success)
+										if (success) {
+											Toast.makeText(
+													FeedbackActivity.this,
+													"反馈成功！", Toast.LENGTH_LONG)
+													.show();
 											finish();
+										}
 									} catch (JSONException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
@@ -121,14 +126,14 @@ public class FeedbackActivity extends BaseActivity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		
+
 		nameLabel.setText(User.sharedUser().uname);
 		if (phoneInput.getText().toString().isEmpty()) {
 			phoneInput.setText(User.sharedUser().phoneNumber);
 		}
-		
+
 	}
-	
+
 	@Override
 	protected void onPostResume() {
 		// TODO Auto-generated method stub
