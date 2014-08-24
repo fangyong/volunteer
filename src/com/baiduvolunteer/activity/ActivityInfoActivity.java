@@ -13,7 +13,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler.Callback;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,7 +51,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 	private TextView activityEnrollNumber;
 	private TextView activityIntro;
 
-//	private String shareUrl = "http://fir.im/FsTK";
+	private String shareUrl = "http://fir.im/FsTK";
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.d hh:mm");
 
@@ -77,7 +76,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 		// infoCell = (ListViewCell) findViewById(R.id.infoContainer);
 		locationCell.iconView.setImageResource(R.drawable.icon_address_h);
 		// organizerCell.textLabel.setText("北大青年志愿者协会");
-		organizerCell.iconView.setImageResource(R.drawable.icon_organization_h);
+		organizerCell.iconView
+				.setImageResource(R.drawable.icon_organization_h);
 		contactCell = (ListViewCell) findViewById(R.id.contactCell);
 		arrow = contactCell.findViewById(R.id.detailIcon);
 		contactCell.iconView.setImageResource(R.drawable.icon_contact_h);
@@ -107,9 +107,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 		if (joined) {
 			attendButton.setVisibility(View.GONE);
 		}
-		if(activityInfo!=null&&activityInfo.iconUrl!=null){
-			ViewUtils.bmUtils.display(activityPic, activityInfo.iconUrl);
-		}
+
 		shareBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -119,33 +117,24 @@ public class ActivityInfoActivity extends BaseActivity implements
 				// getString(R.string.app_name));
 				// oks.setAddress("12345678901");
 				oks.setTitle(getString(R.string.evenote_title));
-				oks.setTitleUrl("http://115.28.0.232/baidu/activity/jumpShare.action?id="
-						+ activityInfo.activityID);
-				oks.setText("#志愿也是一种生活方式#"
-						+ activityInfo.title
-						+ ":"
-						+ sdf.format(activityInfo.startTime)
-						+ "-"
-						+ sdf.format(activityInfo.endTime)
-						+ ";"
-						+ activityInfo.address
-						+ ";点击了解一下吧 "
-						+ " http://115.28.0.232/baidu/activity/jumpShare.action?id="
-						+ activityInfo.activityID + "。记得报名参加哦");
+				oks.setTitleUrl(shareUrl);
+				oks.setText("#志愿也是一种生活方式#" + activityInfo.title + ":"
+						+ sdf.format(activityInfo.startTime) + "-"
+						+ sdf.format(activityInfo.endTime) + ";"
+						+ activityInfo.address + ";点击了解一下吧 " + shareUrl
+						+ "。记得报名参加哦");
 				// if (captureView) {
 				// oks.setViewToShare(getPage());
 				// } else {
 				// oks.setImagePath(MainActivity.TEST_IMAGE);
 				oks.setImageUrl(activityInfo.iconUrl);
 				// }
-				oks.setUrl("http://115.28.0.232/baidu/activity/jumpShare.action?id="
-						+ activityInfo.activityID);
+				oks.setUrl(shareUrl);
 				// oks.setFilePath(MainActivity.TEST_IMAGE);
 				oks.setComment(getString(R.string.share)
-						+ " http://115.28.0.232/baidu/activity/jumpShare.action?id="
-						+ activityInfo.activityID);
+						+ " http://fir.im/FsTK");
 				oks.setSite(getString(R.string.app_name));
-//				oks.setSiteUrl("http://sharesdk.cn");
+				oks.setSiteUrl("http://sharesdk.cn");
 				// oks.setVenueName("ShareSDK");
 				// oks.setVenueDescription("This is a beautiful place!");
 				// oks.setLatitude(23.056081f);
@@ -247,18 +236,9 @@ public class ActivityInfoActivity extends BaseActivity implements
 													.equals(""))
 										arrow.setVisibility(View.GONE);
 									attendButton.setEnabled(true);
-									if (activityInfo.iconUrl != null) {
-										// BitmapUtils bmUtils = new
-										// BitmapUtils(
-										// ActivityInfoActivity.this);
-										// bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
-										// bmUtils.configDefaultLoadingImage(R.drawable.default_icon);
-										// bmUtils.configDiskCacheEnabled(true);
+									if (activityInfo.iconUrl != null)
 										ViewUtils.bmUtils.display(activityPic,
 												activityInfo.iconUrl);
-										// ImageLoader.getInstance().displayImage(activityInfo.iconUrl,
-										// activityPic);
-									}
 									if (activityInfo.isAttend) {
 										attendButton
 												.setBackgroundColor(0xffe7e7e7);
@@ -268,9 +248,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 										attendButton
 												.setBackgroundColor(0xff107cfd);
 										attendButton.setEnabled(true);
-										if (activityInfo.endTime.getTime() < System
-												.currentTimeMillis()
-												|| !activityInfo.isLine) {
+										if (activityInfo.startTime.getTime() < System
+												.currentTimeMillis()) {
 											attendButton
 													.setBackgroundColor(0xffe7e7e7);
 											attendButton.setEnabled(false);
@@ -293,7 +272,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		if (v == contactCell) {
 			if (contactCell.textLabel.getText() != null
-					&& !TextUtils.isEmpty(contactCell.textLabel.getText()))
+					&& !contactCell.textLabel.getText().toString().isEmpty())
 				new AlertDialog.Builder(this)
 						.setMessage(
 								"确认拨打电话"
@@ -338,9 +317,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 				return;
 			}
 			if (User.sharedUser().phoneNumber == null
-					|| User.sharedUser().email == null
-					|| TextUtils.isEmpty(User.sharedUser().email)
-					|| TextUtils.isEmpty(User.sharedUser().phoneNumber)) {
+					|| User.sharedUser().phoneNumber.isEmpty()) {
 				new AlertDialog.Builder(this)
 						.setMessage("请先补完个人资料")
 						.setPositiveButton("取消",
@@ -397,7 +374,6 @@ public class ActivityInfoActivity extends BaseActivity implements
 						MapViewActivity.class);
 				intent.putExtra("lat", activityInfo.latitude);
 				intent.putExtra("lng", activityInfo.longitude);
-				intent.putExtra("address", activityInfo.address);
 				startActivity(intent);
 			}
 		}

@@ -56,7 +56,7 @@
         SortId="1"
         AppKey="2690807948"
         AppSecret="3ce45dfd23700a22df36eea42831efe1"
-        RedirectUrl="http://115.28.0.232/"
+        RedirectUrl=""
         ShareByAppClient="false"
         Enable="true" />
 
