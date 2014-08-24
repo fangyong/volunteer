@@ -110,6 +110,7 @@ public class ActivitiesView extends LinearLayout {
 
 		mToast = Toast.makeText(getContext(), "已经到底了！", Toast.LENGTH_SHORT);
 		searchField = (EditText) findViewById(R.id.search);
+		searchField.setFocusable(false);
 		searchField.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -128,7 +129,8 @@ public class ActivitiesView extends LinearLayout {
 
 	public void onResume() {
 		// TODO Auto-generated method stub
-		loadData(page);
+		if(activityInfoList.isEmpty())
+			loadData(page);
 	}
 
 	public void loadData(int page) {

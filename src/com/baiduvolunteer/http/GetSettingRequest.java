@@ -2,6 +2,8 @@ package com.baiduvolunteer.http;
 
 import java.util.HashMap;
 
+import android.text.TextUtils;
+
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 public class GetSettingRequest extends BaseRequest {
@@ -28,7 +30,7 @@ public class GetSettingRequest extends BaseRequest {
 	@Override
 	protected void generateParams(HashMap<String, String> map) {
 		// TODO Auto-generated method stub
-		if(key!=null&&!key.isEmpty())
+		if(key!=null&&!TextUtils.isEmpty(key))
 			map.put("param", key);
 
 	}

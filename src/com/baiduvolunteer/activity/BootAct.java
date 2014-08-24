@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.ClipboardManager;
-import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baiduvolunteer.R;
@@ -24,8 +23,8 @@ public class BootAct extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.d("test", "init1");
-		SDKInitializer.initialize(this.getApplicationContext());
+//		if(instance==null)
+			SDKInitializer.initialize(getApplication().getApplicationContext());
 		ViewUtils.init(this.getApplicationContext());
 		Config.sharedConfig().init();
 		User.sharedUser().load();

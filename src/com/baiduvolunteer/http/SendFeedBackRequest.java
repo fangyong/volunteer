@@ -2,12 +2,15 @@ package com.baiduvolunteer.http;
 
 import java.util.HashMap;
 
+import android.text.TextUtils;
+
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
-/**app?method=feedback&vuid=XX&phone=XX
+/**
+ * app?method=feedback&vuid=XX&phone=XX
  * 
  * @author zhujun
- *
+ * 
  */
 public class SendFeedBackRequest extends BaseRequest {
 
@@ -16,16 +19,16 @@ public class SendFeedBackRequest extends BaseRequest {
 		// TODO Auto-generated method stub
 		return "app";
 	}
-	
+
 	private String phone;
-	
+
 	private String content;
-	
+
 	public SendFeedBackRequest setContent(String content) {
 		this.content = content;
 		return this;
 	}
-	
+
 	public SendFeedBackRequest setPhone(String phone) {
 		this.phone = phone;
 		return this;
@@ -40,7 +43,7 @@ public class SendFeedBackRequest extends BaseRequest {
 	@Override
 	protected void generateParams(HashMap<String, String> map) {
 		// TODO Auto-generated method stub
-		if(this.phone!=null&&!this.phone.isEmpty()){
+		if(this.phone!=null&&!TextUtils.isEmpty(this.phone)){
 			map.put("phone", phone);
 		}
 		map.put("content", content);

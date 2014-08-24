@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 import org.json.JSONObject;
 
-import com.baiduvolunteer.config.Config;
+import android.text.TextUtils;
 
-import android.util.Log;
+import com.baiduvolunteer.config.Config;
 
 public class Publisher implements Serializable {
 	public static enum PublisherType {
@@ -33,7 +33,7 @@ public class Publisher implements Serializable {
 	public String linkUser;// 联系人
 
 	public String linkPhone;// 联系方式
-	
+
 	public String linkEmail;
 
 	public String field;//
@@ -47,7 +47,7 @@ public class Publisher implements Serializable {
 	public String address;
 
 	public String email;
-	
+
 	public int city;
 
 	public int province;
@@ -63,7 +63,7 @@ public class Publisher implements Serializable {
 
 	public void loadFromJson(JSONObject obj) {
 		address = obj.optString("adress");
-		if (address == null || address.isEmpty()) {
+		if (address == null || TextUtils.isEmpty(address)) {
 			address = obj.optString("address");
 		}
 		try {
@@ -81,16 +81,16 @@ public class Publisher implements Serializable {
 		}
 
 		publishName = obj.optString("institutionsName");
-		if (publishName == null || publishName.isEmpty())
+		if (publishName == null || TextUtils.isEmpty(publishName))
 			publishName = obj.optString("publisherName");
 		pid = obj.optString("publisherId");
-		if (pid == null || pid.isEmpty())
+		if (pid == null || TextUtils.isEmpty(pid))
 			pid = obj.optString("institutionsId");
 		logoUrl = obj.optString("logourl");
-		if (logoUrl == null || logoUrl.isEmpty()) {
+		if (logoUrl == null || TextUtils.isEmpty(logoUrl)) {
 			logoUrl = obj.optString("avatar");
 		}
-		if (logoUrl != null && !logoUrl.isEmpty()
+		if (logoUrl != null && !TextUtils.isEmpty(logoUrl)
 				&& !logoUrl.startsWith("http")) {
 			logoUrl = Config.baseURL + logoUrl;
 		}
@@ -107,14 +107,14 @@ public class Publisher implements Serializable {
 		} catch (Exception e) {
 			memberNumber = 0;
 		}
-		
-		linkEmail = obj.optString("email",null);
-		linkPhone = obj.optString("phone",null);
+
+		linkEmail = obj.optString("email", null);
+		linkPhone = obj.optString("phone", null);
 
 		latitude = obj.optDouble("latitude", 0);
 		longitude = obj.optDouble("longitude", 0);
 		size = obj.optString("size");
-		if(linkPhone==null)
+		if (linkPhone == null)
 			linkPhone = obj.optString("contactPhone");
 		linkUser = obj.optString("publisherName");
 		isCollection = obj.optInt("collection", 0) != 0;

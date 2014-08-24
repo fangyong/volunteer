@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -125,7 +126,7 @@ public class SearchActivity extends Activity {
 					int count) {
 				// TODO Auto-generated method stub
 				if (searchField.getText() != null
-						&& !searchField.getText().toString().isEmpty()) {
+						&& !TextUtils.isEmpty(searchField.getText())) {
 					Log.d("test", "anim verify");
 					if (searchButton.getVisibility() == View.VISIBLE)
 						return;
@@ -144,7 +145,7 @@ public class SearchActivity extends Activity {
 
 					}
 				} else if (searchField.getText() == null
-						|| searchField.getText().toString().isEmpty()) {
+						|| TextUtils.isEmpty(searchField.getText())) {
 					if (searchButton.getVisibility() != View.GONE) {
 						Log.d("test", "anim");
 						TranslateAnimation ta = new TranslateAnimation(
@@ -229,10 +230,11 @@ public class SearchActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if (typeSelector.getSelectedItemPosition() == 0) {
-//					Log.d("test", "parent:" + parent.getChildAt(0));
+					// Log.d("test", "parent:" + parent.getChildAt(0));
 					Intent intent = new Intent(SearchActivity.this,
 							ActivityInfoActivity.class);
-					ActivityInfo activity = activities.get(position- parent.getCount() + activities.size());
+					ActivityInfo activity = activities.get(position
+							- parent.getCount() + activities.size());
 					intent.putExtra("activity", activity);
 					startActivity(intent);
 				} else {
@@ -264,7 +266,7 @@ public class SearchActivity extends Activity {
 			@Override
 			public void handleResponse(BaseRequest request, int statusCode,
 					String errorMsg, String response) {
-//				Log.d("test", "search request " + response);
+				// Log.d("test", "search request " + response);
 				try {
 					JSONObject obj = new JSONObject(response);
 					obj = obj.optJSONObject("result");
@@ -372,8 +374,8 @@ public class SearchActivity extends Activity {
 				holder.favIcon
 						.setImageResource(!info.addedToFav ? R.drawable.icon_fav
 								: R.drawable.icon_fav_sel);
-//				ImageLoader.getInstance().displayImage(info.iconUrl,
-//						holder.imageView);
+				// ImageLoader.getInstance().displayImage(info.iconUrl,
+				// holder.imageView);
 				ViewUtils.bmUtils.display(holder.imageView, info.iconUrl);
 				holder.titleLabel.setText(info.title);
 				holder.locationLabel.setText(info.address);

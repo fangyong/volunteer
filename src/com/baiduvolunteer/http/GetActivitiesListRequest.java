@@ -9,13 +9,10 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 public class GetActivitiesListRequest extends BaseRequest {
 
 	private String vUid;
-	private long startTimes;
-	private long endTimes;
-	private long end;
 	private int page;
 	private int size = 10;
-	private double lat = 361;
-	private double lng = 361;
+	private double lat = 0;
+	private double lng = 0;
 
 	public GetActivitiesListRequest setLat(double lat) {
 		this.lat = lat;
@@ -37,23 +34,8 @@ public class GetActivitiesListRequest extends BaseRequest {
 		return this;
 	}
 
-	public GetActivitiesListRequest setStartTimes(long startTimes) {
-		this.startTimes = startTimes;
-		return this;
-	}
-
-	public GetActivitiesListRequest setEndTimes(long endTimes) {
-		this.endTimes = endTimes;
-		return this;
-	}
-
 	public GetActivitiesListRequest setSize(int size) {
 		this.size = size;
-		return this;
-	}
-
-	public GetActivitiesListRequest setEnd(long end) {
-		this.end = end;
 		return this;
 	}
 
@@ -75,14 +57,11 @@ public class GetActivitiesListRequest extends BaseRequest {
 		if (vUid != null) {
 			map.put("vuid", vUid);
 		}
-		Log.i("test activities", map.toString());
 		map.put("page", page + "");
 		map.put("size", size + "");
+		if(lat>0)map.put("lat", ""+lat);
+		if(lng>0)map.put("lng", ""+lng);
 		// map.put("end", end + "");
-		if (startTimes > 0)
-			map.put("starttimes", "" + startTimes);
-		if (endTimes > 0)
-			map.put("endtimes", "" + endTimes);
 	}
 
 	@Override

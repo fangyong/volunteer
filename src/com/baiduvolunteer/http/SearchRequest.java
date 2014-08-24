@@ -2,6 +2,7 @@ package com.baiduvolunteer.http;
 
 import java.util.HashMap;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
@@ -77,13 +78,12 @@ public class SearchRequest extends BaseRequest {
 			map.put("size", size + "");
 		if (end > 0)
 			map.put("end", "" + end);
-		if (key != null && !key.isEmpty())
+		if (key != null && !TextUtils.isEmpty(key))
 			map.put("key", key);
 		if (lat != 361)
 			map.put("lat", "" + lat);
 		if (lng != 361)
 			map.put("lng", "" + lng);
-		Log.i("search flag", map.toString());
 	}
 
 	@Override

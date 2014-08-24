@@ -8,11 +8,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -126,6 +128,14 @@ public class BaiduDialog extends Dialog {
             return false;
         }
 
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler,
+        		SslError error) {
+        	// TODO Auto-generated method stub
+        	handler.proceed();
+//        	super.onReceivedSslError(view, handler, error);
+        }
+        
         @Override
         public void onReceivedError(WebView view, int errorCode, String description,
                 String failingUrl) {

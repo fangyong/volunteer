@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler.Callback;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -144,7 +145,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 						+ " http://115.28.0.232/baidu/activity/jumpShare.action?id="
 						+ activityInfo.activityID);
 				oks.setSite(getString(R.string.app_name));
-				oks.setSiteUrl("http://sharesdk.cn");
+//				oks.setSiteUrl("http://sharesdk.cn");
 				// oks.setVenueName("ShareSDK");
 				// oks.setVenueDescription("This is a beautiful place!");
 				// oks.setLatitude(23.056081f);
@@ -292,7 +293,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		if (v == contactCell) {
 			if (contactCell.textLabel.getText() != null
-					&& !contactCell.textLabel.getText().toString().isEmpty())
+					&& !TextUtils.isEmpty(contactCell.textLabel.getText()))
 				new AlertDialog.Builder(this)
 						.setMessage(
 								"确认拨打电话"
@@ -338,8 +339,8 @@ public class ActivityInfoActivity extends BaseActivity implements
 			}
 			if (User.sharedUser().phoneNumber == null
 					|| User.sharedUser().email == null
-					|| User.sharedUser().email.isEmpty()
-					|| User.sharedUser().phoneNumber.isEmpty()) {
+					|| TextUtils.isEmpty(User.sharedUser().email)
+					|| TextUtils.isEmpty(User.sharedUser().phoneNumber)) {
 				new AlertDialog.Builder(this)
 						.setMessage("请先补完个人资料")
 						.setPositiveButton("取消",

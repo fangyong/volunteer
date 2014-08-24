@@ -14,7 +14,7 @@ import com.baiduvolunteer.MyApplication;
 
 public class LoginAct extends Activity {
 
-	private String clientId = "KFBF1tbHUoT8qDgQ9ODPUkAs";
+	private String clientId = "GzILwHA3pcIrFxjHgeIPgmL6";//KFBF1tbHUoT8qDgQ9ODPUkAs";
 
 	private Baidu baidu = null;
 

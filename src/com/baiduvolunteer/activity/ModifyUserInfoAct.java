@@ -12,6 +12,7 @@ import org.w3c.dom.NodeList;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -248,7 +249,7 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 	}
 
 	private boolean validate() {
-		if (unameEt.getText().toString().isEmpty()) {
+		if (TextUtils.isEmpty(unameEt.getText())) {
 			Toast.makeText(this, "请输入用户名", Toast.LENGTH_LONG).show();
 			return false;
 		}
@@ -275,12 +276,12 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 
 	private void save() {
 
-		if (!unameEt.getText().toString().isEmpty())
+		if (!TextUtils.isEmpty(unameEt.getText()))
 			uname = unameEt.getText().toString();
-		if (!telephoneEt.getText().toString().isEmpty()) {
+		if (!TextUtils.isEmpty(telephoneEt.getText())) {
 			phoneNumber = telephoneEt.getText().toString();
 		}
-		if (!emailEt.getText().toString().isEmpty()) {
+		if (!TextUtils.isEmpty(emailEt.getText())) {
 			email = emailEt.getText().toString();
 		}
 		province = provinceList.get(provinceSpinner.getSelectedItemPosition());

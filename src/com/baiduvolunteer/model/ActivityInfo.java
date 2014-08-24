@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.baiduvolunteer.config.Config;
 
 public class ActivityInfo implements Serializable {
@@ -63,7 +65,7 @@ public class ActivityInfo implements Serializable {
 			this.organizerID = activity.optString("publishId");
 			this.description = activity.optString("activityDes");
 			this.iconUrl = activity.optString("logo");
-			if(this.iconUrl!=null&&!this.iconUrl.isEmpty()){
+			if(this.iconUrl!=null&&!TextUtils.isEmpty(this.iconUrl)){
 				if(!this.iconUrl.startsWith("http")){
 					this.iconUrl = Config.sharedConfig().baseURL + this.iconUrl;
 				}

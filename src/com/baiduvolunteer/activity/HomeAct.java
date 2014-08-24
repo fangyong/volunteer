@@ -270,7 +270,8 @@ public class HomeAct extends Activity {
 
 	public void logout(View v) {
 		Baidu baidu = MyApplication.getApplication().getBaidu();
-		new UnbindBPushRequest().setChannelId(User.sharedUser().channelId)
+		if(User.sharedUser().channelId!=null)
+			new UnbindBPushRequest().setChannelId(User.sharedUser().channelId)
 				.setHandler(new ResponseHandler() {
 
 					@Override

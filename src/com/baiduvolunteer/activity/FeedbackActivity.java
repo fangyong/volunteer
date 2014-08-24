@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,7 +56,7 @@ public class FeedbackActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (feedbackInput.getText().toString().isEmpty()) {
+				if (TextUtils.isEmpty(feedbackInput.getText())) {
 					Toast.makeText(FeedbackActivity.this, "请输入反馈信息",
 							Toast.LENGTH_SHORT).show();
 					return;
@@ -128,7 +129,7 @@ public class FeedbackActivity extends BaseActivity {
 		super.onResume();
 
 		nameLabel.setText(User.sharedUser().uname);
-		if (phoneInput.getText().toString().isEmpty()) {
+		if (TextUtils.isEmpty(phoneInput.getText())) {
 			phoneInput.setText(User.sharedUser().phoneNumber);
 		}
 

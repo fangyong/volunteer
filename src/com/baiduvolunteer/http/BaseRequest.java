@@ -12,6 +12,7 @@ import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.baiduvolunteer.config.Config;
@@ -93,7 +94,8 @@ public abstract class BaseRequest {
 		params.clear();
 		generateParams(params);
 		params.put("method", method());
-		if (User.sharedUser().vuid != null && !User.sharedUser().vuid.isEmpty())
+		if (User.sharedUser().vuid != null
+				&& !TextUtils.isEmpty(User.sharedUser().vuid))
 			params.put("vuid", User.sharedUser().vuid);
 		String sig = SignatureTool.getSignature(params);
 		for (String key : params.keySet()) {

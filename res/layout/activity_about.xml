@@ -38,6 +38,17 @@
                 android:text="关于"
                 android:textColor="#fff"
                 android:textSize="@dimen/text_size_24" />
+
+            <TextView
+                android:id="@+id/versionNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="#00000000"
+                android:textColor="#55eeeeee"
+                android:textSize="10sp" >
+            </TextView>
         </RelativeLayout>
 
         <ImageView
@@ -69,8 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom"
-            android:gravity="center"
             android:autoLink="web"
+            android:gravity="center"
             android:text="百度志愿者QQ群：383478252"
             android:textColor="@color/gary"
             android:textSize="10.5sp" />

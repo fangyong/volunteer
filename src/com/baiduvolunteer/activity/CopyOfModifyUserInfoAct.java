@@ -19,6 +19,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.MailTo;
 import android.os.Bundle;
+import android.support.v4.text.TextUtilsCompat;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -284,9 +286,9 @@ public class CopyOfModifyUserInfoAct extends Activity implements
 	}
 
 	private void save() {
-		if (!unameEt.getText().toString().isEmpty())
+		if (! TextUtils.isEmpty(unameEt.getText()))
 			User.sharedUser().uname = unameEt.getText().toString();
-		if (!telephoneEt.getText().toString().isEmpty()) {
+		if (!TextUtils.isEmpty(telephoneEt.getText())) {
 			User.sharedUser().phoneNumber = telephoneEt.getText().toString();
 		}
 		User.sharedUser().gender = sex;
