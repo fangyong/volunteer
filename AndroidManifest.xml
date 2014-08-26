@@ -259,11 +259,14 @@
             </intent-filter>
         </receiver>
 
-        <service
-            android:name="com.baidu.android.pushservice.PushService"
-            android:exported="true"
-            android:process=":bdservice_v1" />
-        <!-- push结束 -->
+       <service  
+           android:name="com.baidu.android.pushservice.PushService"  
+           android:exported="true"  
+           android:process=":bdservice_v1" >  
+           <intent-filter>  
+               <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />  
+           </intent-filter>  
+       </service>  
 
 
         <!-- 在百度开发者中心查询应用的API Key -->

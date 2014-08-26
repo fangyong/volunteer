@@ -87,6 +87,9 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	private View searchButton;
 	private View zoomInButton;
 	private View zoomOutButton;
+	
+	private BroadcastReceiver receiver1;
+	private BroadcastReceiver receiver2;
 
 	private LatLng currentLatLng;
 	private float currentZoom;
@@ -162,6 +165,12 @@ public class IndexView extends LinearLayout implements OnClickListener {
 		iFilter.addAction(SDKInitializer.SDK_BROADTCAST_ACTION_STRING_PERMISSION_CHECK_ERROR);
 		iFilter.addAction(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR);
 		getContext().registerReceiver(myReceiver, iFilter);
+		iFilter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+		if(receiver1==null)receiver1 = new ScreenOffReceiver();
+		getContext().registerReceiver(receiver1, iFilter);
+		iFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+		if(receiver2==null) receiver2 = new ScreenOnReceiver();
+		getContext().registerReceiver(receiver2, iFilter);
 	}
 
 	public class MyLocationListenner implements BDLocationListener {
@@ -223,6 +232,8 @@ public class IndexView extends LinearLayout implements OnClickListener {
 	protected void onDetachedFromWindow() {
 		// TODO Auto-generated method stub
 		super.onDetachedFromWindow();
+		getContext().unregisterReceiver(receiver1);
+		getContext().unregisterReceiver(receiver2);
 		// Log.d("test", "onDettach");
 		getContext().unregisterReceiver(myReceiver);
 		mpd.dismiss();
@@ -845,6 +856,28 @@ public class IndexView extends LinearLayout implements OnClickListener {
 			} else if (s
 					.equals(SDKInitializer.SDK_BROADCAST_ACTION_STRING_NETWORK_ERROR)) {
 				Toast.makeText(getContext(), "网络出错", Toast.LENGTH_LONG).show();
+			}
+		}
+	}
+	
+	public class ScreenOnReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			if(mLocationClient!=null){
+				mLocationClient.start();
+			}
+		}
+		
+	}
+	
+	public class ScreenOffReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			if(mLocationClient!=null){
+				mLocationClient.stop();
 			}
 		}
 	}

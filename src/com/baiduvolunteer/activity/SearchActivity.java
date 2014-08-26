@@ -376,7 +376,7 @@ public class SearchActivity extends Activity {
 								: R.drawable.icon_fav_sel);
 				// ImageLoader.getInstance().displayImage(info.iconUrl,
 				// holder.imageView);
-				ViewUtils.bmUtils.display(holder.imageView, info.iconUrl);
+				ViewUtils.bmUtils().display(holder.imageView, info.iconUrl);
 				holder.titleLabel.setText(info.title);
 				holder.locationLabel.setText(info.address);
 

@@ -65,7 +65,7 @@ public class UserCenterView extends LinearLayout {
 //			ImageLoader.getInstance().displayImage(
 //					"http://himg.bdimg.com/sys/portrait/item/"
 //							+ User.sharedUser().portrait, userIcon);
-			ViewUtils.bmUtils.display(
+			ViewUtils.bmUtils().display(
 					userIcon,
 					"http://himg.bdimg.com/sys/portrait/item/"
 							+ User.sharedUser().portrait);
@@ -110,7 +110,7 @@ public class UserCenterView extends LinearLayout {
 //																		"http://himg.bdimg.com/sys/portrait/item/"
 //																				+ User.sharedUser().portrait,
 //																		userIcon);
-														ViewUtils.bmUtils
+														ViewUtils.bmUtils()
 																.display(
 																		userIcon,
 																		"http://himg.bdimg.com/sys/portrait/item/"

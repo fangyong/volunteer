@@ -77,7 +77,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 		phoneLabel.setOnClickListener(this);
 		publisher = getIntent().getParcelableExtra("publisher");
 		if (publisher != null && publisher.publishName != null) {
-			ViewUtils.bmUtils.display(publisherIcon, publisher.logoUrl);
+			ViewUtils.bmUtils().display(publisherIcon, publisher.logoUrl);
 		}
 	}
 
@@ -155,7 +155,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 				if (publisher.logoUrl != null) {
 					// ImageLoader.getInstance().displayImage(publisher.logoUrl,
 					// publisherIcon);
-					ViewUtils.bmUtils.display(publisherIcon, publisher.logoUrl);
+					ViewUtils.bmUtils().display(publisherIcon, publisher.logoUrl);
 				}
 				titleLabel.setText(publisher.publishName);
 				sloganLabel.setText(publisher.mission);

@@ -61,7 +61,7 @@ public class JoinActivityAdapter extends BaseAdapter {
 		holder.favIcon.setTag(Integer.valueOf(position));
 //		ImageLoader.getInstance().displayImage(activityInfo.iconUrl,
 //				holder.imageView);
-		ViewUtils.bmUtils.display(holder.imageView, activityInfo.iconUrl);
+		ViewUtils.bmUtils().display(holder.imageView, activityInfo.iconUrl);
 		holder.favIcon.setVisibility(View.INVISIBLE);
 		if (User.sharedUser().currentLatlng != null && activityInfo.latitude != 0) {
 			double dist = DistanceUtil.getDistance(new LatLng(

@@ -117,22 +117,31 @@ public class ActivityInfoActivity extends BaseActivity implements
 				// getString(R.string.app_name));
 				// oks.setAddress("12345678901");
 				oks.setTitle(getString(R.string.evenote_title));
-				oks.setTitleUrl(shareUrl);
-				oks.setText("#志愿也是一种生活方式#" + activityInfo.title + ":"
-						+ sdf.format(activityInfo.startTime) + "-"
-						+ sdf.format(activityInfo.endTime) + ";"
-						+ activityInfo.address + ";点击了解一下吧 " + shareUrl
-						+ "。记得报名参加哦");
+				oks.setTitleUrl("http://115.28.0.232/baidu/activity/jumpShare.action?id="
+						+ activityInfo.activityID);
+				oks.setText("#志愿也是一种生活方式#"
+						+ activityInfo.title
+						+ ":"
+						+ sdf.format(activityInfo.startTime)
+						+ "-"
+						+ sdf.format(activityInfo.endTime)
+						+ ";"
+						+ activityInfo.address
+						+ ";点击了解一下吧 "
+						+ " http://115.28.0.232/baidu/activity/jumpShare.action?id="
+						+ activityInfo.activityID + "。记得报名参加哦");
 				// if (captureView) {
 				// oks.setViewToShare(getPage());
 				// } else {
 				// oks.setImagePath(MainActivity.TEST_IMAGE);
 				oks.setImageUrl(activityInfo.iconUrl);
 				// }
-				oks.setUrl(shareUrl);
+				oks.setUrl("http://115.28.0.232/baidu/activity/jumpShare.action?id="
+						+ activityInfo.activityID);
 				// oks.setFilePath(MainActivity.TEST_IMAGE);
 				oks.setComment(getString(R.string.share)
-						+ " http://fir.im/FsTK");
+						+ " http://115.28.0.232/baidu/activity/jumpShare.action?id="
+						+ activityInfo.activityID);
 				oks.setSite(getString(R.string.app_name));
 				oks.setSiteUrl("http://sharesdk.cn");
 				// oks.setVenueName("ShareSDK");
@@ -148,7 +157,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 				oks.setDialogMode();
 
 				// 在自动授权时可以禁用SSO方式
-				oks.disableSSOWhenAuthorize();
+//				oks.disableSSOWhenAuthorize();
 
 				// 去除注释，则快捷分享的操作结果将通过OneKeyShareCallback回调
 				// oks.setCallback(new OneKeyShareCallback());
@@ -237,7 +246,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 										arrow.setVisibility(View.GONE);
 									attendButton.setEnabled(true);
 									if (activityInfo.iconUrl != null)
-										ViewUtils.bmUtils.display(activityPic,
+										ViewUtils.bmUtils().display(activityPic,
 												activityInfo.iconUrl);
 									if (activityInfo.isAttend) {
 										attendButton

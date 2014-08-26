@@ -30,8 +30,8 @@ public class MyApplication extends FrontiaApplication {
 	public void onCreate() {
 		// TODO Auto-generated method stub
 		super.onCreate();
-//		if(instance==null)
-//			SDKInitializer.initialize(this);
+		if(instance==null)
+			SDKInitializer.initialize(this);
 		instance = this;
 		
 

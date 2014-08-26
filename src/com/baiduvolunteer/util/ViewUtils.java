@@ -21,6 +21,7 @@ import android.view.ViewParent;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.baiduvolunteer.MyApplication;
 import com.baiduvolunteer.R;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -28,7 +29,9 @@ public class ViewUtils {
 	private static Context mContext;
 	private static float density;
 	private static Handler handler;
-	public static BitmapUtils bmUtils;
+	private static BitmapUtils bmUtils;
+	
+	private static Object initLock = new Object();
 
 	public static void init(Context context) {
 		mContext = context.getApplicationContext();
@@ -38,13 +41,28 @@ public class ViewUtils {
 		wm.getDefaultDisplay().getMetrics(dm);
 		handler = new Handler();
 		density = dm.density;
-		bmUtils = new BitmapUtils(context);
-		bmUtils.configDiskCacheEnabled(true);
-		bmUtils.clearCache();
-		bmUtils.clearDiskCache();
-		bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
+
 		// ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(mContext));
 		// bmUtils.configDefaultBitmapConfig(Config.ARGB_8888);
+	}
+
+	public static BitmapUtils bmUtils() {
+		if (bmUtils == null) {
+			synchronized (initLock) {
+				if(bmUtils!=null)
+					return bmUtils;
+				if (mContext != null)
+					bmUtils = new BitmapUtils(mContext);
+				else {
+					bmUtils = new BitmapUtils(MyApplication.getApplication());
+				}
+				bmUtils.configDiskCacheEnabled(true);
+				bmUtils.clearCache();
+				bmUtils.clearDiskCache();
+				bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
+			}
+		}
+		return bmUtils;
 	}
 
 	public static int rp(double d) {

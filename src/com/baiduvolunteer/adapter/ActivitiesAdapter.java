@@ -81,7 +81,7 @@ public class ActivitiesAdapter extends BaseAdapter {
 				+ sdf.format(activityInfo.endTime));
 		// holder.distLabel.setText(activityInfo.distance + "m");
 		holder.favIcon.setTag(Integer.valueOf(position));
-		ViewUtils.bmUtils.display(holder.imageView, activityInfo.iconUrl);
+		ViewUtils.bmUtils().display(holder.imageView, activityInfo.iconUrl);
 //		Picasso.with(activity).load(activityInfo.iconUrl).into(holder.imageView);
 //		ImageLoader.getInstance().displayImage(activityInfo.iconUrl, holder.imageView);
 		if (User.sharedUser().currentLatlng != null && activityInfo.latitude != 0) {

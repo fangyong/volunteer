@@ -24,7 +24,7 @@ public class BootAct extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 //		if(instance==null)
-			SDKInitializer.initialize(getApplication().getApplicationContext());
+//			SDKInitializer.initialize(getApplication().getApplicationContext());
 		ViewUtils.init(this.getApplicationContext());
 		Config.sharedConfig().init();
 		User.sharedUser().load();

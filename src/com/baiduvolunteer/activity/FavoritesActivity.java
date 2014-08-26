@@ -105,7 +105,7 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 					holder.timeLabel.setText(sdf.format(info.startTime)
 							+ "\n --" + sdf.format(info.endTime));
 					holder.locationLabel.setText(info.address);
-					ViewUtils.bmUtils.display(holder.imageView, info.iconUrl);
+					ViewUtils.bmUtils().display(holder.imageView, info.iconUrl);
 					// ImageLoader.getInstance().displayImage(info.iconUrl,
 					// holder.imageView);
 					if (User.sharedUser().currentLatlng != null
@@ -355,7 +355,7 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 					});
 					// ImageLoader.getInstance().displayImage(publisher.logoUrl,
 					// holder.imageView);
-					ViewUtils.bmUtils.display(holder.imageView,
+					ViewUtils.bmUtils().display(holder.imageView,
 							publisher.logoUrl);
 					return holder.container;
 				}
