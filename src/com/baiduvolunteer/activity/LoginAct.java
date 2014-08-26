@@ -1,7 +1,9 @@
 package com.baiduvolunteer.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -14,7 +16,7 @@ import com.baiduvolunteer.MyApplication;
 
 public class LoginAct extends Activity {
 
-	private String clientId = "GzILwHA3pcIrFxjHgeIPgmL6";//KFBF1tbHUoT8qDgQ9ODPUkAs";
+	private String clientId = "GzILwHA3pcIrFxjHgeIPgmL6";// KFBF1tbHUoT8qDgQ9ODPUkAs";
 
 	private Baidu baidu = null;
 
@@ -43,20 +45,47 @@ public class LoginAct extends Activity {
 
 					@Override
 					public void onBaiduException(BaiduException e) {
-
+						Toast.makeText(LoginAct.this,
+								"exception : " + e.getMessage(),
+								Toast.LENGTH_LONG).show();
 					}
 
 					@Override
 					public void onError(BaiduDialogError e) {
+						new AlertDialog.Builder(LoginAct.this)
+								.setPositiveButton("重试",
+										new DialogInterface.OnClickListener() {
 
+											@Override
+											public void onClick(
+													DialogInterface arg0,
+													int arg1) {
+												Intent intent = new Intent(
+														LoginAct.this,
+														LoginAct.class);
+												startActivity(intent);
+												finish();
+
+											}
+										})
+								.setNegativeButton("退出",
+										new DialogInterface.OnClickListener() {
+
+											@Override
+											public void onClick(
+													DialogInterface arg0,
+													int arg1) {
+												finish();
+
+											}
+										}).setTitle("网络连接失败，请检查网络后重试！")
+								.create().show();
 					}
 
 					@Override
 					public void onCancel() {
-						// Intent intent = new Intent(LoginAct.this,
-						// HomeAct.class);
-						// startActivity(intent);
-						// finish();
+						// TODO Auto-generated method stub
+
 					}
 				});
 
@@ -66,14 +95,13 @@ public class LoginAct extends Activity {
 	public void onBackPressed() {
 
 	}
-	
-	class MyBaidu extends Baidu{
+
+	class MyBaidu extends Baidu {
 
 		public MyBaidu(String clientId, Context context) {
 			super(clientId, context);
 			// TODO Auto-generated constructor stub
 		}
-		
-		
+
 	}
 }
