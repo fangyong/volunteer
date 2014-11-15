@@ -103,7 +103,7 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 					holder.titleLabel.setText(info.title);
 					holder.favIcon.setTag(Integer.valueOf(position));
 					holder.timeLabel.setText(sdf.format(info.startTime)
-							+ "\n --" + sdf.format(info.endTime));
+							+ " --" + sdf.format(info.endTime));
 					holder.locationLabel.setText(info.address);
 					ViewUtils.bmUtils().display(holder.imageView, info.iconUrl);
 					// ImageLoader.getInstance().displayImage(info.iconUrl,
@@ -290,17 +290,7 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 												// stub
 												super.handleError(request,
 														statusCode, errorMsg);
-												ViewUtils
-														.runInMainThread(new Runnable() {
-
-															@Override
-															public void run() {
-																// TODO
-																// Auto-generated
-																// method stub
-																mPd.dismiss();
-															}
-														});
+												mPd.dismiss();
 											}
 										}).start();
 							else {
@@ -473,6 +463,15 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 						}
 
 					}
+
+					@Override
+					public void handleError(BaseRequest request,
+							int statusCode, String errorMsg) {
+						// TODO Auto-generated method stub
+						super.handleError(request, statusCode, errorMsg);
+						// TODO Auto-generated method stub
+						favList.onRefreshComplete();
+					}
 				}).start();
 	}
 
@@ -481,6 +480,14 @@ public class FavoritesActivity extends Activity implements OnClickListener,
 			page2 = 1;
 		new GetPublisherCollectionsRequest().setPage(page2).setSize(20)
 				.setHandler(new ResponseHandler() {
+
+					@Override
+					public void handleError(BaseRequest request,
+							int statusCode, String errorMsg) {
+						// TODO Auto-generated method stub
+						super.handleError(request, statusCode, errorMsg);
+						favList.onRefreshComplete();
+					}
 
 					@Override
 					public void handleResponse(BaseRequest request,

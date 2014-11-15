@@ -20,17 +20,17 @@ public class AboutActivity extends BaseActivity {
 		setContentView(R.layout.activity_about);
 		versionView = (TextView) findViewById(R.id.versionNum);
 		PackageManager packageManager = getPackageManager();
-        // getPackageName()是你当前类的包名，0代表是获取版本信息
-        PackageInfo packInfo;
+		// getPackageName()是你当前类的包名，0代表是获取版本信息
+		PackageInfo packInfo;
 		try {
-			packInfo = packageManager.getPackageInfo(getPackageName(),0);
+			packInfo = packageManager.getPackageInfo(getPackageName(), 0);
 			String version = packInfo.versionName;
-			versionView.setText(version);
+			versionView.setText(String.format("版本%s", version));
 		} catch (NameNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
+
 		findViewById(R.id.backButton).setOnClickListener(new OnClickListener() {
 
 			@Override

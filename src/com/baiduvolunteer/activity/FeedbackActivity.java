@@ -6,7 +6,10 @@ import org.json.JSONObject;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +31,7 @@ public class FeedbackActivity extends BaseActivity {
 	private EditText feedbackInput;
 	private EditText phoneInput;
 	private TextView nameLabel;
+	private TextView textLimit;
 	private Button submitButton;
 	private ProgressDialog mpd;
 
@@ -47,7 +51,37 @@ public class FeedbackActivity extends BaseActivity {
 				finish();
 			}
 		});
+		textLimit = (TextView) findViewById(R.id.textLimit);
 		feedbackInput = (EditText) findViewById(R.id.feedBackInput);
+		feedbackInput
+				.setFilters(new InputFilter[] { new InputFilter.LengthFilter(
+						100) });
+		feedbackInput.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				// TODO Auto-generated method stub
+				if (s.length() > 70) {
+					textLimit.setText(String.format("%d/100", s.length()));
+				} else {
+					textLimit.setText(null);
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		submitButton = (Button) findViewById(R.id.feedBackButton);
 		phoneInput = (EditText) findViewById(R.id.phoneInput);
 		nameLabel = (TextView) findViewById(R.id.namelabel);
@@ -106,14 +140,7 @@ public class FeedbackActivity extends BaseActivity {
 
 								public void handleError(BaseRequest request,
 										int statusCode, String errorMsg) {
-									ViewUtils.runInMainThread(new Runnable() {
-
-										@Override
-										public void run() {
-											// TODO Auto-generated method stub
-											mpd.dismiss();
-										}
-									});
+									mpd.dismiss();
 									super.handleError(request, statusCode,
 											errorMsg);
 								};

@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler.Callback;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +27,7 @@ import cn.sharesdk.framework.utils.UIHandler;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.baiduvolunteer.R;
+import com.baiduvolunteer.config.Config;
 import com.baiduvolunteer.http.BaseRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetActivityInfoRequest;
@@ -51,7 +53,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 	private TextView activityEnrollNumber;
 	private TextView activityIntro;
 
-	private String shareUrl = "http://fir.im/FsTK";
+	// private String shareUrl = "http://fir.im/FsTK";
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.d hh:mm");
 
@@ -76,8 +78,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 		// infoCell = (ListViewCell) findViewById(R.id.infoContainer);
 		locationCell.iconView.setImageResource(R.drawable.icon_address_h);
 		// organizerCell.textLabel.setText("北大青年志愿者协会");
-		organizerCell.iconView
-				.setImageResource(R.drawable.icon_organization_h);
+		organizerCell.iconView.setImageResource(R.drawable.icon_organization_h);
 		contactCell = (ListViewCell) findViewById(R.id.contactCell);
 		arrow = contactCell.findViewById(R.id.detailIcon);
 		contactCell.iconView.setImageResource(R.drawable.icon_contact_h);
@@ -107,7 +108,9 @@ public class ActivityInfoActivity extends BaseActivity implements
 		if (joined) {
 			attendButton.setVisibility(View.GONE);
 		}
-
+		if (activityInfo != null && activityInfo.iconUrl != null) {
+			ViewUtils.bmUtils().display(activityPic, activityInfo.iconUrl);
+		}
 		shareBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -117,33 +120,25 @@ public class ActivityInfoActivity extends BaseActivity implements
 				// getString(R.string.app_name));
 				// oks.setAddress("12345678901");
 				oks.setTitle(getString(R.string.evenote_title));
-				oks.setTitleUrl("http://115.28.0.232/baidu/activity/jumpShare.action?id="
-						+ activityInfo.activityID);
-				oks.setText("#志愿也是一种生活方式#"
-						+ activityInfo.title
-						+ ":"
-						+ sdf.format(activityInfo.startTime)
-						+ "-"
-						+ sdf.format(activityInfo.endTime)
-						+ ";"
-						+ activityInfo.address
-						+ ";点击了解一下吧 "
-						+ " http://115.28.0.232/baidu/activity/jumpShare.action?id="
-						+ activityInfo.activityID + "。记得报名参加哦");
+				oks.setTitleUrl(Config.baseShareURL + activityInfo.activityID);
+				oks.setText("#志愿也是一种生活方式#" + "我在“百度志愿者”上，发现了"+activityInfo.title + "项目，有没有小伙伴也想一起加入？项目时间："
+						+ sdf.format(activityInfo.startTime) + "-"
+						+ sdf.format(activityInfo.endTime) + "，地点："
+						+ activityInfo.address + "更多详细信息，点击" + " "
+						+ Config.baseShareURL + activityInfo.activityID
+						+ "就能看到，记得报名参加哦！");
 				// if (captureView) {
 				// oks.setViewToShare(getPage());
 				// } else {
 				// oks.setImagePath(MainActivity.TEST_IMAGE);
-				oks.setImageUrl(activityInfo.iconUrl);
+				oks.setImageUrl(TextUtils.isEmpty(activityInfo.iconUrl)?Config.defaultShareLogoUrl:activityInfo.iconUrl);
 				// }
-				oks.setUrl("http://115.28.0.232/baidu/activity/jumpShare.action?id="
-						+ activityInfo.activityID);
+				oks.setUrl(Config.baseShareURL + activityInfo.activityID);
 				// oks.setFilePath(MainActivity.TEST_IMAGE);
-				oks.setComment(getString(R.string.share)
-						+ " http://115.28.0.232/baidu/activity/jumpShare.action?id="
-						+ activityInfo.activityID);
+				oks.setComment(getString(R.string.share) + " "
+						+ Config.baseShareURL + activityInfo.activityID);
 				oks.setSite(getString(R.string.app_name));
-				oks.setSiteUrl("http://sharesdk.cn");
+				// oks.setSiteUrl("http://sharesdk.cn");
 				// oks.setVenueName("ShareSDK");
 				// oks.setVenueDescription("This is a beautiful place!");
 				// oks.setLatitude(23.056081f);
@@ -157,7 +152,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 				oks.setDialogMode();
 
 				// 在自动授权时可以禁用SSO方式
-//				oks.disableSSOWhenAuthorize();
+				oks.disableSSOWhenAuthorize();
 
 				// 去除注释，则快捷分享的操作结果将通过OneKeyShareCallback回调
 				// oks.setCallback(new OneKeyShareCallback());
@@ -245,9 +240,19 @@ public class ActivityInfoActivity extends BaseActivity implements
 													.equals(""))
 										arrow.setVisibility(View.GONE);
 									attendButton.setEnabled(true);
-									if (activityInfo.iconUrl != null)
-										ViewUtils.bmUtils().display(activityPic,
+									if (activityInfo.iconUrl != null) {
+										// BitmapUtils bmUtils = new
+										// BitmapUtils(
+										// ActivityInfoActivity.this);
+										// bmUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
+										// bmUtils.configDefaultLoadingImage(R.drawable.default_icon);
+										// bmUtils.configDiskCacheEnabled(true);
+										ViewUtils.bmUtils().display(
+												activityPic,
 												activityInfo.iconUrl);
+										// ImageLoader.getInstance().displayImage(activityInfo.iconUrl,
+										// activityPic);
+									}
 									if (activityInfo.isAttend) {
 										attendButton
 												.setBackgroundColor(0xffe7e7e7);
@@ -257,8 +262,9 @@ public class ActivityInfoActivity extends BaseActivity implements
 										attendButton
 												.setBackgroundColor(0xff107cfd);
 										attendButton.setEnabled(true);
-										if (activityInfo.startTime.getTime() < System
-												.currentTimeMillis()) {
+										if (activityInfo.endTime.getTime() < System
+												.currentTimeMillis()
+												|| !activityInfo.isLine) {
 											attendButton
 													.setBackgroundColor(0xffe7e7e7);
 											attendButton.setEnabled(false);
@@ -281,7 +287,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 		// TODO Auto-generated method stub
 		if (v == contactCell) {
 			if (contactCell.textLabel.getText() != null
-					&& !contactCell.textLabel.getText().toString().isEmpty())
+					&& !TextUtils.isEmpty(contactCell.textLabel.getText()))
 				new AlertDialog.Builder(this)
 						.setMessage(
 								"确认拨打电话"
@@ -326,7 +332,9 @@ public class ActivityInfoActivity extends BaseActivity implements
 				return;
 			}
 			if (User.sharedUser().phoneNumber == null
-					|| User.sharedUser().phoneNumber.isEmpty()) {
+					|| User.sharedUser().email == null
+					|| TextUtils.isEmpty(User.sharedUser().email)
+					|| TextUtils.isEmpty(User.sharedUser().phoneNumber)) {
 				new AlertDialog.Builder(this)
 						.setMessage("请先补完个人资料")
 						.setPositiveButton("取消",
@@ -362,13 +370,27 @@ public class ActivityInfoActivity extends BaseActivity implements
 							public void handleResponse(BaseRequest request,
 									int statusCode, String errorMsg,
 									String response) {
-								Log.d("test", "join response" + response);
+//								Log.d("test", "join response" + response);
 								// Toast.makeText(ActivityInfoActivity.this,
 								// response, Toast.LENGTH_LONG).show();
 								attendButton.setBackgroundColor(0xffe7e7e7);
 								activityInfo.isAttend = true;
-								Toast.makeText(ActivityInfoActivity.this,
-										"已提交报名请求", Toast.LENGTH_LONG).show();
+								activityInfo.currentCount = activityInfo.currentCount + 1;
+								ViewUtils.runInMainThread(new Runnable() {
+
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										activityEnrollNumber.setText(String
+												.format("报名人数： %d/%d",
+														activityInfo.currentCount,
+														activityInfo.totalCount));
+										Toast.makeText(
+												ActivityInfoActivity.this,
+												"报名成功", Toast.LENGTH_LONG)
+												.show();
+									}
+								});
 							}
 						}).start();
 				;
@@ -383,6 +405,7 @@ public class ActivityInfoActivity extends BaseActivity implements
 						MapViewActivity.class);
 				intent.putExtra("lat", activityInfo.latitude);
 				intent.putExtra("lng", activityInfo.longitude);
+				intent.putExtra("address", activityInfo.address);
 				startActivity(intent);
 			}
 		}

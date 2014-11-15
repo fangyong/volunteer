@@ -1,6 +1,7 @@
 package com.baiduvolunteer.http;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,8 +14,7 @@ import com.baiduvolunteer.http.SearchRequest.SearchType;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.Publisher;
 
-public class SearchAllRequest {
-	private boolean success = false;
+public class SearchAllRequest extends SearchRequest {
 	private ArrayList<Object> resultList = new ArrayList<Object>();
 
 	public static abstract class SearchAllResponseHandler {
@@ -25,66 +25,54 @@ public class SearchAllRequest {
 		}
 	}
 
-	public SearchAllRequest setLat(double lat) {
-		request1.setLat(lat);
-		request2.setLat(lat);
-		return this;
+	private SearchAllResponseHandler responseHandler;
+
+	public void setResponseHandler(SearchAllResponseHandler responseHandler) {
+		this.responseHandler = responseHandler;
 	}
 
-	public SearchAllRequest setLng(double lng) {
-		request1.setLng(lng);
-		request2.setLng(lng);
-		return this;
+	/**
+	 * @deprecated wont call this for searchAll
+	 */
+	@Override
+	public BaseRequest setHandler(ResponseHandler handler) {
+		// TODO Auto-generated method stub
+		return this;// ignore handler here
 	}
 
-	public SearchAllRequest setSize(int size) {
-		request1.setSize(size);
-		request2.setSize(size);
-		return this;
-	}
-
-	public SearchAllRequest setEnd(long end) {
-		request1.setEnd(end);
-		request2.setEnd(end);
-		return this;
-	}
-
-	public SearchAllRequest setKey(String key) {
-		request1.setKey(key);
-		request2.setKey(key);
-		return this;
-	}
-
-	public SearchAllRequest() {
-		// TODO Auto-generated constructor stub
-		request1 = new SearchRequest();
-		request1.setSearchType(SearchType.SearchTypeActivity);
-		request2 = new SearchRequest();
-		request2.setSearchType(SearchType.SearchTypePublisher);
+	@Override
+	protected void generateParams(HashMap<String, String> map) {
+		// TODO Auto-generated method stub
+		super.generateParams(map);
+		map.put("type", "all");
 	}
 
 	public void start() {
-		tasks = 2;
-		success = true;
 		resultList.clear();
-		request1.setHandler(new ResponseHandler() {
+		super.setHandler(new ResponseHandler() {
 
 			@Override
 			public void handleResponse(BaseRequest request, int statusCode,
 					String errorMsg, String response) {
-				// TODO Auto-generated method stub
-				tasks--;
-//				Log.d("test", "search request " + response);
 				try {
 					JSONObject obj = new JSONObject(response);
 					obj = obj.optJSONObject("result");
 					if (obj != null) {
-						JSONArray array = obj.optJSONArray("activities");
+						JSONArray array = obj.optJSONArray("search");
 						if (array != null) {
 							for (int i = 0; i < array.length(); i++) {
-								ActivityInfo info = ActivityInfo
-										.createFromJson(array.getJSONObject(i));
-								resultList.add(info);
+								JSONObject dataobj = array.getJSONObject(i);
+								if (dataobj.optString("activityId", null) != null) {
+									ActivityInfo info = ActivityInfo
+											.createFromJson(dataobj);
+									resultList.add(info);
+								} else if (dataobj.optString("publisherId",
+										null) != null) {
+									Publisher publisher = Publisher
+											.createFromJson(dataobj);
+									resultList.add(publisher);
+								}
+
 							}
 						}
 
@@ -94,85 +82,29 @@ public class SearchAllRequest {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (tasks == 0)
-					returnResult();
+				returnResult();
 			}
 
 			@Override
 			public void handleError(BaseRequest request, int statusCode,
 					String errorMsg) {
-				tasks--;
-				success &= false;
-				if (tasks == 0)
-					returnResult();
+				returnResult();
 				// TODO Auto-generated method stub
 				super.handleError(request, statusCode, errorMsg);
 			}
-		}).start();
-		request2.setHandler(new ResponseHandler() {
+		});
+		super.start();
 
-			@Override
-			public void handleResponse(BaseRequest request, int statusCode,
-					String errorMsg, String response) {
-				// TODO Auto-generated method stub
-//				Log.d("test", "search request " + response);
-				tasks--;
-				try {
-					JSONObject obj = new JSONObject(response);
-					obj = obj.optJSONObject("result");
-					if (obj != null) {
-						JSONArray array = obj.optJSONArray("publishers");
-						if (array != null) {
-							for (int i = 0; i < array.length(); i++) {
-								Publisher info = Publisher.createFromJson(array
-										.getJSONObject(i));
-								resultList.add(info);
-							}
-						}
-
-					}
-
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (tasks == 0)
-					returnResult();
-			}
-
-			@Override
-			public void handleError(BaseRequest request, int statusCode,
-					String errorMsg) {
-				// TODO Auto-generated method stub
-				tasks--;
-				success &= false;
-				if (tasks == 0)
-					returnResult();
-				super.handleError(request, statusCode, errorMsg);
-			}
-		}).start();
-	}
-
-	private SearchAllResponseHandler handler;
-
-	public SearchAllRequest setHandler(
-			SearchAllResponseHandler searchAllResponseHandler) {
-		this.handler = searchAllResponseHandler;
-		return this;
 	}
 
 	private void returnResult() {
 		Log.d("test", "result:" + resultList.size());
-		if (success && handler != null) {
-			handler.handleSuccess(resultList);
+		if (responseHandler == null)
+			return;
+		if (resultList != null) {
+			responseHandler.handleSuccess(resultList);
 		} else {
-			handler.handleError(-1, null);
+			responseHandler.handleError(-1, null);
 		}
 	}
-
-	private int tasks = 2;
-
-	private SearchRequest request1;
-	private SearchRequest request2;
-
 }

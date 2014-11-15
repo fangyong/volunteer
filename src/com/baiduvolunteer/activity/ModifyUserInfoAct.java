@@ -11,7 +11,9 @@ import org.json.JSONObject;
 import org.w3c.dom.NodeList;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,7 +25,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.PopupWindow.OnDismissListener;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -79,9 +80,14 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 
 	private MyPopupWindow mpw;
 
+	private ProgressDialog mpd;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mpd = new ProgressDialog(this);
+		mpd.setCancelable(false);
+		mpd.setIndeterminate(true);
 		setContentView(R.layout.activity_modify_userinfo);
 		initViews();
 	}
@@ -90,6 +96,7 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		ViewUtils.inject(this);
 		scrollView = (ScrollView) findViewById(R.id.scrollView1);
 		unameEt = (EditText) findViewById(R.id.uname_et);
+		unameEt.setFilters(new InputFilter[] { new InputFilter.LengthFilter(15) });
 		backButton = findViewById(R.id.button2);
 		backButton.setOnClickListener(this);
 		saveButton = (View) findViewById(R.id.saveButton);
@@ -190,25 +197,29 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		if (User.sharedUser().province >= 0) {
 			province = Config.sharedConfig().provinceList.get(""
 					+ User.sharedUser().province);
-			int i = provinceList.indexOf(province);
-			provinceSpinner.setSelection(i);
+			int k = provinceList.indexOf(province);
+			provinceSpinner.setSelection(k);
+
 		}
-		cityList = provinceList.get(provinceSpinner.getSelectedItemPosition()).subCityList;
-		cityAdapter.clear();
-		if (cityList != null)
-			for (CityInfo info : cityList) {
-				cityAdapter.add(info.name);
-			}
-		if (User.sharedUser().city >= 0) {
-			int index = 0;
+		int j = provinceSpinner.getSelectedItemPosition();
+		if (j >= 0) {
+			cityList = provinceList.get(j).subCityList;
+			cityAdapter.clear();
 			if (cityList != null)
-				for (int i = 0; i < cityList.size(); i++) {
-					if (cityList.get(i).id == User.sharedUser().city) {
-						index = i;
-						break;
-					}
+				for (CityInfo info : cityList) {
+					cityAdapter.add(info.name);
 				}
-			citySpinner.setSelection(index);
+			if (User.sharedUser().city >= 0) {
+				int index = 0;
+				if (cityList != null)
+					for (int i = 0; i < cityList.size(); i++) {
+						if (cityList.get(i).id == User.sharedUser().city) {
+							index = i;
+							break;
+						}
+					}
+				citySpinner.setSelection(index);
+			}
 		}
 
 	}
@@ -243,7 +254,7 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		} else if (saveButton == v) {
 			if (validate()) {
 				this.save();
-				this.finish();
+				// this.finish();
 			}
 		}
 	}
@@ -265,9 +276,11 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 			Toast.makeText(this, "请输入11位手机号", Toast.LENGTH_LONG).show();
 			return false;
 		}
-
-		if (!matchere.matches()) {
-			Toast.makeText(this, "请输入邮箱", Toast.LENGTH_LONG).show();
+		if (TextUtils.isEmpty(emailEt.getText())) {
+			Toast.makeText(this, "请输入邮箱地址", Toast.LENGTH_LONG).show();
+			return false;
+		} else if (!matchere.matches()) {
+			Toast.makeText(this, "请输入正确的邮箱地址", Toast.LENGTH_LONG).show();
 			return false;
 		}
 		return true;
@@ -284,9 +297,12 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 		if (!TextUtils.isEmpty(emailEt.getText())) {
 			email = emailEt.getText().toString();
 		}
-		province = provinceList.get(provinceSpinner.getSelectedItemPosition());
-		city = cityList != null ? cityList.get(citySpinner
+		int k = provinceSpinner.getSelectedItemPosition();
+		province = k >= 0 ? provinceList.get(k) : null;
+		int l = citySpinner.getSelectedItemPosition();
+		city = (cityList != null && l >= 0) ? cityList.get(citySpinner
 				.getSelectedItemPosition()) : null;
+		mpd.show();
 		new UpdateUserInfoRequest().setCity("" + (city == null ? 0 : city.id))
 				.setProvince("" + (province == null ? 0 : province.id))
 				.setNickName(unameEt.getText().toString())
@@ -294,9 +310,21 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 				.setHandler(new ResponseHandler() {
 
 					@Override
+					public void handleError(BaseRequest request,
+							int statusCode, String errorMsg) {
+						// TODO Auto-generated method stub
+
+						mpd.dismiss();
+//						Toast.makeText(ModifyUserInfoAct.this, "修改失败",
+//								Toast.LENGTH_LONG).show();
+						super.handleError(request, statusCode, errorMsg);
+					}
+
+					@Override
 					public void handleResponse(BaseRequest request,
 							int statusCode, String errorMsg, String response) {
 						Log.d("test", "response:" + response);
+						mpd.dismiss();
 						boolean success = false;
 						try {
 							JSONObject obj = new JSONObject(response);
@@ -319,7 +347,19 @@ public class ModifyUserInfoAct extends Activity implements OnClickListener {
 							User.sharedUser().gender = sex;
 							User.sharedUser().save();
 						}
+						final boolean s = success;
+						com.baiduvolunteer.util.ViewUtils
+								.runInMainThread(new Runnable() {
 
+									@Override
+									public void run() {
+										// TODO Auto-generated method stub
+										Toast.makeText(ModifyUserInfoAct.this,
+												s ? "修改成功" : "修改失败",
+												Toast.LENGTH_LONG).show();
+										ModifyUserInfoAct.this.finish();
+									}
+								});
 					}
 				}).start();
 

@@ -61,7 +61,7 @@ public class SignatureTool {
 
 		}
 		String s = MD5.md5(sb.toString());
-		Log.d("test", "base Str:" + sb.toString());
+//		Log.d("test", "base Str:" + sb.toString());
 		// sb.append(Config.APP_SECRET);
 		// s = MD5.md5(sb.toString());
 		return s;

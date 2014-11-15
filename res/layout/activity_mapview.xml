@@ -37,12 +37,12 @@
             android:id="@+id/directions"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:background="#00000000"
-            android:src="@drawable/icon_direction"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-             android:visibility="visible"/>
+            android:background="#00000000"
+            android:src="@drawable/icon_direction"
+            android:visibility="visible" />
     </RelativeLayout>
 
     <com.baidu.mapapi.map.MapView

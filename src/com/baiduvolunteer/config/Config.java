@@ -10,13 +10,27 @@ import com.baiduvolunteer.task.LoadCitiesTask;
 import com.baiduvolunteer.task.LoadCitiesTask.OnTaskFinishListener;
 
 public class Config implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2L;
+
 	public static final String baseURL = "http://115.28.0.232/VolunteerApp/";
+
+	public static final String defaultShareLogoUrl = "http://115.28.0.232/VolunteerApp/app?method=img&type=app&url=sharelog.png";
+	// public static final String defaultShareLogoUrl =
+	// "baiduvolunteer.duapp.com/app?method=img&type=app&url=sharelog.png"
+	// public static final String baseURL = "http://baiduvolunteer.duapp.com/";
+	// public static final String baseShareURL =
+	// "http://zhiyuanzhe01.duapp.com/guanli/activity/jumpShare.action?id=";
+
+	public static final String baseShareURL = "http://115.28.0.232/baidu/activity/jumpShare.action?id=";
 	// public static final String baseURL =
 	// "http://192.168.1.77:8080/VolunteerApp/";
 	public static final String USER_AGENT = "android_client";
 	public static final String APP_SECRET = "2d56df9a08100634d51940309237855d";
-	public static final int[] scales = { 50, 100, 200, 500, 1000, 2000, 5000,
-			10000, 20000, 25000, 50000, 100000, 200000, 500000, 1000000,
+	public static final int[] scales = { 20, 50, 100, 200, 500, 1000, 2000,
+			5000, 10000, 20000, 25000, 50000, 100000, 200000, 500000, 1000000,
 			2000000 };
 
 	public static class CityInfo implements Serializable {
@@ -44,7 +58,7 @@ public class Config implements Serializable {
 	public void init() {
 		if (initializing)
 			return;
-		if(!provinceList.isEmpty())
+		if (!provinceList.isEmpty())
 			return;
 		initializing = true;
 		LoadCitiesTask task = new LoadCitiesTask();

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.baidu.api.Baidu;
@@ -23,6 +24,8 @@ public class LoginAct extends Activity {
 	private boolean isForceLogin = true;
 
 	private boolean isConfirmLogin = true;
+	
+	private boolean loggedIn = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,11 @@ public class LoginAct extends Activity {
 
 					@Override
 					public void onComplete(Bundle values) {
-
+						Log.d("test", "complete");
+						if(loggedIn){
+							return;
+						}
+						loggedIn = true;
 						Intent intent = new Intent(LoginAct.this, HomeAct.class);
 						intent.putExtra("baidu", baidu);
 						startActivity(intent);
@@ -85,7 +92,7 @@ public class LoginAct extends Activity {
 					@Override
 					public void onCancel() {
 						// TODO Auto-generated method stub
-
+						finish();
 					}
 				});
 

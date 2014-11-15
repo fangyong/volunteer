@@ -3,9 +3,13 @@
  */
 package com.baidu.api;
 
+import org.apache.http.protocol.HttpContext;
+
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.http.SslError;
@@ -14,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.CookieManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -59,8 +64,30 @@ public class BaiduDialog extends Dialog {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		mListener.onCancel();
+//		mListener.onCancel();
 		return super.onKeyDown(keyCode, event);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		new AlertDialog.Builder(getContext()).setMessage("确认要退出吗").setCancelable(false).setNegativeButton("取消", new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+			}
+		}).setNeutralButton("确定", new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dialog.dismiss();
+				mListener.onCancel();
+			}
+		}).show();
+//		super.onBackPressed();
 	}
 
 	@Override
@@ -105,24 +132,28 @@ public class BaiduDialog extends Dialog {
                     String error = values.getString("error");
                     //用户取消授权返回error=access_denied
                     if ("access_denied".equals(error)) {
+                    	BaiduDialog.this.dismiss();
                         mListener.onCancel();
-                        BaiduDialog.this.dismiss();
+                        
                         return true;
                     }
                     //请求出错时返回error=1100&errorDesp=error_desp
                     String errorDesp = values.getString("error_description");
                     if (error != null && errorDesp != null) {
+                    	BaiduDialog.this.dismiss();
                         mListener.onBaiduException(new BaiduException(error, errorDesp));
-                        BaiduDialog.this.dismiss();
+                        
                         return true;
                     }
-                    mListener.onComplete(values);
                     BaiduDialog.this.dismiss();
+                    mListener.onComplete(values);
+                    
                     return true;
                 }
             } else if (url.startsWith(Baidu.CANCEL_URI)) {
+            	BaiduDialog.this.dismiss();
                 mListener.onCancel();
-                BaiduDialog.this.dismiss();
+                
                 return true;
             }
             return false;
@@ -140,21 +171,32 @@ public class BaiduDialog extends Dialog {
         public void onReceivedError(WebView view, int errorCode, String description,
                 String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
-            mListener.onError(new BaiduDialogError(description, errorCode, failingUrl));
             BaiduDialog.this.dismiss();
+            mListener.onError(new BaiduDialogError(description, errorCode, failingUrl));
+            
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             Util.logd(LOG_TAG, "Webview loading URL: " + url);
+            try{
+            	mSpinner.show();
+            }catch(Exception e){
+            	
+            }
             super.onPageStarted(view, url, favicon);
-            mSpinner.show();
+            
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
+        	try{
+        		mSpinner.dismiss();
+        	}catch(Exception e){
+        		
+        	}
             super.onPageFinished(view, url);
-            mSpinner.dismiss();
+            
             mContent.setBackgroundColor(Color.TRANSPARENT);
             mWebView.setVisibility(View.VISIBLE);
         }

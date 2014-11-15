@@ -28,6 +28,7 @@ import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.GetActivitiesListRequest;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.User;
+import com.baiduvolunteer.util.ViewUtils;
 import com.baiduvolunteer.view.MyListView.OnLoadListener;
 import com.baiduvolunteer.view.MyListView.OnRefreshListener;
 
@@ -108,7 +109,7 @@ public class ActivitiesView extends LinearLayout {
 			}
 		});
 
-		mToast = Toast.makeText(getContext(), "已经到底了！", Toast.LENGTH_SHORT);
+//		mToast = Toast.makeText(getContext(), "已经到底了！", Toast.LENGTH_SHORT);
 		searchField = (EditText) findViewById(R.id.search);
 		searchField.setFocusable(false);
 		searchField.setOnClickListener(new OnClickListener() {
@@ -129,7 +130,7 @@ public class ActivitiesView extends LinearLayout {
 
 	public void onResume() {
 		// TODO Auto-generated method stub
-		if(activityInfoList.isEmpty())
+		if (activityInfoList.isEmpty())
 			loadData(page);
 	}
 
@@ -209,8 +210,7 @@ public class ActivitiesView extends LinearLayout {
 									mAdapter.setActivitiesList(activityInfoList);
 									mAdapter.notifyDataSetChanged();
 								} else {
-									mToast.cancel();
-									mToast.show();
+									Toast.makeText(getContext(), "已经到底了！", Toast.LENGTH_SHORT).show();
 									// if
 									// (activityListView.getFooterViewsCount() >
 									// 0)
@@ -221,6 +221,7 @@ public class ActivitiesView extends LinearLayout {
 							} catch (JSONException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
+								activityListView.onRefreshComplete();
 							}
 							if (activityListView.getFooterViewsCount() > 0)
 								activityListView.removeFooterView(footerView);
@@ -232,6 +233,9 @@ public class ActivitiesView extends LinearLayout {
 								int statusCode, String errorMsg) {
 							// TODO Auto-generated method stub
 							super.handleError(request, statusCode, errorMsg);
+							activityListView.onRefreshComplete();
+							if (activityListView.getFooterViewsCount() > 0)
+								activityListView.removeFooterView(footerView);
 						}
 					}).start();
 		else
@@ -306,8 +310,9 @@ public class ActivitiesView extends LinearLayout {
 									mAdapter.setActivitiesList(activityInfoList);
 									mAdapter.notifyDataSetChanged();
 								} else {
-									mToast.cancel();
-									mToast.show();
+//									mToast.cancel();
+//									mToast.show();
+									Toast.makeText(getContext(), "已经到底了！", Toast.LENGTH_SHORT).show();
 									// if
 									// (activityListView.getFooterViewsCount() >
 									// 0)
@@ -329,6 +334,17 @@ public class ActivitiesView extends LinearLayout {
 								int statusCode, String errorMsg) {
 							// TODO Auto-generated method stub
 							super.handleError(request, statusCode, errorMsg);
+							ViewUtils.runInMainThread(new Runnable() {
+
+								@Override
+								public void run() {
+									// TODO Auto-generated method stub
+									activityListView.onRefreshComplete();
+									if (activityListView.getFooterViewsCount() > 0)
+										activityListView
+												.removeFooterView(footerView);
+								}
+							});
 						}
 					}).start();
 	}

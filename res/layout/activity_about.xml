@@ -38,17 +38,6 @@
                 android:text="关于"
                 android:textColor="#fff"
                 android:textSize="@dimen/text_size_24" />
-
-            <TextView
-                android:id="@+id/versionNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:background="#00000000"
-                android:textColor="#55eeeeee"
-                android:textSize="10sp" >
-            </TextView>
         </RelativeLayout>
 
         <ImageView
@@ -59,13 +48,22 @@
             android:src="@drawable/about_title" />
 
         <TextView
+            android:id="@+id/versionNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="#00000000"
+            android:textColor="#55000000"
+            android:textSize="12sp" >
+        </TextView>
+
+        <TextView
             android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
             android:lineSpacingExtra="5dp"
-            android:text="百度志愿者致力于促进志愿者活动发展， 让想参与公益\n\ 活动的人更加方便快捷的获取信息， 使志愿者活动成为日常的一种生活方式。"
-            android:textAlignment="textStart"
+            android:text="\t百度志愿者，是百度为网民和公益组织打造的一个志愿者服务平台。全国所有的具备资质的志愿协会、NGO组织、高校志愿者服务社团等均可在此平台上进行志愿活动、志愿者招募等志愿信息的发布。全国5亿网民可基于地理位置搜索“身边的志愿活动”，并实现网络化的报名参与。"
             android:textColor="@color/gary"
             android:textSize="10.5sp" />
 

@@ -322,6 +322,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:text=" "
+                    android:maxEms="10"
                     android:textColor="#262626"
                     android:textSize="16sp" />
 
@@ -372,7 +373,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" >
+                android:layout_marginRight="10dp" android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"

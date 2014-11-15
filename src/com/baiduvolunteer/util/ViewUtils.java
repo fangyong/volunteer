@@ -30,10 +30,13 @@ public class ViewUtils {
 	private static float density;
 	private static Handler handler;
 	private static BitmapUtils bmUtils;
-	
+	private static Toast mToast;
+
 	private static Object initLock = new Object();
 
 	public static void init(Context context) {
+		if (mContext != null)
+			return;
 		mContext = context.getApplicationContext();
 		WindowManager wm = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
@@ -49,7 +52,7 @@ public class ViewUtils {
 	public static BitmapUtils bmUtils() {
 		if (bmUtils == null) {
 			synchronized (initLock) {
-				if(bmUtils!=null)
+				if (bmUtils != null)
 					return bmUtils;
 				if (mContext != null)
 					bmUtils = new BitmapUtils(mContext);
@@ -222,17 +225,17 @@ public class ViewUtils {
 		}
 	}
 
-	public static void showToast(final CharSequence message,
-			final int timeMillis) {
-		runInMainThread(new Runnable() {
-
-			@Override
-			public void run() {
-				Toast.makeText(mContext, message, timeMillis).show();
-				;
-			}
-		});
-	}
+//	public static void showToast(final CharSequence message,
+//			final int timeMillis) {
+//		runInMainThread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				Toast.makeText(mContext, message, timeMillis).show();
+//				;
+//			}
+//		});
+//	}
 
 	public static Context getContext() {
 		return mContext;
@@ -253,6 +256,19 @@ public class ViewUtils {
 	//
 	// mContext.startActivity(intent);
 	// }
+
+	public static void showToast(String msg, int length) {
+		if (mContext == null)
+			return;
+		if (mToast == null) {
+			mToast = Toast.makeText(mContext, msg, length);
+			mToast.show();
+		} else {
+			mToast.setText(msg);
+			mToast.setDuration(length);
+			mToast.show();
+		}
+	}
 
 	public static String toUnicode(String str) {
 		char[] arChar = str.toCharArray();

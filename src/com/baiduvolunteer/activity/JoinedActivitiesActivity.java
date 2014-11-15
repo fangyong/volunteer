@@ -1,36 +1,30 @@
 package com.baiduvolunteer.activity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import com.baiduvolunteer.R;
 import com.baiduvolunteer.adapter.JoinActivityAdapter;
 import com.baiduvolunteer.http.BaseRequest;
-import com.baiduvolunteer.http.GetActivitiesListRequest;
-import com.baiduvolunteer.http.JointActivityRequest;
 import com.baiduvolunteer.http.BaseRequest.ResponseHandler;
 import com.baiduvolunteer.http.getJoinedActivityListRequest;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.User;
-import com.baiduvolunteer.view.ActivityListCellHolder;
 import com.baiduvolunteer.view.MyListView;
 import com.baiduvolunteer.view.MyListView.OnLoadListener;
 import com.baiduvolunteer.view.MyListView.OnRefreshListener;
@@ -107,6 +101,16 @@ public class JoinedActivitiesActivity extends BaseActivity {
 				.setSize(size).setEnd(end).setHandler(new ResponseHandler() {
 
 					@Override
+					public void handleError(BaseRequest request,
+							int statusCode, String errorMsg) {
+						// TODO Auto-generated method stub
+						super.handleError(request, statusCode, errorMsg);
+						eventsList.onRefreshComplete();
+						if (eventsList.getFooterViewsCount() > 0)
+							eventsList.removeFooterView(footerView);
+					}
+
+					@Override
 					public void handleResponse(BaseRequest request,
 							int statusCode, String errorMsg, String response) {
 						try {
@@ -126,9 +130,43 @@ public class JoinedActivitiesActivity extends BaseActivity {
 											.optJSONObject(i);
 									ActivityInfo activityInfo = ActivityInfo
 											.createFromJson(activity);
+									activityInfo.index = i;
 									activityInfoList.add(activityInfo);
 
 								}
+								Collections.sort(activityInfoList,
+										new Comparator<ActivityInfo>() {
+
+											@Override
+											public int compare(
+													ActivityInfo lhs,
+													ActivityInfo rhs) {
+												// TODO Auto-generated method
+												// stub
+												if (lhs.isLine && !rhs.isLine) {
+													return -1;
+												} else if (rhs.isLine
+														&& !lhs.isLine) {
+													return 1;
+												} else {
+													Date date = new Date();
+													if (lhs.endTime
+															.before(date)
+															&& !rhs.endTime
+																	.before(date)) {
+														return 1;
+													} else if (rhs.endTime
+															.before(date)
+															&& !lhs.endTime
+																	.before(date)) {
+														return -1;
+													} else {
+														return lhs.index
+																- rhs.index;
+													}
+												}
+											}
+										});
 								mAdapter.setActivityList(activityInfoList);
 								mAdapter.notifyDataSetChanged();
 								if (activities.length() < size) {

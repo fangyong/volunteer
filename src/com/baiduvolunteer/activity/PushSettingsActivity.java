@@ -25,7 +25,7 @@ public class PushSettingsActivity extends Activity implements OnClickListener {
 
 	public static final String key_sms = "key_setting_sms";
 	public static final String key_push = "key_setting_push";
-	
+
 	private View checkBox1;
 	private View checkBox2;
 	private View backButton;
@@ -45,10 +45,10 @@ public class PushSettingsActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pushsettings);
-//		SharedPreferences prefs = PreferenceManager
-//				.getDefaultSharedPreferences(this);
-//		push = prefs.getBoolean("push", true);
-//		sms = prefs.getBoolean("sms", true);
+		// SharedPreferences prefs = PreferenceManager
+		// .getDefaultSharedPreferences(this);
+		// push = prefs.getBoolean("push", true);
+		// sms = prefs.getBoolean("sms", true);
 
 		mpd = new ProgressDialog(this);
 		mpd.setIndeterminate(true);
@@ -84,54 +84,53 @@ public class PushSettingsActivity extends Activity implements OnClickListener {
 					String errorMsg, String response) {
 				// TODO Auto-generated method stub
 				mpd.dismiss();
-				Log.d("test", "settings:"+response);
+				Log.d("test", "settings:" + response);
 				try {
 					JSONObject result = new JSONObject(response);
 					result = result.optJSONObject("result");
-					if(result==null)return;
+					if (result == null)
+						return;
 					JSONArray kvs = result.optJSONArray("params");
-					if(kvs==null)return;
-					for(int i = 0;i<kvs.length();i++){
+					if (kvs == null)
+						return;
+					for (int i = 0; i < kvs.length(); i++) {
 						JSONObject kv = kvs.optJSONObject(i);
-						if(key_push.equals(kv.optString("param",null))){
-							String s = kv.optString("value","off");
+						if (key_push.equals(kv.optString("param", null))) {
+							String s = kv.optString("value", "off");
 							push = "on".equals(s);
 						}
-						if(key_sms.equals(kv.optString("param",null))){
-							String s = kv.optString("value","off");
+						if (key_sms.equals(kv.optString("param", null))) {
+							String s = kv.optString("value", "off");
 							sms = "on".equals(s);
 						}
 					}
-					
+
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				ViewUtils.runInMainThread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
-						pushOn.setVisibility(push ? View.VISIBLE : View.INVISIBLE);
-						pushOff.setVisibility(push ? View.INVISIBLE : View.VISIBLE);
+						pushOn.setVisibility(push ? View.VISIBLE
+								: View.INVISIBLE);
+						pushOff.setVisibility(push ? View.INVISIBLE
+								: View.VISIBLE);
 						smsOn.setVisibility(sms ? View.VISIBLE : View.INVISIBLE);
-						smsOff.setVisibility(sms ? View.INVISIBLE : View.VISIBLE);
+						smsOff.setVisibility(sms ? View.INVISIBLE
+								: View.VISIBLE);
 					}
 				});
 			}
+
 			@Override
 			public void handleError(BaseRequest request, int statusCode,
 					String errorMsg) {
 				// TODO Auto-generated method stub
 				super.handleError(request, statusCode, errorMsg);
-				ViewUtils.runInMainThread(new Runnable() {
-					
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						mpd.dismiss();
-					}
-				});
+				mpd.dismiss();
 			}
 		}).start();
 	}
@@ -148,42 +147,38 @@ public class PushSettingsActivity extends Activity implements OnClickListener {
 			smsOn.setVisibility(sms ? View.VISIBLE : View.INVISIBLE);
 			smsOff.setVisibility(sms ? View.INVISIBLE : View.VISIBLE);
 		} else if (backButton == v) {
-//			PreferenceManager.getDefaultSharedPreferences(this).edit()
-//					.putBoolean("push", push).putBoolean("sms", sms).commit();
-			new SaveSettingRequest().setKey(key_push).setValue(push?"on":"off").setHandler(new ResponseHandler() {
-				
-				@Override
-				public void handleResponse(BaseRequest request, int statusCode,
-						String errorMsg, String response) {
-					// TODO Auto-generated method stub
-					
-				}
-			}).start();
-			
-			new SaveSettingRequest().setKey(key_sms).setValue(sms?"on":"off").setHandler(new ResponseHandler() {
-				
-				@Override
-				public void handleResponse(BaseRequest request, int statusCode,
-						String errorMsg, String response) {
-					// TODO Auto-generated method stub
-				}
-				
-				@Override
-				public void handleError(BaseRequest request, int statusCode,
-						String errorMsg) {
-					// TODO Auto-generated method stub
-					super.handleError(request, statusCode, errorMsg);
-					ViewUtils.runInMainThread(new Runnable() {
-						
+			// PreferenceManager.getDefaultSharedPreferences(this).edit()
+			// .putBoolean("push", push).putBoolean("sms", sms).commit();
+			new SaveSettingRequest().setKey(key_push)
+					.setValue(push ? "on" : "off")
+					.setHandler(new ResponseHandler() {
+
 						@Override
-						public void run() {
+						public void handleResponse(BaseRequest request,
+								int statusCode, String errorMsg, String response) {
+							// TODO Auto-generated method stub
+
+						}
+					}).start();
+
+			new SaveSettingRequest().setKey(key_sms)
+					.setValue(sms ? "on" : "off")
+					.setHandler(new ResponseHandler() {
+
+						@Override
+						public void handleResponse(BaseRequest request,
+								int statusCode, String errorMsg, String response) {
 							// TODO Auto-generated method stub
 						}
-					});
-				}
-			}).start();
-			
-			
+
+						@Override
+						public void handleError(BaseRequest request,
+								int statusCode, String errorMsg) {
+							// TODO Auto-generated method stub
+							super.handleError(request, statusCode, errorMsg);
+						}
+					}).start();
+
 			finish();
 		}
 	}

@@ -14,9 +14,11 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.baiduvolunteer.config.Config;
 import com.baiduvolunteer.model.User;
+import com.baiduvolunteer.util.ViewUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -89,7 +91,7 @@ public abstract class BaseRequest {
 	/**
 	 * that's how it really works
 	 */
-	public final void start() {
+	public void start() {
 		RequestParams requestParams = new RequestParams();
 		params.clear();
 		generateParams(params);
@@ -131,7 +133,7 @@ public abstract class BaseRequest {
 		}
 	}
 
-	private void doSendRequest(String url, RequestParams requestParams,
+	private void doSendRequest(final String url, RequestParams requestParams,
 			final boolean cached) {
 		HttpUtilsWrapper.sharedInstance().send(requestMethod(), url,
 				requestParams, new RequestCallBack<String>() {
@@ -140,6 +142,7 @@ public abstract class BaseRequest {
 						if (cached)
 							HttpUtils.sHttpCache.put(cacheURL(), info.result);
 						boolean success = false;
+						Log.d("test", "response:" + info.result);
 						JSONObject result = null;
 						if (info.result != null) {
 							try {
@@ -183,20 +186,24 @@ public abstract class BaseRequest {
 					public void onFailure(final HttpException arg0,
 							final String arg1) {
 						// TODO Auto-generated method stub
+						Log.d("test", "url " + url + " error" + arg1);
 						if (handler != null) {
-							new Thread(new Runnable() {
+							ViewUtils.runInMainThread(new Runnable() {
 
 								@Override
 								public void run() {
+									ViewUtils.showToast("网络连接出错",
+											Toast.LENGTH_LONG);
 									// TODO Auto-generated method stub
+									// Toast.makeText(ViewUtils.getContext(),
+									// "网络连接出错", Toast.LENGTH_LONG).show();
 									handler.handleError(BaseRequest.this,
 											arg0.getExceptionCode(), null);
 								}
-							}).start();
+							});
 						}
 						Log.d("test", "error: code " + arg0.getExceptionCode());
 					}
 				});
 	}
-
 }

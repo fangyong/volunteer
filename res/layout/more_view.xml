@@ -30,18 +30,20 @@
         </View>
     </RelativeLayout>
 
-    <include
+    <!--
+         <include
         android:id="@+id/pushSettings"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_below="@+id/titleView"
         android:layout_centerHorizontal="true"
         layout="@layout/settingcell" />
+    -->
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dip"
-        android:layout_below="@+id/pushSettings"
+        android:layout_below="@+id/titleView"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="#ffeeeeee" >
@@ -51,7 +53,7 @@
         android:id="@+id/feedBack"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_below="@+id/pushSettings"
+        android:layout_below="@+id/titleView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="1dp"
         layout="@layout/settingcell" />
@@ -111,8 +113,8 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/button_bg_red"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:onClick="logout" >
+        android:onClick="logout"
+        android:orientation="horizontal" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -120,9 +122,9 @@
             android:layout_gravity="center"
             android:drawableLeft="@drawable/icon_logout"
             android:gravity="center"
-            android:textSize="@dimen/text_size_22"
             android:text="    退出登录"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"
+            android:textSize="@dimen/text_size_22" />
     </LinearLayout>
 
 </RelativeLayout>

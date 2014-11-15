@@ -35,6 +35,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
@@ -249,7 +250,7 @@ public class SearchActivity extends Activity {
 		});
 	}
 
-	private void startSearch(int page) {
+	private void startSearch(final int page) {
 		// if (searchField.getText().toString().isEmpty()) {
 		// activities.clear();
 		// resultAdapter.notifyDataSetChanged();
@@ -263,6 +264,15 @@ public class SearchActivity extends Activity {
 		}
 		sreq.setPage(page).setHandler(new ResponseHandler() {
 
+			@Override
+			public void handleError(BaseRequest request, int statusCode,
+					String errorMsg) {
+				// TODO Auto-generated method stub
+				super.handleError(request, statusCode, errorMsg);
+				if (resultList.getFooterViewsCount() > 0)
+					resultList.removeFooterView(footerView);
+			}
+			
 			@Override
 			public void handleResponse(BaseRequest request, int statusCode,
 					String errorMsg, String response) {
@@ -320,9 +330,10 @@ public class SearchActivity extends Activity {
 								// "已经到底了！", Toast.LENGTH_LONG).show();
 								// if (resultList.getFooterViewsCount() > 0)
 								// resultList.removeFooterView(footerView);
+								Toast.makeText(SearchActivity.this, page==1?"没有搜索到结果":"已经到底了", Toast.LENGTH_LONG).show();
 							}
 						} else {
-
+							Toast.makeText(SearchActivity.this, page==1?"没有搜索到结果":"已经到底了", Toast.LENGTH_LONG).show();
 						}
 						if (resultList.getFooterViewsCount() > 0)
 							resultList.removeFooterView(footerView);
@@ -399,7 +410,7 @@ public class SearchActivity extends Activity {
 					// holder.distLabel.setText(info.distance + "m");
 					holder.distLabel.setText("未知");
 				}
-				holder.timeLabel.setText(sdf.format(info.startTime) + "\n--"
+				holder.timeLabel.setText(sdf.format(info.startTime) + "--"
 						+ sdf.format(info.endTime));
 				holder.favIcon.setTag(Integer.valueOf(position));
 				holder.favIcon.setOnClickListener(new OnClickListener() {

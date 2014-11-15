@@ -75,7 +75,7 @@ public class PublisherAct extends Activity implements OnClickListener {
 		addFavButton.setOnClickListener(this);
 		addressLabel.setOnClickListener(this);
 		phoneLabel.setOnClickListener(this);
-		publisher = getIntent().getParcelableExtra("publisher");
+		publisher = (Publisher)getIntent().getParcelableExtra("publisher");
 		if (publisher != null && publisher.publishName != null) {
 			ViewUtils.bmUtils().display(publisherIcon, publisher.logoUrl);
 		}

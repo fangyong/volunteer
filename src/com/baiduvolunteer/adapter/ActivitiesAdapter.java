@@ -30,16 +30,16 @@ public class ActivitiesAdapter extends BaseAdapter {
 	private Activity activity;
 	private ArrayList<ActivityInfo> activitiesList;
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.M.dd h:mm");
-//	private BitmapUtils bitmapUtils;
+	// private BitmapUtils bitmapUtils;
 	private ProgressDialog mPd;
 
 	public ActivitiesAdapter(Activity activity, ArrayList<ActivityInfo> list) {
 		this.activity = activity;
 		this.activitiesList = list;
-//		bitmapUtils = new BitmapUtils(activity);
-//		bitmapUtils.configDefaultLoadingImage(R.drawable.default_icon);
-//		bitmapUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
-//		bitmapUtils.configDiskCacheEnabled(true);
+		// bitmapUtils = new BitmapUtils(activity);
+		// bitmapUtils.configDefaultLoadingImage(R.drawable.default_icon);
+		// bitmapUtils.configDefaultLoadFailedImage(R.drawable.default_icon);
+		// bitmapUtils.configDiskCacheEnabled(true);
 		mPd = new ProgressDialog(activity);
 		mPd.setCancelable(false);
 		mPd.setIndeterminate(true);
@@ -77,14 +77,16 @@ public class ActivitiesAdapter extends BaseAdapter {
 						: R.drawable.icon_fav);
 		holder.titleLabel.setText(activityInfo.title);
 		holder.locationLabel.setText(activityInfo.address);
-		holder.timeLabel.setText(sdf.format(activityInfo.startTime) + "\n--"
+		holder.timeLabel.setText(sdf.format(activityInfo.startTime) + "--"
 				+ sdf.format(activityInfo.endTime));
 		// holder.distLabel.setText(activityInfo.distance + "m");
 		holder.favIcon.setTag(Integer.valueOf(position));
 		ViewUtils.bmUtils().display(holder.imageView, activityInfo.iconUrl);
-//		Picasso.with(activity).load(activityInfo.iconUrl).into(holder.imageView);
-//		ImageLoader.getInstance().displayImage(activityInfo.iconUrl, holder.imageView);
-		if (User.sharedUser().currentLatlng != null && activityInfo.latitude != 0) {
+		// Picasso.with(activity).load(activityInfo.iconUrl).into(holder.imageView);
+		// ImageLoader.getInstance().displayImage(activityInfo.iconUrl,
+		// holder.imageView);
+		if (User.sharedUser().currentLatlng != null
+				&& activityInfo.latitude != 0) {
 			double dist = DistanceUtil.getDistance(new LatLng(
 					activityInfo.latitude, activityInfo.longitude), User
 					.sharedUser().currentLatlng);
@@ -115,6 +117,11 @@ public class ActivitiesAdapter extends BaseAdapter {
 							.setId(info.activityID)
 							.setHandler(new ResponseHandler() {
 
+								public void handleError(BaseRequest request,
+										int statusCode, String errorMsg) {
+									mPd.dismiss();
+								};
+
 								@Override
 								public void handleResponse(BaseRequest request,
 										int statusCode, String errorMsg,
@@ -143,6 +150,11 @@ public class ActivitiesAdapter extends BaseAdapter {
 					new RemoveFavRequest().setId(info.activityID)
 							.setRemoveType(RemoveFavType.RemoveFavTypeActivity)
 							.setHandler(new ResponseHandler() {
+
+								public void handleError(BaseRequest request,
+										int statusCode, String errorMsg) {
+									mPd.dismiss();
+								};
 
 								@Override
 								public void handleResponse(BaseRequest request,

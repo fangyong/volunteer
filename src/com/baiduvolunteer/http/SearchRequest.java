@@ -9,7 +9,7 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 public class SearchRequest extends BaseRequest {
 	public static enum SearchType {
-		SearchTypeActivity, SearchTypePublisher
+		SearchTypeActivity, SearchTypePublisher, SearchTypeAll
 	};
 
 	private SearchType searchType;

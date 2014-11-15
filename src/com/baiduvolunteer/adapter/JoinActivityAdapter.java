@@ -2,14 +2,17 @@ package com.baiduvolunteer.adapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
+import com.baiduvolunteer.R;
 import com.baiduvolunteer.model.ActivityInfo;
 import com.baiduvolunteer.model.User;
 import com.baiduvolunteer.util.ViewUtils;
@@ -55,15 +58,16 @@ public class JoinActivityAdapter extends BaseAdapter {
 				.getTag();
 		holder.titleLabel.setText(activityInfo.title);
 		holder.locationLabel.setText(activityInfo.address);
-		holder.timeLabel.setText(sdf.format(activityInfo.startTime) + "\n--"
+		holder.timeLabel.setText(sdf.format(activityInfo.startTime) + "--"
 				+ sdf.format(activityInfo.endTime));
 		// holder.distLabel.setText(activityInfo.distance + "m");
 		holder.favIcon.setTag(Integer.valueOf(position));
-//		ImageLoader.getInstance().displayImage(activityInfo.iconUrl,
-//				holder.imageView);
+		// ImageLoader.getInstance().displayImage(activityInfo.iconUrl,
+		// holder.imageView);
 		ViewUtils.bmUtils().display(holder.imageView, activityInfo.iconUrl);
 		holder.favIcon.setVisibility(View.INVISIBLE);
-		if (User.sharedUser().currentLatlng != null && activityInfo.latitude != 0) {
+		if (User.sharedUser().currentLatlng != null
+				&& activityInfo.latitude != 0) {
 			double dist = DistanceUtil.getDistance(new LatLng(
 					activityInfo.latitude, activityInfo.longitude), User
 					.sharedUser().currentLatlng);
@@ -79,6 +83,17 @@ public class JoinActivityAdapter extends BaseAdapter {
 		} else {
 			holder.distLabel.setText("未知");
 			// holder.distLabel.setText(activityInfo.distance + "m");
+		}
+		if (!activityInfo.isLine || activityInfo.endTime.before(new Date())) {
+			holder.titleLabel.setTextColor(activity.getResources().getColor(
+					R.color.light_gary));
+			holder.container.setAlpha(.5f);
+			// holder.container.setBackgroundColor(0xffeeeeee);
+		} else {
+			holder.titleLabel.setTextColor(activity.getResources().getColor(
+					R.color.black));
+			holder.container.setAlpha(1f);
+			// holder.container.setBackgroundColor(Color.WHITE);
 		}
 		return convertView;
 	}

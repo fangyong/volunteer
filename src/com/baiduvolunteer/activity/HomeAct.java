@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
@@ -57,7 +58,7 @@ public class HomeAct extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		ViewUtils.init(this);
 		setContentView(R.layout.activity_main);
 
 		getUserInfoHandler = new Handler();
@@ -270,26 +271,25 @@ public class HomeAct extends Activity {
 
 	public void logout(View v) {
 		Baidu baidu = MyApplication.getApplication().getBaidu();
-		if(User.sharedUser().channelId!=null)
+		if (User.sharedUser().channelId != null)
 			new UnbindBPushRequest().setChannelId(User.sharedUser().channelId)
-				.setHandler(new ResponseHandler() {
+					.setHandler(new ResponseHandler() {
 
-					@Override
-					public void handleResponse(BaseRequest request,
-							int statusCode, String errorMsg, String response) {
-						// TODO Auto-generated method stub
-						Log.d("test", "unbind result " + response);
-					}
-				}).start();
+						@Override
+						public void handleResponse(BaseRequest request,
+								int statusCode, String errorMsg, String response) {
+							// TODO Auto-generated method stub
+							Log.d("test", "unbind result " + response);
+						}
+					}).start();
 		if (baidu != null)
 			baidu.clearAccessToken();
 		User.sharedUser().clear();
 		User.sharedUser().bPushUid = null;
-
+		CookieManager.getInstance().removeAllCookie();
 		Intent intent = new Intent(HomeAct.this, LoginAct.class);
 		intent.putExtra("forceLogin", true);
 		startActivity(intent);
-		Log.d("test", "ttttttt");
 		finish();
 	}
 

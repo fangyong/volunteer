@@ -95,8 +95,8 @@
                                     android:id="@+id/userNameLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:maxEms="100"
-                                    android:text="王晓明"
+                                    android:layout_marginRight="30sp"
+                                    android:text=""
                                     android:textColor="#ffffff"
                                     android:textSize="@dimen/text_size_28"
                                     android:textStyle="bold" />
@@ -120,7 +120,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:text="已注册33天"
+                                android:text=""
                                 android:textColor="#ffffff"
                                 android:textSize="@dimen/text_size_16" />
                         </LinearLayout>
@@ -187,7 +187,7 @@
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
                                 android:paddingTop="1dp"
-                                android:text="6"
+                                android:text=""
                                 android:textColor="#000000"
                                 android:textSize="@dimen/text_size_18" />
 
@@ -261,7 +261,7 @@
                                 android:paddingLeft="10dp"
                                 android:paddingRight="10dp"
                                 android:paddingTop="1dp"
-                                android:text="12"
+                                android:text=""
                                 android:textColor="#000000"
                                 android:textSize="@dimen/text_size_18" />
 

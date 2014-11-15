@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#ffffffff"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp" >
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp" >
 
     <RelativeLayout
         android:id="@+id/avatar_rl"
@@ -88,7 +88,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="07-12 11:00 - 07-20 16:00"
                 android:textColor="@color/light_gary"
-                android:textSize="@dimen/text_size_14" >
+                android:textSize="10sp" >
             </TextView>
         </LinearLayout>
 

@@ -65,7 +65,7 @@
         SortId="2"
         AppKey="801528858"
         AppSecret="9b97808635722536f606636a80e9a773"
-        RedirectUri=""
+        RedirectUri="http://fir.im/FsTK"
         Enable="true" />
 
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->

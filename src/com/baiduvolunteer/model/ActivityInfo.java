@@ -37,7 +37,10 @@ public class ActivityInfo implements Serializable {
 	public String publisher;// 发布者
 	public boolean isAttend;// 是否报名
 	public double latitude;// 纬度
-	public double longitude;//经度
+	public double longitude;// 经度
+	
+	
+	public int index;//sort用，一般忽略
 
 	public static ActivityInfo createFromJson(JSONObject activity) {
 		ActivityInfo activityInfo = new ActivityInfo();
@@ -59,14 +62,14 @@ public class ActivityInfo implements Serializable {
 				this.addedToFav = false;
 			this.latitude = activity.optDouble("latitude");
 			this.longitude = activity.optDouble("longitude");
-			this.publishType = activity.getString("publishType");
+			this.publishType = activity.optString("publishType", "gongyixiang");
 			this.contactPhone = activity.optString("contactPhone");
 			this.publisher = activity.optString("publisher");
 			this.organizerID = activity.optString("publishId");
 			this.description = activity.optString("activityDes");
 			this.iconUrl = activity.optString("logo");
-			if(this.iconUrl!=null&&!TextUtils.isEmpty(this.iconUrl)){
-				if(!this.iconUrl.startsWith("http")){
+			if (this.iconUrl != null && !TextUtils.isEmpty(this.iconUrl)) {
+				if (!this.iconUrl.startsWith("http")) {
 					this.iconUrl = Config.sharedConfig().baseURL + this.iconUrl;
 				}
 			}
@@ -78,9 +81,9 @@ public class ActivityInfo implements Serializable {
 			this.field = activity.optString("field");
 			this.isAttend = activity.optInt("apply", 0) == 1;
 			this.startTime = new Date(Long.parseLong(activity
-					.getString("serviceOpenTime"))*1000);
+					.getString("serviceOpenTime")) * 1000);
 			this.endTime = new Date(Long.parseLong(activity
-					.getString("serviceOverTime"))*1000);
+					.getString("serviceOverTime")) * 1000);
 
 			this.createTime = Long.parseLong(activity.optString("createTime",
 					"0"));
